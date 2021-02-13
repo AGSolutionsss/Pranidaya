@@ -15,8 +15,6 @@ import update from 'react-addons-update';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Avatar from '@material-ui/core/Avatar';
 import { withRouter } from 'react-router-dom';
-import { Fab } from '@material-ui/core';
-
 
 // api
 import api from 'Api';
@@ -26,6 +24,8 @@ import IntlMessages from 'Util/IntlMessages';
 
 // rct section loader
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
+import { Fab } from '@material-ui/core';
+
 class NewEmails extends Component {
 
    state = {
@@ -154,19 +154,17 @@ class NewEmails extends Component {
                               }
                            </div>
                            <div className="hover-action text-right w-25 align-self-center">
-                              <Fab variant="round" size="small" color="primary"
-                                 className="text-white mr-5 mb-5" onClick={() => this.onViewEmal(email)}
+                              <Fab variant="round" size="small" color="primary" className="text-white mr-5 mb-5"
+                                 onClick={() => this.onViewEmal(email)}
                               >
                                  <i className="zmdi zmdi-eye"></i>
                               </Fab>
-                              <Fab variant="round" size="small"
-                                 className="btn-danger text-white mr-5 mb-5"
+                              <Fab variant="round" size="small" className="btn-danger text-white mr-5 mb-5"
                                  onClick={() => this.onDeleteEmail(email)}
                               >
                                  <i className="zmdi zmdi-delete"></i>
                               </Fab>
-                              <Fab variant="round" size="small"
-                                 className="btn-success text-white mr-5 mb-5"
+                              <Fab variant="round" size="small" className="btn-success text-white mr-5 mb-5"
                                  onClick={() => this.showReplyTextBox(email)}
                               >
                                  <i className="zmdi zmdi-mail-reply"></i>

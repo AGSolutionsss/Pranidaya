@@ -7,7 +7,7 @@ import {
     UPDATE_USERS_SEARCH,
     SEARCH_USERS,
     GET_RECENT_CHAT_USERS
-} from './types';
+} from 'Actions/types';
 
 /**
  * Redux Action To Emit Boxed Layout

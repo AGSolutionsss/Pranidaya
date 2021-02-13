@@ -2,11 +2,9 @@
  * Activity Board
  */
 import React, { Component } from 'react'
-import IconButton from '@material-ui/core/IconButton';
 import { Progress } from 'reactstrap';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Scrollbars } from 'react-custom-scrollbars';
-import TextField from '@material-ui/core/TextField';
 import classnames from 'classnames';
 import update from 'react-addons-update';
 import List from '@material-ui/core/List';

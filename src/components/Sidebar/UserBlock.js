@@ -27,7 +27,8 @@ class UserBlock extends Component {
 	/**
 	 * Logout User
 	 */
-	logoutUser() {
+	logoutUser(e) {
+		e.preventDefault();
 		this.props.logoutUserFromFirebase();
 	}
 
@@ -75,7 +76,7 @@ class UserBlock extends Component {
 						>
 							<div className="user-profile">
 								<img
-									src={require('Assets/avatars/user-15.jpg')}
+									src={require('Assets/avatars/profile.jpg')}
 									alt="user profile"
 									className="img-fluid rounded-circle"
 									width="50"
@@ -83,15 +84,16 @@ class UserBlock extends Component {
 								/>
 							</div>
 							<div className="user-info">
-								<span className="user-name ml-4">Lucile Beck</span>
+							<span className="user-name ml-4">User</span>
+								{/* <span className="user-name ml-4">Lucile Beck</span> */}
 								<i className="zmdi zmdi-chevron-down dropdown-icon mx-4"></i>
 							</div>
 						</DropdownToggle>
 						<DropdownMenu>
 							<ul className="list-unstyled mb-0">
 								<li className="p-15 border-bottom user-profile-top bg-primary rounded-top">
-									<p className="text-white mb-0 fs-14">Lucile Beck</p>
-									<span className="text-white fs-14">info@example.com</span>
+									{/* <p className="text-white mb-0 fs-14">Lucile Beck</p> */}
+									{/* <span className="text-white fs-14">info@example.com</span> */}
 								</li>
 								<li>
 									<Link to={{
@@ -102,7 +104,7 @@ class UserBlock extends Component {
 										<span><IntlMessages id="widgets.profile" /></span>
 									</Link>
 								</li>
-								<li>
+								 {/* <li>
 									<Link to={{
 										pathname: '/app/users/user-profile-1',
 										state: { activeTab: 2 }
@@ -111,16 +113,16 @@ class UserBlock extends Component {
 										<span><IntlMessages id="widgets.messages" /></span>
 										<Badge color="danger" className="pull-right">3</Badge>
 									</Link>
-								</li>
-								<li>
+								</li> */}
+								{/* <li>
 									<Link to="/app/pages/feedback">
 										<i className="zmdi zmdi-edit text-warning mr-3"></i>
 										<span><IntlMessages id="sidebar.feedback" /></span>
 										<Badge color="info" className="pull-right">1</Badge>
 									</Link>
-								</li>
+								</li> */}
 								<li className="border-top">
-									<a href="#">
+									<a href="#" onClick={(e) => this.logoutUser(e)}>
 										<i className="zmdi zmdi-power text-danger mr-3"></i>
 										<span><IntlMessages id="widgets.logOut" /></span>
 									</a>

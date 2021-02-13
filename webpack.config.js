@@ -87,8 +87,8 @@ module.exports = {
 						loader: 'url-loader',
 						options: {
 							limit: 10000,
-							name: 'static/media/[name].[hash:8].[ext]',
-							esModule: false
+                     name: 'static/media/[name].[hash:8].[ext]',
+                     esModule: false
 						}
 					}
 				]
@@ -127,6 +127,7 @@ module.exports = {
 				// Use multi-process parallel running to improve the build speed
 				// Default number of concurrent runs: os.cpus().length - 1
 				parallel: true,
+				
 				terserOptions: {
 					compress: false,
 					ecma: 8,

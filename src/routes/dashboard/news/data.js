@@ -9,6 +9,8 @@ export const newsVisitorsData = {
    chartLabels: ['0', '2', '3', '4', '5', '6', '7','8','9','10','11','12'],
    chartDatasets: [
       {
+			barPercentage:20.0,
+         categoryPercentage: 0.05,
          label: 'Series A',
          backgroundColor: ChartConfig.color.primary,
          borderColor: ChartConfig.color.primary,
@@ -18,6 +20,8 @@ export const newsVisitorsData = {
          data: [5,20,40,15,8,50,30,20,35,30,30,50]
       },
       {
+			barPercentage:20.0,
+         categoryPercentage: 0.05,
          label: 'Series B',
          backgroundColor: ChartConfig.color.default,
          borderColor: ChartConfig.color.default,

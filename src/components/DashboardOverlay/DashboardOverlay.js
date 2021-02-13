@@ -27,9 +27,9 @@ class DashboardOverlay extends Component {
 					<div className="dash-user-info">
 						<h2 className="fw-bold mb-0"><IntlMessages id="components.summary" /></h2>
 					</div>
-					<a href="#" onClick={onClose} className="closed">
+					<button type="button" onClick={onClose} className="closed rct-link-btn">
 						<i className="ti-close"></i>
-					</a>
+					</button>
 				</div>
 				<div className="dashboard-overlay-content mb-30">
 					<div className="row row-eq-height">

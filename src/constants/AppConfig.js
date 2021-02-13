@@ -2,17 +2,17 @@
  * App Config File
  */
 const AppConfig = {
-   appLogo: require('Assets/img/site-logo.png'),          // App Logo
-   brandName: 'Reactify',                                 // Brand Name
-   navCollapsed: false,                                   // Sidebar collapse
-   darkMode: false,                                       // Dark Mode
-   boxLayout: false,                                      // Box Layout
-   rtlLayout: false,                                      // RTL Layout
-   miniSidebar: false,                                    // Mini Sidebar
-   enableSidebarBackgroundImage: true,                    // Enable Sidebar Background Image
+   appLogo: require('Assets/receipt/fts.png'),          // App Logo
+   brandName: 'FTS ',                                    // Brand Name
+   navCollapsed: false,                                      // Sidebar collapse
+   darkMode: false,                                          // Dark Mode
+   boxLayout: false,                                         // Box Layout
+   rtlLayout: false,                                         // RTL Layout
+   miniSidebar: false,                                       // Mini Sidebar
+   enableSidebarBackgroundImage: true,                      // Enable Sidebar Background Image
    sidebarImage: require('Assets/img/sidebar-4.jpg'),     // Select sidebar image
    isDarkSidenav: true,                                   // Set true to dark sidebar
-   enableThemeOptions: false,                             // Enable Theme Options
+   enableThemeOptions: true,                              // Enable Theme Options
    locale: {
       languageId: 'english',
       locale: 'en',
@@ -20,7 +20,7 @@ const AppConfig = {
       icon: 'en',
    },
    enableUserTour: process.env.NODE_ENV === 'production' ? true : false,  // Enable / Disable User Tour
-   copyRightText: 'Reactify © 2021 All Rights Reserved.',      // Copy Right Text
+   copyRightText: 'Handcrafted with love by AG Solutions.',      // Copy Right Text
    // light theme colors
    themeColors: {
       'primary': '#5D92F4',

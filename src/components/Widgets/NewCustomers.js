@@ -217,6 +217,13 @@ class NewCustomers extends Component {
 									<button type="button" className="text-danger" onClick={() => this.onDeleteCustomer(customer)}>
 										<i className="zmdi zmdi-close"></i>
 									</button>
+
+									{/* <a href="javascript:void(0)" color="primary" onClick={() => this.onEditCustomer(customer)}>
+                              <i className="zmdi zmdi-edit"></i>
+                           </a>
+                           <a href="javascript:void(0)" className="text-danger" onClick={() => this.onDeleteCustomer(customer)}>
+                              <i className="zmdi zmdi-close"></i>
+                           </a> */}
 								</div>
 							</li>
 						))}

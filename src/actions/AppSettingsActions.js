@@ -17,7 +17,7 @@ import {
     STOP_USER_TOUR,
     TOGGLE_DARK_SIDENAV,
     AGENCY_TOGGLE_MENU,
-    CHANGE_AGENCY_LAYOUT_BG
+	 CHANGE_AGENCY_LAYOUT_BG,
 } from './types';
 
 /**

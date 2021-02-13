@@ -18,7 +18,6 @@ class NavMenuItem extends Component {
    state = {
       subMenuOpen: ''
    }
-
 	/**
    * On Toggle Collapse Menu
    */
@@ -50,6 +49,7 @@ class NavMenuItem extends Component {
                   </ListItemIcon>
                   <span className="menu text-capitalize">
                      <IntlMessages id={menu.menu_title} />
+
                   </span>
                   {menu.new_item && menu.new_item === true ?
                      <Chip label="new" className="new-item" color="secondary" />
@@ -67,6 +67,7 @@ class NavMenuItem extends Component {
                                     <NavLink to={subMenu.path} activeClassName="item-active" >
                                        <span className="menu">
                                           <IntlMessages id={subMenu.menu_title} />
+
                                        </span>
                                        {subMenu.new_item && subMenu.new_item === true ?
                                           <Chip label="new" className="new-item" color="secondary" />
@@ -89,6 +90,11 @@ class NavMenuItem extends Component {
                                     >
                                        <span className="menu">
                                           <IntlMessages id={subMenu.menu_title} />
+                                          {menu.new_item && menu.new_item === true ?
+                                             <Chip label="new" className="new-item" color="secondary" />
+                                             :
+                                             null
+                                          }
                                        </span>
                                     </ListItem>
                                     <Collapse in={subMenuOpen === index} timeout="auto">
@@ -98,6 +104,11 @@ class NavMenuItem extends Component {
                                                 <NavLink activeClassName="item-active" to={nestedMenu.path}>
                                                    <span className="menu pl-10 d-inline-block">
                                                       <IntlMessages id={nestedMenu.menu_title} />
+                                                      {menu.new_item && menu.new_item === true ?
+                                                         <Chip label="new" className="new-item" color="secondary" />
+                                                         :
+                                                         null
+                                                      }
                                                    </span>
                                                 </NavLink>
                                              </ListItem>

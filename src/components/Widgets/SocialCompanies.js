@@ -51,7 +51,7 @@ class SocialCompanines extends Component {
 							{socialCompanies && socialCompanies.map((data, key) => (
 								<tr key={key}>
 									<td>
-										<Fab variant="round" size="small" className={`btn-${data.icon} mr-15 mb-10 text-white`}>
+										<Fab variant="round" className={`btn-${data.icon} mr-15 mb-10 text-white`}>
 											<i className={`zmdi zmdi-${data.icon}`}></i>
 										</Fab>
 									</td>

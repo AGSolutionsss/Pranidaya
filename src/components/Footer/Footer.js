@@ -13,7 +13,7 @@ import AppConfig from 'Constants/AppConfig';
 
 const Footer = () => (
 	<div className="rct-footer d-flex justify-content-between align-items-center">
-		<ul className="list-inline footer-menus mb-0">
+		{/* <ul className="list-inline footer-menus mb-0">
 			<li className="list-inline-item">
 				<Button component={Link} to="/app/dashboard"><IntlMessages id="sidebar.gettingStarted" /></Button>
 			</li>
@@ -29,8 +29,8 @@ const Footer = () => (
 			<li className="list-inline-item">
 				<Button component={Link} to="/app/pages/feedback"><IntlMessages id="sidebar.feedback" /></Button>
 			</li>
-		</ul>
-		<h5 className="mb-0">{AppConfig.copyRightText}</h5>
+		</ul> */}
+		<h5 className="mb-0">{AppConfig.copyRightText}</h5> 
 	</div>
 );
 

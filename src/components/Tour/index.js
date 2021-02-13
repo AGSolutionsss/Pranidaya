@@ -23,14 +23,14 @@ class TourComponent extends Component {
           position: 'bottom',
           isFixed: true
         },
-        // {
-        //   title: 'Dynamic To do List',
-        //   text: 'Fully functional widget with working add, delete, refresh and cancel buttons.',
-        //   textAlign: 'left',
-        //   selector: '.tour-step-2',
-        //   position: 'left',
-        //   isFixed: true
-        // },
+      //   {
+      //     title: 'Dynamic To do List',
+      //     text: 'Fully functional widget with working add, delete, refresh and cancel buttons.',
+      //     textAlign: 'left',
+      //     selector: '.tour-step-2',
+      //     position: 'left',
+      //     isFixed: true
+      //   },
         {
           title: 'Summary',
           text: 'Quickly become aquainted with your platform.',
@@ -63,14 +63,14 @@ class TourComponent extends Component {
           position: 'left',
           isFixed: true
         },
-        {
-          title: 'Dynamic Breadcrumbs',
-          text: 'Dynamic breadcrumbs to go back to your required page.',
-          textAlign: 'left',
-          selector: '.tour-step-7',
-          position: 'left',
-          isFixed: true
-        }
+        // {
+        //   title: 'Dynamic Breadcrumbs',
+        //   text: 'Dynamic breadcrumbs to go back to your required page.',
+        //   textAlign: 'left',
+        //   selector: '.tour-step-7',
+        //   position: 'left',
+        //   isFixed: true
+        // }
       ],
       step: 0,
     };

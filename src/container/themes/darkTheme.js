@@ -25,13 +25,13 @@ const theme = createMuiTheme({
             }
         },
         primary: {
-					main: AppConfig.themeColors.primary,
-					contrastText: '#fff'
-			},
-			secondary: {
-					main: grey[700],
-					contrastText: '#fff'
-			},
+            main: AppConfig.themeColors.primary,
+            contrastText: '#fff'
+        },
+        secondary: {
+            main: grey[700],
+            contrastText: '#fff'
+        },
         background: {
             paper: darkBgColor,
             default: darkBgColor,

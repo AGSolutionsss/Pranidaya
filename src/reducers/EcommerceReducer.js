@@ -49,7 +49,7 @@ const INIT_STATE = {
 		}
 	],
 	newCartItem: {
-		objectID:"",
+		objectID: "",
 		name: "",
 		image: "",
 		description: "",
@@ -84,7 +84,7 @@ export default (state = INIT_STATE, action) => {
 
 		case ON_ADD_ITEM_TO_CART:
 			let newCartItem = {
-				objectID:action.payload.objectID,
+				objectID: action.payload.objectID,
 				name: action.payload.name,
 				image: action.payload.image,
 				description: action.payload.description,

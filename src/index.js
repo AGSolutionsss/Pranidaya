@@ -1,7 +1,7 @@
 /**
  * Reactify - A Material Design Admin Template
  * Copyright 2018 All Rights Reserved
- * Made Wih Love
+ * Made With Love
  * Created By The Iron Network, LLC
  */
 import React from 'react';

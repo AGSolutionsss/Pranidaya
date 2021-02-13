@@ -25,7 +25,7 @@ const ChatSidebar = () => (
       <List>
          {users.map((user, key) => (
             <ListItem key={key} button className="chat-list-item">
-               <Avatar className="mr-2"  src={user.photo_url} />
+               <Avatar className="mr-2" src={user.photo_url} />
                <ListItemText
                   primary={user.first_name + ' ' + user.last_name}
                   secondary={textTruncate(user.last_chat, 16)}

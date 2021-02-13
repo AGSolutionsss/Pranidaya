@@ -17,11 +17,11 @@ import IntlMessages from 'Util/IntlMessages';
 
 const QuickLinks = ({ location }) => (
 	<UncontrolledDropdown nav className="list-inline-item quciklink-dropdown tour-step-1">
-		<DropdownToggle nav className="header-icon p-0">
+		{/* <DropdownToggle nav className="header-icon p-0">
 			<Tooltip title="Quick Links" placement="bottom">
 				<i className="zmdi zmdi-apps"></i>
 			</Tooltip>
-		</DropdownToggle>
+		</DropdownToggle> */}
 		<DropdownMenu>
 			<Scrollbars className="rct-scroll" autoHeight autoHeightMin={100} autoHeightMax={350}>
 				<div className="dropdown-content">
@@ -66,7 +66,6 @@ const QuickLinks = ({ location }) => (
 								<IntlMessages id="sidebar.calendar" />
 							</Link>
 						</li>
-
 					</ul>
 				</div>
 			</Scrollbars>

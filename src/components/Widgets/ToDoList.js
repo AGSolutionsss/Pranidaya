@@ -160,7 +160,8 @@ export default class TodoListWidget extends Component {
                            </div>
                            <div className="hover-action">
                               <Fab variant="round" size="small" className="btn-danger text-white"
-                                 onClick={(e) => this.onDeleteTask(e, data)}>
+                                 onClick={(e) => this.onDeleteTask(e, data)}
+                              >
                                  <i className="zmdi zmdi-delete"></i>
                               </Fab>
                            </div>
@@ -181,8 +182,8 @@ export default class TodoListWidget extends Component {
                </DialogTitle>
                <DialogContent>
                   <DialogContentText>
-                     Add New Todo. Add Todo Title And Select Time For Todo.
-                        </DialogContentText>
+                     Add New Todo, Add Todo Title And Select Time For Todo.
+                     </DialogContentText>
                   <TextField
                      margin="dense"
                      id="name"

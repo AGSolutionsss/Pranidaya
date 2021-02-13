@@ -204,16 +204,12 @@ export default class LatestPost extends Component {
                            </div>
                         </div>
                         <div className="d-flex hover-action">
-                           <Fab
-                              variant="round"
-                              size="small"
-                              className="btn-success text-white m-5"
+                           <Fab variant="round" size="small" className="btn-success text-white m-5"
                               onClick={() => this.onEditPost(data)}
                            >
                               <i className="zmdi zmdi-edit"></i>
                            </Fab>
-                           <Fab variant="round" size="small"
-                              className="btn-danger text-white m-5"
+                           <Fab variant="round" size="small" className="btn-danger text-white m-5"
                               onClick={(e) => this.onDeletePost(e, data)}
                            >
                               <i className="zmdi zmdi-delete"></i>

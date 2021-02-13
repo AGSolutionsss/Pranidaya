@@ -19,6 +19,7 @@ export const trafficStatus = {
          data: [65, 59, 80, 81, 56, 55, 40]
       },
       {
+			
          label: 'Series B',
          backgroundColor: ChartConfig.color.default,
          borderColor: ChartConfig.color.default,

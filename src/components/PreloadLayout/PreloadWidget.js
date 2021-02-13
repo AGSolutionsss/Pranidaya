@@ -10,8 +10,8 @@ const PreloadWidget = () => (
          <ContentLoader
             speed={1}
             width={520}
-            height={61}
-            backgroundColor={'rgba(0,0,0,0.05)'}
+				height={61}
+				backgroundColor={'rgba(0,0,0,0.05)'}
     			foregroundColor={'rgba(0,0,0,0.04)'}
          >
             <rect x="15" y="18" rx="0" ry="0" width="160" height="35" />
@@ -24,8 +24,8 @@ const PreloadWidget = () => (
          <ContentLoader
             speed={1}
             width={520}
-            height={310}
-            backgroundColor={'rgba(0,0,0,0.05)'}
+				height={310}
+				backgroundColor={'rgba(0,0,0,0.05)'}
     			foregroundColor={'rgba(0,0,0,0.04)'}
          >
             <rect x="15" y="30" rx="0" ry="0" width="490" height="16" />

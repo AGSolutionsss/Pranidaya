@@ -21,7 +21,6 @@ const options = {
             fontColor: ChartConfig.axesColor
          },
          display: false,
-         
       }],
       yAxes: [{
          gridLines: {

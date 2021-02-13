@@ -23,7 +23,7 @@ class Sidebar extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		const { enableSidebarBackgroundImage, selectedSidebarImage, isDarkSidenav,locale } = this.props;
+		const { enableSidebarBackgroundImage, selectedSidebarImage, isDarkSidenav, locale } = this.props;
 		if (enableSidebarBackgroundImage !== nextProps.enableSidebarBackgroundImage || selectedSidebarImage !== nextProps.selectedSidebarImage || isDarkSidenav !== nextProps.isDarkSidenav || locale) {
 			return true
 		} else {
@@ -41,7 +41,6 @@ class Sidebar extends Component {
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		const { windowWidth } = this.state;
-		const { collapsedSidebar } = this.props;
 		if (nextProps.location !== this.props.location) {
 			if (windowWidth <= 1199) {
 				this.props.collapsedSidebarAction(false);
@@ -50,7 +49,7 @@ class Sidebar extends Component {
 	}
 
 	updateDimensions = () => {
-		this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight});
+		this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
 	}
 
 	render() {
@@ -64,10 +63,11 @@ class Sidebar extends Component {
 					<div className={classNames("rct-sidebar-content", { "sidebar-overlay-dark": isDarkSidenav, 'sidebar-overlay-light': !isDarkSidenav })}>
 						<div className="site-logo">
 							<Link to="/" className="logo-mini">
-								<img src={require('Assets/img/appLogo.png')} className="mr-15" alt="site logo" width="35" height="35" />
+								<img src={require('Assets/receipt/fts.png')} className="mr-15" alt="site logo" width="35" height="35" />
 							</Link>
-							<Link to="/" className="logo-normal">
-								<img src={require('Assets/img/appLogoText.png')} className="img-fluid" alt="site-logo" width="67" height="17" />
+							<Link to="/app/dashboard/news" className="logo-normal">
+								 {/* <img src={require('Assets/img/appLogoText.png')} className="img-fluid" alt="site-logo" width="67" height="17" />  */}
+								 <h1>FTS</h1>
 							</Link>
 						</div>
 						<div className="rct-sidebar-wrap">

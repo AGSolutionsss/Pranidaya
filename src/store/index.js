@@ -1,25 +1,14 @@
-/**
- * Redux Store
- */
 import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from "redux-saga";
+import Thunk from 'redux-thunk';
 import reducers from '../reducers';
-import RootSaga from "../sagas";
-
-// create the saga middleware
-const sagaMiddleware = createSagaMiddleware();
-
-const middlewares = [sagaMiddleware];
 
 export function configureStore(initialState) {
 
     const store = createStore(
         reducers,
         initialState,
-        compose(applyMiddleware(...middlewares))
+        compose(applyMiddleware(Thunk))
     );
-
-    sagaMiddleware.run(RootSaga);
 
     if (module.hot) {
         // Enable Webpack hot module replacement for reducers

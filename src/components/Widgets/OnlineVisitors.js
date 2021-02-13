@@ -10,9 +10,9 @@ import IntlMessages from 'Util/IntlMessages';
 // chart config
 import ChartConfig from 'Constants/chart-config';
 
-const OnlineVisitorsWidget = ({ data }) => (
+const OnlineVisitorsWidget = () => (
     <div className="card">
-        <h4 className="card-title"><span className="text-info">{data.totalVisitors} </span>
+        <h4 className="card-title"><span className="text-info">1655+ </span>
             <IntlMessages id="widgets.onlineVistors" />
         </h4>
         <div style={{ width: '100%', height: 170 }}>
@@ -36,7 +36,6 @@ const OnlineVisitorsWidget = ({ data }) => (
                 zoomButtons={false}
                 zoomOnScroll={false}
                 containerClassName="map"
-                markers={data.markers}
             />
         </div>
     </div>

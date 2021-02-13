@@ -56,6 +56,7 @@ class RctThemeProvider extends Component {
 		} else {
 			theme.direction = 'ltr'
 		}
+
 		return (
 			<MuiThemeProvider theme={theme}>
 				<IntlProvider

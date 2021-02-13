@@ -54,7 +54,8 @@ class ThemeOptions extends Component {
 	/**
 	 * Set Sidebar Background Image
 	 */
-	setSidebarBgImage(sidebarImage) {
+	setSidebarBgImage(sidebarImage, e) {
+		e.preventDefault();
 		this.props.setSidebarBgImageAction(sidebarImage);
 	}
 
@@ -67,7 +68,7 @@ class ThemeOptions extends Component {
 		});
 	}
 
-   /**
+	/**
 	 * Mini Sidebar Event Handler
 	*/
 	miniSidebarHanlder(isTrue) {
@@ -118,13 +119,13 @@ class ThemeOptions extends Component {
 	 * @param {*object} event
 	*/
 	rtlLayoutHanlder(isTrue) {
-		var root = document.getElementsByTagName('html')[0];
+		var root = document.getElementsByTagName( 'html' )[0];
 		if (isTrue) {
-			root.setAttribute('dir', 'rtl');
+			root.setAttribute( 'dir', 'rtl' );
 			document.body.classList.add("rtl");
 		}
 		else {
-			root.setAttribute('dir', 'ltr');
+			root.setAttribute( 'dir', 'ltr' );
 			document.body.classList.remove("rtl");
 		}
 		this.props.rtlLayoutAction(isTrue);
@@ -164,11 +165,11 @@ class ThemeOptions extends Component {
 			<div className="fixed-plugin">
 				{AppConfig.enableThemeOptions &&
 					<Dropdown isOpen={this.state.themeOptionPanelOpen} toggle={() => this.toggleThemePanel()}>
-						<DropdownToggle className="bg-primary">
+						{/* <DropdownToggle className="bg-primary">
 							<Tooltip title="Theme Options" placement="left">
 								<i className="zmdi zmdi-settings font-2x tour-step-6 spin-icon"></i>
 							</Tooltip>
-						</DropdownToggle>
+						</DropdownToggle> */}
 						<DropdownMenu>
 							<Scrollbars className="rct-scroll" autoHeight autoHeightMin={100} autoHeightMax={530} autoHide autoHideDuration={100}>
 								<ul className="list-unstyled text-center mb-0">
@@ -176,7 +177,7 @@ class ThemeOptions extends Component {
 										<IntlMessages id="themeOptions.themeColor" />
 									</li>
 									<li className="adjustments-line mb-10">
-										<a href="#">
+										<a href="#" onClick={e => e.preventDefault()}>
 											<div>
 												{themes.map((theme, key) => (
 													<Tooltip title={theme.name} placement="top" key={key}>
@@ -226,7 +227,7 @@ class ThemeOptions extends Component {
 									{enableSidebarBackgroundImage &&
 										<li className="background-img">
 											{sidebarBackgroundImages.map((sidebarImage, key) => (
-												<a className={classnames('img-holder', { 'active': selectedSidebarImage === sidebarImage })} href="#" key={key} onClick={() => this.setSidebarBgImage(sidebarImage)}>
+												<a className={classnames('img-holder', { 'active': selectedSidebarImage === sidebarImage })} href="#" key={key} onClick={(e) => this.setSidebarBgImage(sidebarImage, e)}>
 													<img src={sidebarImage} alt="sidebar" className="img-fluid" width="" height="" />
 												</a>
 											))}

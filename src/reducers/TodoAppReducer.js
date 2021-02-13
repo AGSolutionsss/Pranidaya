@@ -9,8 +9,6 @@ import labels from 'Assets/data/todo-app/labels';
 // action types
 import {
     GET_TODOS,
-    GET_TODOS_SUCCESS,
-    GET_TODOS_FAILURE,
     FETCH_TODOS,
     ADD_NEW_TASK,
     ON_SELECT_TODO,
@@ -58,15 +56,7 @@ export default (state = INIT_STATE, action) => {
 
         // get todos
         case GET_TODOS:
-            return { ...state, allToDos: null, toDos: null };
-
-        // get todos success
-        case GET_TODOS_SUCCESS:
             return { ...state, allToDos: action.payload, toDos: action.payload };
-
-        // get todos failure
-        case GET_TODOS_FAILURE:
-            return {}
 
         // use to fetch un deleted todos
         case FETCH_TODOS:
@@ -160,6 +150,7 @@ export default (state = INIT_STATE, action) => {
                     })
                 }
             }
+            break;
 
         // add labels into the task
         case ADD_LABELS_INTO_THE_TASK:
@@ -196,6 +187,7 @@ export default (state = INIT_STATE, action) => {
                     }
                 }
             }
+            break;
 
         // get all todos except deleted
         case GET_ALL_TODO:
@@ -271,6 +263,7 @@ export default (state = INIT_STATE, action) => {
                     })
                 }
             }
+            break;
 
         // to update task title
         case UPDATE_TASK_TITLE:
@@ -292,6 +285,7 @@ export default (state = INIT_STATE, action) => {
                     })
                 }
             }
+            break;
 
         // update task description
         case UPDATE_TASK_DESCRIPTION:
@@ -313,6 +307,7 @@ export default (state = INIT_STATE, action) => {
                     })
                 }
             }
+            break;
 
         // change task assigner
         case CHANGE_TASK_ASSIGNER:
@@ -334,6 +329,7 @@ export default (state = INIT_STATE, action) => {
                     })
                 }
             }
+            break;
 
         // on select checkbox
         case ON_CHECK_BOX_TOGGLE_TODO_ITEM:

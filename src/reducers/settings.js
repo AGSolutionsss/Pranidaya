@@ -17,7 +17,7 @@ import {
 	START_USER_TOUR,
 	STOP_USER_TOUR,
 	TOGGLE_DARK_SIDENAV,
-	CHANGE_AGENCY_LAYOUT_BG
+	CHANGE_AGENCY_LAYOUT_BG,
 } from 'Actions/types';
 
 // app config
@@ -180,7 +180,7 @@ export default (state = INIT_STATE, action) => {
 		// collapse sidebar
 		case COLLAPSED_SIDEBAR:
 			return { ...state, navCollapsed: action.isCollapsed };
-
+		
 		// start user tour
 		case START_USER_TOUR:
 			return { ...state, startUserTour: true };
@@ -245,7 +245,7 @@ export default (state = INIT_STATE, action) => {
 				...state,
 				agencyLayoutBgColors: layoutsBg
 			}
-
+		
 		default: return { ...state };
 	}
 }

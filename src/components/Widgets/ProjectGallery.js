@@ -19,9 +19,7 @@ export default class ProjectGallery extends Component {
          slidesToShow: 1,
          slidesToScroll: 1,
          autoplay: true,
-         fade: true,
          arrows: false,
-         rtl: false
       };
       const { slides } = this.props;
       return (

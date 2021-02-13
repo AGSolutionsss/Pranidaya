@@ -15,6 +15,8 @@ export default class HorizontalBarChart extends Component {
             labels: labels,
             datasets: [
                {
+						barPercentage: 1.0,
+               	categoryPercentage: 0.45,
                   label: label,
                   backgroundColor: ChartConfig.color.info,
                   borderColor: ChartConfig.color.info,
