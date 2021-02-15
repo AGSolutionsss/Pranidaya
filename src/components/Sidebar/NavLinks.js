@@ -53,7 +53,7 @@ export default {
          "path": "/app/advanced-component/notification",
          "new_item": false,
          "menu_icon": "zmdi zmdi-notifications-active",
-         "menu_title": "sidebar.notification",
+         "menu_title": "Notices",
       },
       // {zmdi zmdi-notifications-active
       //    "menu_title": "sidebar.aboutUs",

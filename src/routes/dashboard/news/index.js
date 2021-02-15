@@ -40,7 +40,7 @@ export default class NewsDashboard extends Component {
 				{/* <TrendingNews /> */}
 				<div className="row">
 					<RctCollapsibleCard
-						heading="Notice"
+						heading="Notices"
 						colClasses="col-sm-12 col-md-12 col-lg-8"
 						collapsible
 						reloadable
