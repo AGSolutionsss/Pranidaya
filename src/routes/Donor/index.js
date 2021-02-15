@@ -12,6 +12,7 @@ import Addcomp from './addComp'
 import Add from "./addIndiv";
 import View from "./View";
 import Edit from "./Edit";
+import Receipt from "../Receipts/createreceipt"
 // import Edit from "./Edit"
 import {
   AsyncEcommerceDashboardComponent,
@@ -33,6 +34,8 @@ const NewListDonor = ({ match }) => (
       <Route path={`${match.url}/addindiv`} component={Add} />
       <Route path={`${match.url}/view`} component={View} />
       <Route path={`${match.url}/edit`} component={Edit} />
+      <Route path={`${match.url}/receipt`} component={Receipt} />
+
     </Switch>
   </div>
 );

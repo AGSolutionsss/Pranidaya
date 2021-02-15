@@ -50,12 +50,46 @@ class SidebarContent extends Component {
 								onToggleMenu={() => this.toggleMenu(menu, 'category1')}
 							/>
 						)) :
-						 sidebarMenus.category7.map((menu, key) => (
+						 sidebarMenus.category3.map((menu, key) => (
+							<NavMenuItem
+								style={{ color: "gray!important" }}
+								menu={menu}
+								key={key}
+								onToggleMenu={() => this.toggleMenu(menu, 'category3')}
+							/>
+						))
+						}
+						{localStorage.getItem("id") == 2 ? sidebarMenus.category7.map((menu, key) => (
 							<NavMenuItem
 								style={{ color: "gray!important" }}
 								menu={menu}
 								key={key}
 								onToggleMenu={() => this.toggleMenu(menu, 'category7')}
+							/>
+						)) :
+						 sidebarMenus.category3.map((menu, key) => (
+							<NavMenuItem
+								style={{ color: "gray!important" }}
+								menu={menu}
+								key={key}
+								onToggleMenu={() => this.toggleMenu(menu, 'category3')}
+							/>
+						))
+						}
+						{localStorage.getItem("id") == 3 ? sidebarMenus.category8.map((menu, key) => (
+							<NavMenuItem
+								style={{ color: "gray!important" }}
+								menu={menu}
+								key={key}
+								onToggleMenu={() => this.toggleMenu(menu, 'category1')}
+							/>
+						)) :
+						 sidebarMenus.category3.map((menu, key) => (
+							<NavMenuItem
+								style={{ color: "gray!important" }}
+								menu={menu}
+								key={key}
+								onToggleMenu={() => this.toggleMenu(menu, 'category3')}
 							/>
 						))
 						}

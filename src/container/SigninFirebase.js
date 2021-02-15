@@ -206,7 +206,7 @@ class Signin extends Component {
                             			</Button>
                                  </FormGroup> */}
                               </Form>
-                              <Link>Forget Password</Link>
+                              <Link to="session/forgot-password">Forget Password</Link>
                               <p className="mb-20">Visit us @ </p>
 
 

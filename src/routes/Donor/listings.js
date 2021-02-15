@@ -8,6 +8,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
+import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -67,6 +68,13 @@ export default class NewListDonor extends React.Component {
 						  </Link>
 						</IconButton>
 					  </Tooltip>
+					  <Tooltip title="Receipt" placement="top">
+						<IconButton aria-label="Receipt">
+						<Link to={"receipt?id=" + value}>
+						  <ConfirmationNumberIcon/>
+						  </Link>
+						</IconButton>
+					  </Tooltip>
 					</div>
 				  );
 				},
@@ -116,14 +124,14 @@ export default class NewListDonor extends React.Component {
 			{ loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
 				{!loader && 
 				<>
-				<PageTitleBar title={<IntlMessages id="sidebar.donorList" />} match={this.props.match} />
+				<PageTitleBar title={<IntlMessages id="sidebar.donorList" />} match={this.props.match}/>
 				{/* <div className="alert alert-info">
 					<p>MUI-Datatables is a data tables component built on Material-UI V1.
             It comes with features like filtering, view/hide columns, search, export to CSV download, printing, pagination, and sorting.
             On top of the ability to customize styling on most views, there are two responsive modes "stacked" and "scroll" for mobile/tablet
             devices. If you want more customize option please <a href="https://github.com/gregnb/mui-datatables" className="btn btn-danger btn-small mx-10">Click </a> here</p>
 				</div> */}
-			<div >
+			<div className="donorbtns">
 			<Link className="btn btn-outline-light" to="addindiv">
 			<Button style={{display:usertype==1?"inline-block":"none"}} className="mr-10 mb-10 btn-get-started" color="danger">+ Add Individual</Button>
               

@@ -20,8 +20,9 @@ export default class Forgotpwd extends Component {
                      <div className="container">
                         <div className="d-flex justify-content-between">
                            <div className="session-logo">
-                              <Link to="/">
-                                 <img src={require('Assets/img/site-logo.png')} alt="session-logo" className="img-fluid" width="110" height="35" />
+                           <Link to="/">
+                                 <img src={AppConfig.appLogo} alt="session-logo" className="img-fluid" width="45" height="45" />
+                                 <span><h1 style={{ color: "#fff", marginTop: "-33px", marginLeft: "50px" }}>FTS Champ</h1></span>
                               </Link>
                            </div>
                            <div className="session-social-icon">
@@ -45,7 +46,7 @@ export default class Forgotpwd extends Component {
                         <div className="session-body text-center">
                            <div className="session-head mb-30">
                               <h2>Get started with {AppConfig.brandName}</h2>
-                              <p className="mb-0">Most powerful ReactJS admin panel</p>
+                              
                            </div>
                            <Form>
                               <FormGroup className="has-wrapper">
@@ -55,7 +56,7 @@ export default class Forgotpwd extends Component {
                               <FormGroup>
                                  <Button variant="contained" className="btn-info text-white btn-block btn-large w-100">Reset Password</Button>
                               </FormGroup>
-                              <Button component={Link} to="/session/login" className="btn-dark btn-block btn-large text-white w-100">Already having account?  Login</Button>
+                              <Button component={Link} to="/signin" className="btn-dark btn-block btn-large text-white w-100">Already having account?  Login</Button>
                            </Form>
                         </div>
                      </div>

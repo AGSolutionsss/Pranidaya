@@ -49,6 +49,7 @@ export const signinUserInFirebase = (user, history) => (dispatch) => {
  * Redux Action To Signout User From  Firebase
  */
 export const logoutUserFromFirebase = () => (dispatch) => {
+
    firebase.auth().signOut()
       .then(() => {
          dispatch({ type: LOGOUT_USER });

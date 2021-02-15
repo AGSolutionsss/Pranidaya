@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link,Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Badge } from 'reactstrap';
 import { NotificationManager } from 'react-notifications';
@@ -21,15 +21,19 @@ class UserBlock extends Component {
 
 	state = {
 		userDropdownMenu: false,
-		isSupportModal: false
+		isSupportModal: false,
+		flag:false
 	}
+	 
 
 	/**
 	 * Logout User
 	 */
 	logoutUser(e) {
 		e.preventDefault();
+		this.setState({flag:true});
 		this.props.logoutUserFromFirebase();
+
 	}
 
 	/**
@@ -62,6 +66,9 @@ class UserBlock extends Component {
 	}
 
 	render() {
+		if(this.state.flag){
+			return <Redirect to="/" push={true}></Redirect>
+		}
 		return (
 			<div className="top-sidebar">
 				<div className="sidebar-user-block">
