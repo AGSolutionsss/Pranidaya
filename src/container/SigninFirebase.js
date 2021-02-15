@@ -15,7 +15,7 @@ import { Fab } from "@material-ui/core";
 import { Redirect } from 'react-router-dom';
 import PersonOutlineOutlinedIcon from '@material-ui/icons/PersonOutlineOutlined';
 import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
 
 // components
 import {
@@ -32,7 +32,8 @@ import {
    signinUserWithFacebook,
    signinUserWithGoogle,
    signinUserWithGithub,
-   signinUserWithTwitter
+   signinUserWithTwitter,
+   signinUser
 } from 'Actions';
 
 //Auth File
@@ -45,43 +46,48 @@ class Signin extends Component {
    state = {
       email: '',
       password: '',
-      login:false,
+      login: false,
       token: null,
    }
 
-	/**
-	 * On User Login
-	 */
+   /**
+    * On User Login
+    */
    onUserLogin() {
       if (this.state.email !== '' && this.state.password !== '') {
          //console.warn("form data", this.state)
-         fetch(`https://ftschamp.trikaradev.xyz/api/login?username=${this.state.email}&password=${this.state.password}`,{
-            method:"POST",
+         fetch(`https://ftschamp.trikaradev.xyz/api/login?username=${this.state.email}&password=${this.state.password}`, {
+            method: "POST",
             //body:JSON.stringify(this.state)
          })
-         .then(response => response.json())
-         .then(data =>{
-               console.log("login",data.UserInfo.token)
-            if(data.UserInfo.token){
-               localStorage.setItem('login',data.UserInfo.token)
-               this.props.history.push('/app/dashboard/news');
-               this.setState({
-                  login:true,
-                  token:data.UserInfo.token            
-               })    
-            }
-         }).catch((err) => {
-            NotificationManager.error('Username or password incorrect');
-         })
-      }else{
+            .then(response => response.json())
+            .then(data => {
+               console.log("login", data)
+               console.log("logintype", data.UserInfo.user.user_type_id)
+               // signinUser(data.UserInfo.user.user_type_id);
+               localStorage.setItem("id", data.UserInfo.user.user_type_id)
+               localStorage.setItem("name", data.UserInfo.user.first_name)
+
+               if (data.UserInfo.token) {
+                  localStorage.setItem('login', data.UserInfo.token)
+                  this.props.history.push('/app/dashboard/news');
+                  this.setState({
+                     login: true,
+                     token: data.UserInfo.token
+                  })
+               }
+            }).catch((err) => {
+               NotificationManager.error('Username or password incorrect');
+            })
+      } else {
          NotificationManager.warning('Username or password required');
       }
-      
+
    }
 
-	/**
-	 * On User Sign Up
-	 */
+   /**
+    * On User Sign Up
+    */
    onUserSignUp() {
       this.props.history.push('/signup');
    }
@@ -91,30 +97,30 @@ class Signin extends Component {
       auth.login();
    }
 
-   facbooklink=(link)=>{
-     window.location.href = "http://www.facebook.com/FTSIndia111"
+   facbooklink = (link) => {
+      window.location.href = "http://www.facebook.com/FTSIndia111"
    }
-   userWithYoutube=(link)=>{
+   userWithYoutube = (link) => {
       window.location.href = "http://www.youtube.com/c/FTS_India1"
    }
-   userWithTwitter=(link)=>{
+   userWithTwitter = (link) => {
       window.location.href = "http://www.twitter.com/FTS_India1"
    }
-   userWithlinkedin=(link)=>{
+   userWithlinkedin = (link) => {
       window.location.href = "http://www.linkedin.com/in/FTSIndia1"
    }
-   userWithInstagram=(link)=>{
+   userWithInstagram = (link) => {
       window.location.href = "http://www.instagram.com/FTS_India1 "
    }
-   userWithPinterest=(link)=>{
-      window.location.href="http://www.pinterest.com/FTS_India1"
+   userWithPinterest = (link) => {
+      window.location.href = "http://www.pinterest.com/FTS_India1"
    }
 
    render() {
-       if(this.state.login)
-      <Redirect to="/app/dashboard/news"/>
+      if (this.state.login)
+         <Redirect to="/app/dashboard/news" />
       const { email, password } = this.state;
-   
+
       const { loading } = this.props;
       return (
          <QueueAnim type="bottom" duration={2000}>
@@ -128,8 +134,8 @@ class Signin extends Component {
                         <div className="d-flex justify-content-between">
                            <div className="session-logo">
                               <Link to="/">
-                                  <img src={AppConfig.appLogo} alt="session-logo" className="img-fluid" width="45" height="45" />
-                                <span><h1 style={{color:"#fff", marginTop:"-33px", marginLeft:"50px"}}>FTS Champ</h1></span>
+                                 <img src={AppConfig.appLogo} alt="session-logo" className="img-fluid" width="45" height="45" />
+                                 <span><h1 style={{ color: "#fff", marginTop: "-33px", marginLeft: "50px" }}>FTS Champ</h1></span>
                               </Link>
                            </div>
                            {/* <div>
@@ -146,7 +152,7 @@ class Signin extends Component {
                         <div className="col-sm-7 col-md-7 col-lg-8">
                            <div className="session-body text-center">
                               <div className="session-head mb-30">
-                                 
+
                                  {/* <h2 className="font-weight-bold">Get started with {AppConfig.brandName}</h2> */}
                                  {/* <p className="mb-0">Most powerful ReactJS admin panel</p> */}
                               </div>
@@ -156,7 +162,7 @@ class Signin extends Component {
                                        type="text"
                                        value={email}
                                        name="user-mail"
-                              
+
                                        className="has-input input-lg"
                                        placeholder="Username"
                                        onChange={(event) => this.setState({ email: event.target.value })}
@@ -186,7 +192,7 @@ class Signin extends Component {
                                        size="large"
                                        onClick={() => this.onUserLogin()}
                                     >
-                                       Visit Us
+                                       Sign In
                             			</Button>
                                  </FormGroup>
                                  {/* <FormGroup className="mb-15">
@@ -199,43 +205,43 @@ class Signin extends Component {
                                        Sign In With Auth0
                             			</Button>
                                  </FormGroup> */}
-                              </Form> 
+                              </Form>
                               <Link>Forget Password</Link>
                               <p className="mb-20">Visit us @ </p>
 
-                             
+
                               <Fab size="small" variant="round" className="btn-facebook mr-15 mb-20 text-white"
-                                 onClick={() =>this.facbooklink()}
+                                 onClick={() => this.facbooklink()}
                               >
                                  <i className="zmdi zmdi-facebook"></i>
-                              </Fab> 
+                              </Fab>
                               <Fab size="small" variant="round" className="btn-youtube mr-15 mb-20 text-white"
                                  // onClick={() => this.props.signinUserWithGoogle(this.props.history)}
-                                 onClick={() =>this.userWithYoutube()}
+                                 onClick={() => this.userWithYoutube()}
                               >
                                  <i class="zmdi zmdi-youtube"></i>
                               </Fab>
                               <Fab size="small" variant="round" className="btn-twitter mr-15 mb-20 text-white"
                                  // onClick={() => this.props.signinUserWithTwitter(this.props.history)}
-                                 onClick={() =>this.userWithTwitter()}
+                                 onClick={() => this.userWithTwitter()}
                               >
                                  <i className="zmdi zmdi-twitter"></i>
                               </Fab>
                               <Fab size="small" variant="round" className="btn-linkedin mr-15 mb-20 text-white"
                                  // onClick={() => this.props.signinUserWithTwitter(this.props.history)}
-                                 onClick={() =>this.userWithlinkedin()}
+                                 onClick={() => this.userWithlinkedin()}
                               >
                                  <i class="zmdi zmdi-linkedin"></i>
                               </Fab>
                               <Fab size="small" variant="round" className="btn-instagram mr-15 mb-20 text-white"
                                  // onClick={() => this.props.signinUserWithGithub(this.props.history)}
-                                 onClick={() =>this.userWithInstagram()}
+                                 onClick={() => this.userWithInstagram()}
                               >
                                  <i className="zmdi zmdi-instagram"></i>
                               </Fab>
                               <Fab size="small" variant="round" className="btn-pinterest mr-15 mb-20 text-white"
                                  // onClick={() => this.props.signinUserWithTwitter(this.props.history)}
-                                 onClick={() =>this.userWithPinterest()}
+                                 onClick={() => this.userWithPinterest()}
                               >
                                  <i class="zmdi zmdi-pinterest"></i>
                               </Fab>
@@ -266,5 +272,6 @@ export default connect(mapStateToProps, {
    signinUserWithFacebook,
    signinUserWithGoogle,
    signinUserWithGithub,
-   signinUserWithTwitter
+   signinUserWithTwitter,
+   signinUser
 })(Signin);

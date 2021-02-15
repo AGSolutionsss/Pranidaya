@@ -84,7 +84,7 @@ class UserBlock extends Component {
 								/>
 							</div>
 							<div className="user-info">
-							<span className="user-name ml-4">User</span>
+							<span className="user-name ml-4">{localStorage.getItem("name")}</span>
 								{/* <span className="user-name ml-4">Lucile Beck</span> */}
 								<i className="zmdi zmdi-chevron-down dropdown-icon mx-4"></i>
 							</div>

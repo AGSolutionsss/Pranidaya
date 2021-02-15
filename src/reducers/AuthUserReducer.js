@@ -8,7 +8,8 @@ import {
     LOGOUT_USER,
     SIGNUP_USER,
     SIGNUP_USER_SUCCESS,
-    SIGNUP_USER_FAILURE
+    SIGNUP_USER_FAILURE,
+    LOGIN_USER_ID
 } from 'Actions/types';
 
 /**
@@ -16,6 +17,7 @@ import {
  */
 const INIT_STATE = {
     user: localStorage.getItem('user_id'),
+    id: '',
     loading: false
 };
 
@@ -24,6 +26,9 @@ export default (state = INIT_STATE, action) => {
 
         case LOGIN_USER:
             return { ...state, loading: true };
+
+        case LOGIN_USER_ID:
+            return { ...state,id:action.id };
 
         case LOGIN_USER_SUCCESS:
             return { ...state, loading: false, user: action.payload };

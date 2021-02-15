@@ -13,14 +13,24 @@ import {
    LOGOUT_USER,
    SIGNUP_USER,
    SIGNUP_USER_SUCCESS,
-   SIGNUP_USER_FAILURE
+   SIGNUP_USER_FAILURE,
+   LOGIN_USER_ID
 } from 'Actions/types';
 
 /**
  * Redux Action To Sigin User With Firebase
  */
+export const signinUser =(id) =>({
+   type: LOGIN_USER_ID ,
+    id: id
+   // console.log("redux wrking")
+
+
+})
+
 export const signinUserInFirebase = (user, history) => (dispatch) => {
    dispatch({ type: LOGIN_USER });
+
    firebase.auth()
       .signInWithEmailAndPassword(user.email, user.password)
       .then((user) => {

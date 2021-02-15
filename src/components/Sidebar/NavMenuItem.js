@@ -9,6 +9,7 @@ import Collapse from '@material-ui/core/Collapse';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import Chip from '@material-ui/core/Chip';
+import "../../routes/Chapter/index.css"
 
 // intl messages
 import IntlMessages from 'Util/IntlMessages';
@@ -43,7 +44,7 @@ class NavMenuItem extends Component {
       if (menu.child_routes != null) {
          return (
             <Fragment>
-               <ListItem button component="li" onClick={onToggleMenu} className={`list-item ${classNames({ 'item-active': menu.open })}`}>
+               <ListItem button component="li" onClick={onToggleMenu} className={`list-item ${classNames({ 'item-active': menu.open })}`} style={{color:"gray!important"}}>
                   <ListItemIcon className="menu-icon">
                      <i className={menu.menu_icon}></i>
                   </ListItemIcon>
@@ -63,8 +64,8 @@ class NavMenuItem extends Component {
                         <List className="list-unstyled py-0">
                            {menu.child_routes.map((subMenu, index) => {
                               return (
-                                 <ListItem button component="li" key={index}>
-                                    <NavLink to={subMenu.path} activeClassName="item-active" >
+                                 <ListItem button component="li" key={index} activeClassName="item-active" >
+                                    <NavLink to={subMenu.path}  >
                                        <span className="menu">
                                           <IntlMessages id={subMenu.menu_title} />
 

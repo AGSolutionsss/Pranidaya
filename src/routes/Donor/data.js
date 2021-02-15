@@ -6,3 +6,17 @@ export const table = [
     ["4", "", "	M/s P. C. Associates", "Private", "Gajendra Kumar Agarwal","	9343762500","",""]
 ];
 export const options = { filterType: 'dropdown' };
+const corr_preffer = [
+    {
+      value: 'Registered',
+      label: 'Registered',
+    },
+    {
+      value: 'Branch Office',
+      label: 'Branch Office',
+    },
+    {
+      value: 'Digital',
+      label: 'Digital',
+    },
+  ];

@@ -9,6 +9,7 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import "./index.css"
 
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
@@ -137,11 +138,11 @@ export default class NewListChapter extends React.Component {
           </Button>
         </Link> */}
         <Link className="btn btn-outline-light" to="addchapter">
-          <Button className="mr-10 mb-10 btn-get-start" color="danger">
+          <Button style={{display:usertype==1?"inline-block":"none"}} className="mr-10 mb-10 btn-get-start" color="danger">
             + Add Chapter
           </Button>
         </Link>
-        <RctCollapsibleCard heading="Data Table" fullBlock>
+        <RctCollapsibleCard fullBlock>
         {this.state.chaptersData.length > 0 && (
           <MUIDataTable
             title={"Employee list"}

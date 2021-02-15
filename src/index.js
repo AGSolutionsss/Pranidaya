@@ -6,7 +6,7 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import './app.css'
 // Save a reference to the root element for reuse
 const rootEl = document.getElementById("root");
 

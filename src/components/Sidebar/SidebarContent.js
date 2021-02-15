@@ -16,6 +16,8 @@ import { onToggleMenu } from 'Actions';
 
 class SidebarContent extends Component {
 
+
+
 	toggleMenu(menu, stateCategory) {
 		let data = {
 			menu,
@@ -25,24 +27,40 @@ class SidebarContent extends Component {
 	}
 
 	render() {
+		console.log(localStorage.getItem("id"));
+		console.log(localStorage.getItem("name"));
+
 		const { sidebarMenus } = this.props.sidebar;
 		return (
 			<div className="rct-sidebar-nav">
-					<nav className="navigation">
+				<nav className="navigation">
 					<List
 						className="rct-mainMenu p-0 m-0 list-unstyled"
 						subheader={
-							<ListSubheader className="side-title" component="li">
+							<ListSubheader className="side-title" component="li" >
 								<IntlMessages id="sidebar.general" />
 							</ListSubheader>}
 					>
-						{sidebarMenus.category1.map((menu, key) => (
+
+						{localStorage.getItem("id") == 1 ? sidebarMenus.category1.map((menu, key) => (
 							<NavMenuItem
+								style={{ color: "gray!important" }}
 								menu={menu}
 								key={key}
 								onToggleMenu={() => this.toggleMenu(menu, 'category1')}
 							/>
-						))}
+						)) :
+						 sidebarMenus.category7.map((menu, key) => (
+							<NavMenuItem
+								style={{ color: "gray!important" }}
+								menu={menu}
+								key={key}
+								onToggleMenu={() => this.toggleMenu(menu, 'category7')}
+							/>
+						))
+						}
+
+
 					</List>
 					<List
 						className="rct-mainMenu p-0 m-0 list-unstyled"
@@ -71,7 +89,7 @@ class SidebarContent extends Component {
 					<List
 						className="rct-mainMenu p-0 m-0 list-unstyled"
 						subheader={<ListSubheader className="side-title" component="li">
-						<IntlMessages id="sidebar.applications" /></ListSubheader>}
+							<IntlMessages id="sidebar.applications" /></ListSubheader>}
 					>
 						{sidebarMenus.category5.map((menu, key) => (
 							<NavMenuItem
@@ -84,7 +102,7 @@ class SidebarContent extends Component {
 					<List
 						className="rct-mainMenu p-0 m-0 list-unstyled"
 						subheader={<ListSubheader className="side-title" component="li">
-						<IntlMessages id="sidebar.extensions" /></ListSubheader>}
+							<IntlMessages id="sidebar.extensions" /></ListSubheader>}
 					>
 						{sidebarMenus.category6.map((menu, key) => (
 							<NavMenuItem
@@ -106,5 +124,5 @@ const mapStateToProps = ({ sidebar, settings }) => {
 };
 
 export default withRouter(connect(mapStateToProps, {
-    onToggleMenu
+	onToggleMenu
 })(SidebarContent));

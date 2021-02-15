@@ -17,6 +17,7 @@ import { getAppLayout } from "../../helpers/helpers";
 import IntlMessages from 'Util/IntlMessages';
 import axios from "axios";
 import { Helmet } from "react-helmet";
+import "./index.css"
 
 
 const option = {
@@ -113,7 +114,7 @@ export default class NewListReceipts extends React.Component {
             On top of the ability to customize styling on most views, there are two responsive modes "stacked" and "scroll" for mobile/tablet
             devices. If you want more customize option please <a href="https://github.com/gregnb/mui-datatables" className="btn btn-danger btn-small mx-10">Click </a> here</p>
 				</div> */}
-				<RctCollapsibleCard heading="Data Table" fullBlock>
+				<RctCollapsibleCard  fullBlock>
 					{this.state.receiptData.length > 0 && <MUIDataTable
 						title={"Receipts List"}
 						data={ this.state.receiptData }

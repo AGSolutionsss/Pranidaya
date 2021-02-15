@@ -1,67 +1,15 @@
 /**
  * Material Text Field
  */
-import React from 'react';
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
-import { Button } from 'reactstrap';
+import React, { useEffect, useState } from "react";
+import TextField from "@material-ui/core/TextField";
+import { Link } from "react-router-dom";
+import { Button } from "reactstrap";
 // page title bar
-import PageTitleBar from 'Components/PageTitleBar/PageTitleBar';
-
-// intl messages
-import IntlMessages from 'Util/IntlMessages';
+import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 // rct card box
-import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
-
-const currencies = [
-  {
-    value: 'USD',
-    label: '$',
-  },
-  {
-    value: 'EUR',
-    label: '€',
-  },
-  {
-    value: 'BTC',
-    label: '฿',
-  },
-  {
-    value: 'JPY',
-    label: '¥',
-  },
-];
-
-const honorific = [
-  {
-    value: 'Shri',
-    label: 'Shri',
-  },
-  {
-    value: 'Smt.',
-    label: 'Smt.',
-  },
-  {
-    value: 'Kum',
-    label: 'Kum',
-  },
-  {
-    value: 'Dr.',
-    label: 'Dr.',
-  },
-];
-
-const gender = [
-  {
-    value: 'Male',
-    label: 'Male',
-  },
-  {
-    value: 'Female',
-    label: 'Female',
-  },
-];
+import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 
 const corr_preffer = [
   {
@@ -77,438 +25,543 @@ const corr_preffer = [
     label: 'Digital',
   },
 ];
+// intl messages
+import IntlMessages from "Util/IntlMessages";
+import axios from "axios";
+import { useHistory, useParams } from "react-router-dom";
+import { SelectionState } from "draft-js";
 
-const donor_type = [
-  {
-    value: 'Member',
-    lablel: 'Member',
-  },
-  {
-    value: 'Donor',
-    label: 'Donor',
-  },
-  {
-    value: 'Member+Donor',
-    label: 'Member+Donor',
-  },
-  {
-    value: 'None',
-    label: 'None',
-  },
-];
+const Add = (props) => {
+  let history = useHistory();
+  const [donor, setDonor] = useState({
+    indicomp_full_name: "",
+    title: "",
+    indicomp_com_contact_name: "",
+    indicomp_com_contact_designation: "",
+    indicomp_gender: "",
+    indicomp_dob_annualday: "",
+    indicomp_pan_no: "",
+    indicomp_remarks: "",
+    indicomp_promoter: "",
+    indicomp_belongs_to: "",
+    indicomp_source: "",
+    indicomp_donor_type: "",
+    indicomp_type: "",
+    indicomp_mobile_phone: "",
+    indicomp_mobile_whatsapp: "",
+    indicomp_email: "",
+    indicomp_website: "",
+    indicomp_res_reg_address: "",
+    indicomp_res_reg_area: "",
+    indicomp_res_reg_ladmark: "",
+    indicomp_res_reg_city: "",
+    indicomp_res_reg_state: "",
+    indicomp_res_reg_pin_code: "",
+    indicomp_off_branch_address: "",
+    indicomp_off_branch_area: "",
+    indicomp_off_branch_ladmark: "",
+    indicomp_off_branch_city: "",
+    indicomp_off_branch_state: "",
+    indicomp_off_branch_pin_code: "",
+    indicomp_corr_preffer: "",
+    indicomp_csr: "",
+  });
 
-const source = [
-  {
-    value: 'Ekal Run',
-    label: 'Ekal Run',
-  },
-  {
-    value: 'Sakranti',
-    label: 'Sakranti',
-  },
-];
+  var url = new URL(window.location.href);
+  var id = url.searchParams.get("id");
 
-const belongs_to = [
-{
-  value: 'Chapter',
-  label: 'Chapter',
-},
-{
-  value: 'Mahila',
-  label: 'Mahila',
-},
-{
-  value: 'Yuva',
-  label: 'Yuva',
-},
-];
-
-const company_type = [
-  {
-    value: 'Private',
-    label: 'Private',
-  },
-  {
-    value: 'Public',
-    label: 'Public',
-  },
-  {
-    value: 'Public',
-    label: 'Public',
-  },
-  {
-    value: 'Trust',
-    label: 'Trust',
-  },
-  {
-    value: 'Society',
-    label: 'Society',
-  },
-  {
-    value: 'Others',
-    label: 'Others',
-  },
-];
-
-const csr = [
-  {
-    value: '0',
-    label: 'No',
-  },
-  {
-    value: '1',
-    label: 'Yes',
-  },
-];
-
-const exemption = [
-  {
-    value: '80G',
-    label: '80G',
-  },
-  {
-    value: 'Non 80G',
-    label: 'Non 80G',
-  },
-  {
-    value: 'FCRA',
-    label: 'FCRA',
-  },
-];
-
-const pay_mode = [
-  {
-    value: 'Cash',
-    label: 'Cash',
-  },
-  {
-    value: 'Cheque',
-    label: 'Cheque',
-  },
-  {
-    value: 'Transfer',
-    label: 'Transfer',
-  },
-  {
-    value: 'Others',
-    label: 'Others',
-  },
-];
-
-const donation_type = [
-  {
-    value: 'One Teacher School',
-    label: 'One Teacher School',
-  },
-  {
-    value: 'General',
-    label: 'General',
-  },
-  {
-    value: 'Membership',
-    label: 'Membership',
-  },
-  {
-    value: 'Others',
-    label: 'Others',
-  },
-];
-
-export default class AddComp extends React.Component {
-
-  state = {
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
-  };
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
+  // const { personName, userName, mobile, email } = user;
+  const onInputChange = (e) => {
+    setDonor({
+      ...donor,
+      [e.target.name]: e.target.value,
     });
   };
 
+  // useEffect(() => {
+  //   axios({
+  //     url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: `Bearer ${localStorage.getItem("login")}`,
+  //     },
+  //   }).then((res) => {
+  //     //console.log("edit",res.data)
+  //     setdonor(res.data.donor);
+  //   });
+  // }, []);
 
-  render() {
-    return (
-      <div className="textfields-wrapper">
-        <PageTitleBar title={<IntlMessages id="sidebar.textField" />} match={this.props.match} />
-        <RctCollapsibleCard heading="Company">
-          <form noValidate autoComplete="off">
-            <div className="row">
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="text" fullWidth label="Company Name" autoComplete="Company Name" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="select-company_type" select label="Company Type"
-                    onChange={this.handleChange('company_type')}
-                    SelectProps={{
-                      MenuProps: {
-                      },
-                    }}
-                    helperText="Please select your Company Type"
-                    fullWidth>
-                    {company_type.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="text" fullWidth label="Contact Name" autoComplete="Contact Name" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="text" fullWidth label="Contact Designation" autoComplete="Contact Designation" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="select-gender" select label="Gender"
-                    onChange={this.handleChange('gender')}
-                    SelectProps={{
-                      MenuProps: {
-                      },
-                    }}
-                    helperText="Please select your gender"
-                    fullWidth>
-                    {gender.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
+  const onSubmit = () => {
+    let data = {
+      indicomp_full_name: donor.indicomp_full_name,
+      title: donor.title,
+      indicomp_type: donor.indicomp_type,
+      indicomp_com_contact_name: donor.indicomp_com_contact_name,
+      indicomp_com_contact_designation: donor.indicomp_com_contact_designation,
+      indicomp_gender: donor.indicomp_gender,
+      indicomp_dob_annualday: donor.indicomp_dob_annualday,
+      indicomp_pan_no: donor.indicomp_pan_no,
+      indicomp_image_logo: donor.indicomp_image_logo,
+      indicomp_remarks: donor.indicomp_remarks,
+      indicomp_promoter: donor.indicomp_promoter,
+      indicomp_source: donor.indicomp_source,
+      indicomp_mobile_phone: donor.indicomp_mobile_phone,
+      indicomp_mobile_whatsapp: donor.indicomp_mobile_whatsapp,
+      indicomp_email: donor.indicomp_email,
+      indicomp_website: donor.indicomp_website,
+      indicomp_res_reg_address: donor.indicomp_res_reg_address,
+      indicomp_res_reg_area: donor.indicomp_res_reg_area,
+      indicomp_res_reg_ladmark: donor.indicomp_res_reg_ladmark,
+      indicomp_res_reg_city: donor.indicomp_res_reg_city,
+      indicomp_res_reg_state: donor.indicomp_res_reg_state,
+      indicomp_res_reg_pin_code: donor.indicomp_res_reg_pin_code,
+      indicomp_off_branch_address: donor.indicomp_off_branch_address,
+      indicomp_off_branch_area: donor.indicomp_off_branch_area,
+      indicomp_off_branch_ladmark: donor.indicomp_off_branch_ladmark,
+      indicomp_off_branch_city: donor.indicomp_off_branch_city,
+      indicomp_off_branch_state: donor.indicomp_off_branch_state,
+      indicomp_off_branch_pin_code: donor.indicomp_off_branch_pin_code,
+      indicomp_corr_preffer: donor.indicomp_corr_preffer,
+      indicomp_belongs_to: donor.indicomp_belongs_to,
+      indicomp_donor_type: donor.indicomp_donor_type,
+      indicomp_csr: donor.indicomp_csr,
+    };
+    axios({
+      url: "https://ftschamp.trikaradev.xyz/api/create-donor",
+      method: "POST",
+      data,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("login")}`,
+      },
+    }).then((res) => {
+      console.log("edit1", res.data);
+      //alert("success");
+      history.push('listing');
+    });
+  };
+
+  return (
+    <div className="textfields-wrapper">
+      <PageTitleBar title="Create Individual Donor" match={props.match} />
+      <RctCollapsibleCard>
+        <form noValidate autoComplete="off">
+          <h1>Personal Details</h1>
+          <div className="row">
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
                 <TextField
-                    id="full-width"
-                    label="Annual Day"
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="Annual Day"
-                    fullWidth
-                  />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="PAN Number" autoComplete="PAN Number" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField
-                    id="full-width"
-                    label="Logo"
-                    type="file"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    placeholder="Logo"
-                    fullWidth
-                  />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Remarks" autoComplete="Remarks" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Promoter" autoComplete="Promoter" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="select-belongs_to" select label="Belongs To"
-                    onChange={this.handleChange('belongs_to')}
-                    SelectProps={{
-                      MenuProps: {
-                      },
-                    }}
-                    helperText="Please select your Belongs To"
-                    fullWidth>
-                    {belongs_to.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="select-source" select label="Source"
-                    onChange={this.handleChange('source')}
-                    SelectProps={{
-                      MenuProps: {
-                      },
-                    }}
-                    helperText="Please select your Source"
-                    fullWidth>
-                    {source.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="select-donor_type" select label="Donor Type"
-                    onChange={this.handleChange('donor_type')}
-                    SelectProps={{
-                      MenuProps: {
-                      },
-                    }}
-                    helperText="Please select your Donor Type"
-                    fullWidth>
-                    {donor_type.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="select-csr" select label="CSR"
-                    onChange={this.handleChange('csr')}
-                    SelectProps={{
-                      MenuProps: {
-                      },
-                    }}
-                    helperText="Please select CSR"
-                    fullWidth>
-                    {csr.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="number" type="number" fullWidth label="Mobile" autoComplete="Mobile" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="number" type="number" fullWidth label="Whats App" autoComplete="Whats App" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="email" type="email" fullWidth label="Email" autoComplete="Email" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Website" autoComplete="Website" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="House & Street Number" autoComplete="House & Street Number" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Area" autoComplete="Area" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Landmark" autoComplete="Landmark" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="City" autoComplete="City" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="State" autoComplete="State" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" type="number" fullWidth label="Pin Code" autoComplete="Pin Code" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Office & Street Number" autoComplete="Office & Street Number" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Area" autoComplete="Area" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="Landmark" autoComplete="Landmark" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="City" autoComplete="City" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" fullWidth label="State" autoComplete="State" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="text" type="number"  fullWidth label="Pin Code" autoComplete="Pin Code" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="select-corr_preffer" select label="Corr Preffer"
-                    onChange={this.handleChange('corr_preffer')}
-                    SelectProps={{
-                      MenuProps: {
-                      },
-                    }}
-                    helperText="Please select your Corr Preffer"
-                    fullWidth>
-                    {corr_preffer.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
+                  fullWidth
+                  label="Company Name"
+                  autoComplete="Name"
+                  name="indicomp_full_name"
+                  value={donor.indicomp_full_name}
+                  onChange={(e) => onInputChange(e)}
+                />
               </div>
             </div>
-            <Button className="mr-10 mb-10" color="primary">Submit</Button>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Type"
+                  autoComplete="Name"
+                  name="indicomp_type"
+                  value={donor.indicomp_type}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Contact Name"
+                  autoComplete="Name"
+                  name="indicomp_com_contact_name"
+                  value={donor.indicomp_com_contact_name}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Designation"
+                  autoComplete="Name"
+                  name="indicomp_com_contact_designation"
+                  value={donor.indicomp_com_contact_designation}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Gender"
+                  autoComplete="Name"
+                  name="indicomp_gender"
+                  value={donor.indicomp_gender}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Annual Day"
+                  autoComplete="Name"
+                  name="indicomp_dob_annualday"
+                  type="date"
+                  value={donor.indicomp_dob_annualday}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Company PAN Number"
+                  autoComplete="Name"
+                  name="indicomp_pan_no"
+                  value={donor.indicomp_pan_no}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Upload Logo"
+                  autoComplete="Name"
+                  name="indicomp_image_logo"
+                  type="file"
+                  value={donor.indicomp_image_logo}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Remarks"
+                  autoComplete="Name"
+                  name="indicomp_remarks"
+                  value={donor.indicomp_remarks}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Promoter"
+                  autoComplete="Name"
+                  name="indicomp_promoter"
+                  value={donor.indicomp_promoter}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Belongs To"
+                  autoComplete="Name"
+                  name="indicomp_belongs_to"
+                  value={donor.indicomp_belongs_to}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Source"
+                  autoComplete="Name"
+                  name="indicomp_source"
+                  value={donor.indicomp_source}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Donor Type"
+                  autoComplete="Name"
+                  name="indicomp_donor_type"
+                  value={donor.indicomp_donor_type}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="CSR"
+                  autoComplete="Name"
+                  name="indicomp_csr"
+                  value={donor.indicomp_csr}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            
+          </div> 
+        </form>
+
+          <hr />
+          <h1>Communication Details</h1>
+        <form>
+          <div  className="row">
+          <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Mobile Phone"
+                  autoComplete="Name"
+                  name="indicomp_mobile_phone"
+                  value={donor.indicomp_mobile_phone}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Whatsapp"
+                  autoComplete="Name"
+                  name="indicomp_mobile_whatsapp"
+                  value={donor.indicomp_mobile_whatsapp}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Email"
+                  autoComplete="Name"
+                  name="indicomp_email"
+                  value={donor.indicomp_email}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Website"
+                  autoComplete="Name"
+                  name="indicomp_website"
+                  value={donor.indicomp_website}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+          </div>
+          <h1>Correspondence Details</h1>
+          <h3>Residence Address</h3>
+          <div className="row">
+          <div className="col-sm-6 col-md-6 col-xl-4">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="House & Street Number"
+                  autoComplete="Name"
+                  name="indicomp_res_reg_address"
+                  value={donor.indicomp_res_reg_address}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-4">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Area"
+                  autoComplete="Name"
+                  name="indicomp_res_reg_area"
+                  value={donor.indicomp_res_reg_area}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-4">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Landmark"
+                  autoComplete="Name"
+                  name="indicomp_res_reg_ladmark"
+                  value={donor.indicomp_res_reg_ladmark}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="City"
+                  autoComplete="Name"
+                  name="indicomp_res_reg_city"
+                  value={donor.indicomp_res_reg_city}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="State"
+                  autoComplete="Name"
+                  name="indicomp_res_reg_state"
+                  value={donor.indicomp_res_reg_state}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Pincode"
+                  autoComplete="Name"
+                  name="indicomp_res_reg_pin_code"
+                  value={donor.indicomp_res_reg_pin_code}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+          </div>
+          <h3>Office Address</h3>
+          <div className="row">
+            <div className="col-sm-6 col-md-6 col-xl-4">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Office & Street Number"
+                  autoComplete="Name"
+                  name="indicomp_off_branch_address"
+                  value={donor.indicomp_off_branch_address}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-4">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Area"
+                  autoComplete="Name"
+                  name="indicomp_off_branch_area"
+                  value={donor.indicomp_off_branch_area}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-4">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Landmark"
+                  autoComplete="Name"
+                  name="indicomp_off_branch_ladmark"
+                  value={donor.indicomp_off_branch_ladmark}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="City"
+                  autoComplete="Name"
+                  name="indicomp_off_branch_city"
+                  value={donor.indicomp_off_branch_city}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="State"
+                  autoComplete="Name"
+                  name="indicomp_off_branch_state"
+                  value={donor.indicomp_off_branch_state}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Pincode"
+                  autoComplete="Name"
+                  name="indicomp_off_branch_pin_code"
+                  value={donor.indicomp_off_branch_pin_code}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Correspondence Preference"
+                  autoComplete="Name"
+                  name="indicomp_corr_preffer"
+                  value={donor.indicomp_corr_preffer}
+                  onChange={(e) => onInputChange(e)}
+                  
+                />
+              </div>
+            </div>
+              
+            <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
             <Button className="mr-10 mb-10" color="danger">Cancel</Button>
             <Button className="mr-10 mb-10" color="success">Attach to Group</Button>
             <Button className="mr-10 mb-10" color="info">Leave Group</Button>
-          </form>
-        </RctCollapsibleCard>
-      </div>
-    );
-  }
-}
+          </div>
+        </form>
+      </RctCollapsibleCard>
+    </div>
+  );
+};
+
+export default Add;

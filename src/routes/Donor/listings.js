@@ -13,6 +13,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 // page title bar
 import PageTitleBar from 'Components/PageTitleBar/PageTitleBar';
+import "./index.css"
 
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
@@ -39,10 +40,10 @@ export default class NewListDonor extends React.Component {
 		columnData:[
 			"#",
 			"Name",
-			"Gender",
-			"Phone",
+			"Type",
+			"Spouse/Contact",
+			"Mobile",
 			"Email",
-			"Address",
 			{
 			  name: "Actions",
 			  options: {
@@ -90,11 +91,11 @@ export default class NewListDonor extends React.Component {
 			for (let i = 0; i < response.length; i++){
 				tempRows.push([
 					i + 1,
-					response[i]["indicomp_created_by"],
-					response[i]["indicomp_gender"],
+					response[i]["indicomp_full_name"],
+					response[i]["indicomp_type"],
+					response[i]["indicomp_com_contact_name"],
 					response[i]["indicomp_mobile_phone"],
 					response[i]["indicomp_email"],
-					response[i]["indicomp_res_reg_address"],
 					response[i]["id"],
 				]);
 			}
@@ -109,6 +110,7 @@ export default class NewListDonor extends React.Component {
 	
 	render() {
 		const {loader}=this.state
+		let usertype=localStorage.getItem("id")
 		return (
 			<div className="data-table-wrapper">
 			{ loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
@@ -121,14 +123,16 @@ export default class NewListDonor extends React.Component {
             On top of the ability to customize styling on most views, there are two responsive modes "stacked" and "scroll" for mobile/tablet
             devices. If you want more customize option please <a href="https://github.com/gregnb/mui-datatables" className="btn btn-danger btn-small mx-10">Click </a> here</p>
 				</div> */}
+			<div >
 			<Link className="btn btn-outline-light" to="addindiv">
-			<Button className="mr-10 mb-10 btn-get-started" color="danger" style={{marginLeft:"1000px"}}>+ Add Individual</Button>
+			<Button style={{display:usertype==1?"inline-block":"none"}} className="mr-10 mb-10 btn-get-started" color="danger">+ Add Individual</Button>
               
            </Link>
             <Link className="btn btn-outline-light" to="addcomp">
-			<Button className="mr-10 mb-10 btn-get-start" color="danger">+ Add Company</Button>
+			<Button style={{display:usertype==1?"inline-block":"none"}} className="mr-10 mb-10 btn-get-start" color="danger">+ Add Company</Button>
              
 		   </Link>
+		   </div>
 				<RctCollapsibleCard fullBlock>
 				{this.state.donorData.length > 0 && ( <MUIDataTable
 						title={"Donor List"}
