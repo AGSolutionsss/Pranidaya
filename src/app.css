@@ -11,3 +11,22 @@
 .page-title .page-title-wrap h2 {
     font-weight: bold !important;
 }
+.receiptbuttons{
+    float:right
+}
+.antifloat{
+    clear: both;
+}
+.donortable{
+    width:100%
+}
+.donortable td{
+    padding-bottom: 5px;
+}
+
+    .MuiCircularProgress-root.MuiCircularProgress-colorSecondary.MuiCircularProgress-indeterminate{
+        margin-left: 40vw !important;
+    }
+    .MuiCircularProgress-root.MuiCircularProgress-colorPrimary.MuiCircularProgress-indeterminate{
+        margin-left: 40vw !important;
+    }
