@@ -11,3 +11,41 @@
 .page-title .page-title-wrap h2 {
     font-weight: bold !important;
 }
+.receiptbuttons{
+    float:right
+}
+.antifloat{
+    clear: both;
+}
+.donortable{
+    width:100%
+}
+.donortable td{
+    padding-bottom: 5px;
+}
+
+    .MuiCircularProgress-root.MuiCircularProgress-colorSecondary.MuiCircularProgress-indeterminate{
+        margin-left: 38vw !important;
+    }
+    .MuiCircularProgress-root.MuiCircularProgress-colorPrimary.MuiCircularProgress-indeterminate{
+        margin-left: 38vw !important;
+    }
+.receiptDetails{
+    margin-bottom: 30px;
+    margin-top: -10px;
+}
+.receiptDetails h4{
+    font-weight: 400 !important;
+}
+.page-title-wrap .ti-arrow-left{
+    font-size: 17px;
+    font-weight:bold ;
+    background-color: #464D69 !important;
+    border-radius: 100%;
+    padding: 6px;
+    color:white !important;
+    margin-right: 20px !important;
+}
+.chapterdetailsform{
+    padding: 10px 20px !important;
+}

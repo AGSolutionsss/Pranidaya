@@ -52,7 +52,7 @@ export default class NewListDonor extends React.Component {
 				customBodyRender: (value) => {
 				  return (
 					 
-					<div>
+					<div style={{minWidth:"150px"}}>
 					{/* {alert(value)} */}
 					  <Tooltip title="View" placement="top">
 						<IconButton aria-label="View">

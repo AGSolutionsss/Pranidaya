@@ -4,12 +4,61 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
+import MenuItem from '@material-ui/core/MenuItem';
 import { Button } from "reactstrap";
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 // rct card box
-import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
+import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
+const currencies = [
+  {
+    value: 'USD',
+    label: '$',
+  },
+  {
+    value: 'EUR',
+    label: '€',
+  },
+  {
+    value: 'BTC',
+    label: '฿',
+  },
+  {
+    value: 'JPY',
+    label: '¥',
+  },
+];
+
+const honorific = [
+  {
+    value: 'Shri',
+    label: 'Shri',
+  },
+  {
+    value: 'Smt.',
+    label: 'Smt.',
+  },
+  {
+    value: 'Kum',
+    label: 'Kum',
+  },
+  {
+    value: 'Dr.',
+    label: 'Dr.',
+  },
+];
+
+const gender = [
+  {
+    value: 'Male',
+    label: 'Male',
+  },
+  {
+    value: 'Female',
+    label: 'Female',
+  },
+];
 
 const corr_preffer = [
   {
@@ -25,6 +74,115 @@ const corr_preffer = [
     label: 'Digital',
   },
 ];
+
+const donor_type = [
+  {
+    value: 'Member',
+    lablel: 'Member',
+  },
+  {
+    value: 'Donor',
+    label: 'Donor',
+  },
+  {
+    value: 'Member+Donor',
+    label: 'Member+Donor',
+  },
+  {
+    value: 'None',
+    label: 'None',
+  },
+];
+
+const source = [
+  {
+    value: 'Ekal Run',
+    label: 'Ekal Run',
+  },
+  {
+    value: 'Sakranti',
+    label: 'Sakranti',
+  },
+];
+
+const belongs_to = [
+  {
+    value: 'Chapter',
+    label: 'Chapter',
+  },
+  {
+    value: 'Mahila',
+    label: 'Mahila',
+  },
+  {
+    value: 'Yuva',
+    label: 'Yuva',
+  },
+];
+
+const company_type = [
+  {
+    value: 'Private',
+    label: 'Private',
+  },
+  {
+    value: 'Public',
+    label: 'Public',
+  },
+  {
+    value: 'Public',
+    label: 'Public',
+  },
+  {
+    value: 'Trust',
+    label: 'Trust',
+  },
+  {
+    value: 'Society',
+    label: 'Society',
+  },
+  {
+    value: 'Others',
+    label: 'Others',
+  },
+];
+
+const csr = [
+  {
+    value: '0',
+    label: 'No',
+  },
+  {
+    value: '1',
+    label: 'Yes',
+  },
+];
+const corrpreffer = [
+  {
+    value: 'Registered',
+    label: 'Registered',
+  },
+  {
+    value: 'Branch Office',
+    label: 'Branch Office',
+  },
+  {
+    value: 'Digital',
+    label: 'Digital',
+  },
+];
+
+const state = [
+  {
+    value: 'Karnataka',
+    label: 'Karnataka',
+  },
+  {
+    value: 'Kerala',
+    label: 'Kerala',
+  },
+];
+
 // intl messages
 import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
@@ -142,23 +300,38 @@ const Add = (props) => {
     });
   };
 
+  const hr = {
+    marginTop: "0rem"
+  };
+
+
   return (
     <div className="textfields-wrapper">
       <PageTitleBar title="Create Individual Donor" match={props.match} />
       <RctCollapsibleCard>
         <form noValidate autoComplete="off">
           <h1>Personal Details</h1>
+          <hr style={hr} />
           <div className="row">
-          <div className="col-sm-6 col-md-6 col-xl-3">
+            <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Title"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="Title"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
+                  helperText="Please select your Title"
                   name="title"
                   value={donor.title}
                   onChange={(e) => onInputChange(e)}
-                />
+                  fullWidth>
+                  {honorific.map(option => (
+
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -199,14 +372,24 @@ const Add = (props) => {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Gender"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="Gender"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
                   name="indicomp_gender"
                   value={donor.indicomp_gender}
                   onChange={(e) => onInputChange(e)}
-                />
+                  helperText="Please select your Gender"
+
+                  fullWidth>
+                  {gender.map(option => (
+
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -298,40 +481,62 @@ const Add = (props) => {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Belongs To"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="Belongs To"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
+                  helperText="Please select your Belongs To"
                   name="indicomp_belongs_to"
                   value={donor.indicomp_belongs_to}
                   onChange={(e) => onInputChange(e)}
-                  
-                />
+                  fullWidth>
+                  {belongs_to.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Source"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="Source"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
+                  helperText="Please select your Source"
                   name="indicomp_source"
                   value={donor.indicomp_source}
                   onChange={(e) => onInputChange(e)}
-                />
+                  fullWidth>
+                  {source.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Donor Type"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="Donor Type"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
+                  helperText="Please select your Donor Type"
                   name="indicomp_donor_type"
                   value={donor.indicomp_donor_type}
                   onChange={(e) => onInputChange(e)}
-                  
-                />
+                  fullWidth>
+                  {donor_type.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -346,14 +551,15 @@ const Add = (props) => {
                 />
               </div>
             </div>
-          </div> 
+          </div>
         </form>
 
-          <hr />
-          <h1>Communication Details</h1>
+
+        <h1>Communication Details</h1>
+        <hr style={hr} />
         <form>
-          <div  className="row">
-          <div className="col-sm-6 col-md-6 col-xl-3">
+          <div className="row">
+            <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -402,10 +608,9 @@ const Add = (props) => {
               </div>
             </div>
           </div>
-          <h1>Correspondence Details</h1>
           <h3>Residence Address</h3>
           <div className="row">
-          <div className="col-sm-6 col-md-6 col-xl-4">
+            <div className="col-sm-6 col-md-6 col-xl-4">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -414,7 +619,7 @@ const Add = (props) => {
                   name="indicomp_res_reg_address"
                   value={donor.indicomp_res_reg_address}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
@@ -427,7 +632,7 @@ const Add = (props) => {
                   name="indicomp_res_reg_area"
                   value={donor.indicomp_res_reg_area}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
@@ -440,7 +645,7 @@ const Add = (props) => {
                   name="indicomp_res_reg_ladmark"
                   value={donor.indicomp_res_reg_ladmark}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
@@ -453,21 +658,28 @@ const Add = (props) => {
                   name="indicomp_res_reg_city"
                   value={donor.indicomp_res_reg_city}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="State"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="State"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
+                  helperText="Please select your State"
                   name="indicomp_res_reg_state"
                   value={donor.indicomp_res_reg_state}
                   onChange={(e) => onInputChange(e)}
-                  
-                />
+                  fullWidth>
+                  {state.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -479,7 +691,7 @@ const Add = (props) => {
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
@@ -495,7 +707,7 @@ const Add = (props) => {
                   name="indicomp_off_branch_address"
                   value={donor.indicomp_off_branch_address}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
@@ -508,7 +720,7 @@ const Add = (props) => {
                   name="indicomp_off_branch_area"
                   value={donor.indicomp_off_branch_area}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
@@ -521,7 +733,7 @@ const Add = (props) => {
                   name="indicomp_off_branch_ladmark"
                   value={donor.indicomp_off_branch_ladmark}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
@@ -534,21 +746,28 @@ const Add = (props) => {
                   name="indicomp_off_branch_city"
                   value={donor.indicomp_off_branch_city}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="State"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="State"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
+                  helperText="Please select your State"
                   name="indicomp_off_branch_state"
                   value={donor.indicomp_off_branch_state}
                   onChange={(e) => onInputChange(e)}
-                  
-                />
+                  fullWidth>
+                  {state.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -560,31 +779,40 @@ const Add = (props) => {
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}
                   onChange={(e) => onInputChange(e)}
-                  
+
                 />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Correspondence Preference"
-                  autoComplete="Name"
+                <TextField id="select-corrpreffer" select label="Correspondence Preference"
+                  SelectProps={{
+                    MenuProps: {
+                    },
+                  }}
+                  helperText="Please select your Correspondence Preference"
                   name="indicomp_corr_preffer"
                   value={donor.indicomp_corr_preffer}
                   onChange={(e) => onInputChange(e)}
-                  
-                />
+                  fullWidth>
+                  {corrpreffer.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
-              
-            <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
-            <Button className="mr-10 mb-10" color="danger">Cancel</Button>
-            <Button className="mr-10 mb-10" color="success">Attach to Group</Button>
-            <Button className="mr-10 mb-10" color="info">Leave Group</Button>
+            
           </div>
+          <div className="receiptbuttons">
+              <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
+              <Button className="mr-10 mb-10" color="danger">Cancel</Button>
+            </div>
+            <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
+
     </div>
   );
 };

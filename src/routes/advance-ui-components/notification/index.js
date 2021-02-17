@@ -4,7 +4,20 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { NotificationContainer, NotificationManager } from 'react-notifications';
-
+import {
+	//TrendingNews,
+	TopHeadlines,
+	Visitors,
+	Subscribers,
+	NewslaterCampaign,
+	CommentsWidget,
+	SocialFeedsWidget,
+	TopAuthors,
+	RecentActivity,
+	TopNews,
+	TwitterFeedsV2,
+	Notifications
+} from "Components/Widgets";
 // page title bar
 import PageTitleBar from 'Components/PageTitleBar/PageTitleBar';
 
@@ -44,21 +57,15 @@ export default class Notification extends React.Component {
          <div className="notification-wrapper">
             <PageTitleBar title={<IntlMessages id="sidebar.notification" />} match={this.props.match} />
             <RctCollapsibleCard
-               heading="Notifications"
-            >
-               <Button variant="contained" className='text-white btn btn-info mr-10 mb-10'
-                  onClick={this.createNotification('info')}>Info
-          </Button>
-               <Button variant="contained" className='text-white btn btn-success mr-10 mb-10'
-                  onClick={this.createNotification('success')}>Success
-          </Button>
-               <Button variant="contained" className='text-white btn btn-warning mr-10 mb-10'
-                  onClick={this.createNotification('warning')}>Warning
-          </Button>
-               <Button variant="contained" className='text-white btn btn-danger mr-10 mb-10'
-                  onClick={this.createNotification('error')}>Error
-          </Button>
-            </RctCollapsibleCard>
+						heading="Notices"
+						// colClasses="col-sm-12 col-md-12 col-lg-8"
+						collapsible
+						reloadable
+						closeable
+						fullBlock
+					>
+						<TopHeadlines />
+					</RctCollapsibleCard>
             <NotificationContainer />
          </div>
       );

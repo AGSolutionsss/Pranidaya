@@ -138,7 +138,7 @@ export default class NewListChapter extends React.Component {
           </Button>
         </Link> */}
         <Link className="btn btn-outline-light" to="addchapter">
-          <Button style={{display:usertype==1?"inline-block":"none"}} className="mr-10 mb-10 btn-get-start" color="danger">
+          <Button  className="mr-10 mb-10 btn-get-start" color="danger">
             + Add Chapter
           </Button>
         </Link>
