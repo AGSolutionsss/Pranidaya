@@ -753,12 +753,13 @@ const Add = (props) => {
                   </TextField>
               </div>
             </div>
-              
-            <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
-            <Button className="mr-10 mb-10" color="danger">Cancel</Button>
-            <Button className="mr-10 mb-10" color="success">Attach to Group</Button>
-            <Button className="mr-10 mb-10" color="info">Leave Group</Button>
+           
           </div>
+          <div className="receiptbuttons">
+              <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
+              <Button className="mr-10 mb-10" color="danger">Cancel</Button>
+            </div>
+            <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
     </div>

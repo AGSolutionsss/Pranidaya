@@ -188,16 +188,6 @@ import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { SelectionState } from "draft-js";
-import {
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Badge
-} from 'reactstrap';
 
 const Add = (props) => {
   let history = useHistory();
@@ -313,13 +303,7 @@ const Add = (props) => {
   const hr = {
     marginTop: "0rem"
   };
-const [showmodal,setShowmodal]=useState(false);
-const closegroupModal=()=>{
-  setShowmodal(false)
-}
-const openmodal=()=>{
-  setShowmodal(true)
-}
+
 
   return (
     <div className="textfields-wrapper">
@@ -819,43 +803,16 @@ const openmodal=()=>{
                 </TextField>
               </div>
             </div>
-
-            <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
-            <Button className="mr-10 mb-10" color="danger">Cancel</Button>
-            <Button onClick={()=>openmodal()} className="mr-10 mb-10" color="success">Attach to Group</Button>
-            <Button className="mr-10 mb-10" color="info">Leave Group</Button>
+            
           </div>
+          <div className="receiptbuttons">
+              <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
+              <Button className="mr-10 mb-10" color="danger">Cancel</Button>
+            </div>
+            <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
-      <Modal isOpen={showmodal} toggle={() => closegroupModal()}>
-        <ModalHeader toggle={() => closegroupModal()}>
-          Add to Group
-					</ModalHeader>
-        <ModalBody>
-          <table className="donortable">
 
-            <tr>
-              <th><p>FTS</p></th>
-              <th><p>Name</p></th>
-              <th><p>DOB</p></th>
-              <th><p>Action</p></th>
-            </tr>
-            <tr>
-              <td>1234</td>
-              <td>John Wick</td>
-              <td>22-5-2020</td>
-              <td>
-            <Button className="mr-10 mb-10" color="primary" >Add</Button>
-              </td>
-
-            </tr>
-
-          </table>
-
-        </ModalBody>
-        <ModalFooter>
-        </ModalFooter>
-      </Modal>
     </div>
   );
 };

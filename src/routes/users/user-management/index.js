@@ -281,8 +281,8 @@ export default class UserProfile extends Component {
 							</div>
 						</div>
 						<form noValidate autoComplete="off">
-							<h1>Chapter Details</h1>
-            <div className="row">
+							<h1 className="ml-20 mt-20">Chapter Details</h1>
+            <div className="row chapterdetailsform">
               <div className="col-sm-6 col-md-6 col-xl-3">
                 <div className="form-group">
                 <input id="text" className="form-control" fullWidth label="Chapter Name" placeholder="Chapter Name" />
