@@ -14,6 +14,15 @@
 .receiptbuttons{
     float:right
 }
+
+.MUIDataTableHeadCell-fixedHeader-51 {
+  top: 0px;
+  z-index: 0 !important;
+  position: sticky;
+  background-color: #fff;
+}
+
+
 .antifloat{
     clear: both;
 }

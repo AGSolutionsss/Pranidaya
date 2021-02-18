@@ -4,7 +4,7 @@ module.exports = {
    "sidebar.chapter" :"Chapters",
    "sidebar.donor" :"Donors",
    "sidebar.receipts" :"Receipts",
-   "sidebar.viewer" : "Viewer",
+   "sidebar.viewer" : "Viewers",
    "sidebar.app": "App",
    "sidebar.news": "News",
    "sidebar.horizontal": "Horizontal",

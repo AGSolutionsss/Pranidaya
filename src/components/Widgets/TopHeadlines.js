@@ -81,7 +81,7 @@ export default class TopHeadlines extends Component {
              top: '50%',
              left: '50%',
              width:'50%',
-             height:'55%',
+             height:'80%',
              right: 'auto',
              bottom: 'auto',
              marginRight: '-50%',
