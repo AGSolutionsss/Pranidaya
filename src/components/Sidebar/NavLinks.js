@@ -1,42 +1,12 @@
 // sidebar nav links
 export default {
-   category1: [
-      // {
-      //    "menu_title": "sidebar.dashboard",
-      //    "menu_icon": "zmdi zmdi-view-dashboard",
-      //    "type_multi": null,
-      //    "new_item": true,
-      //    "child_routes": [
-      //       {
-      //          "menu_title": "sidebar.ecommerce",
-      //          "new_item": false,
-      //          "path": "/app/dashboard/ecommerce"
-      //       },
-      //       {
-      //          "path": "/boxed/dashboard/news",
-      //          "new_item": false,
-      //          "menu_title": "sidebar.news"
-      //       },
-      //    ]
-      // },
+   category1: [      
       {
          "menu_title": "sidebar.dashboards",
          "menu_icon": "zmdi zmdi-view-dashboard",
          "path": "/app/dashboard",
          "child_routes": null
-      },
-      // {
-      //    "path": "/app/users/user-management",
-      //    "new_item": false,
-      //    "menu_icon": "zmdi zmdi-account-circle",
-      //    "menu_title": "sidebar.userManagement"
-      // },
-      // {
-      //    "menu_title": "sidebar.chapter",
-      //    "menu_icon": "zmdi zmdi-format-list-numbered",
-      //    "path": "/app/chapter",
-      //    "child_routes": null
-      // },
+      },      
       {
          "menu_title": "sidebar.donor",
          "menu_icon": "zmdi zmdi-account",
@@ -50,56 +20,17 @@ export default {
          "child_routes": null
       },
       {
+         "menu_title": "sidebar.viewers",
+         "menu_icon": "zmdi zmdi-account",
+         "path": "/app/viewers",
+         "child_routes": null
+      },
+      {
          "path": "/app/advanced-component/notification",
          "new_item": false,
          "menu_icon": "zmdi zmdi-notifications-active",
          "menu_title": "Notices",
-      },
-      // {zmdi zmdi-notifications-active
-      //    "menu_title": "sidebar.aboutUs",
-      //    "menu_icon": "zmdi zmdi-info",
-      //    "path": "/app/about-us",
-      //    "new_item": false,
-      //    "child_routes": null
-      // },
-      // {
-      //    "menu_title": "sidebar.session",
-      //    "menu_icon": "zmdi zmdi-time-interval",
-      //    "type_multi": null,
-      //    "new_item": false,
-      //    "child_routes": [
-      //       {
-      //          "path": "/session/login",
-      //          "new_item": false,
-      //          "menu_title": "sidebar.login"
-      //       },
-      //       {
-      //          "path": "/session/register",
-      //          "new_item": false,
-      //          "menu_title": "sidebar.register"
-      //       },
-      //       {
-      //          "path": "/session/lock-screen",
-      //          "new_item": false,
-      //          "menu_title": "sidebar.lockScreen"
-      //       },
-      //       {
-      //          "path": "/session/forgot-password",
-      //          "new_item": false,
-      //          "menu_title": "sidebar.forgotPassword"
-      //       },
-      //       {
-      //          "path": "/session/404",
-      //          "new_item": false,
-      //          "menu_title": "sidebar.404"
-      //       },
-      //       {
-      //          "path": "/session/500",
-      //          "new_item": false,
-      //          "menu_title": "sidebar.500"
-      //       }
-      //    ]
-      // }
+      },      
    ],
    category7: [
       {
@@ -132,28 +63,7 @@ export default {
          "new_item": false,
          "menu_icon": "zmdi zmdi-notifications-active",
          "menu_title": "sidebar.notification",
-      },
-      // {
-      //    "menu_title": "sidebar.inbox",
-      //    "menu_icon": "zmdi zmdi-email",
-      //    "path": "/app/mail",
-      //    "new_item": false,
-      //    "child_routes": null
-      // },
-      // {
-      //    "menu_title": "sidebar.chat",
-      //    "menu_icon": "zmdi zmdi-comments",
-      //    "path": "/app/chat",
-      //    "new_item": false,
-      //    "child_routes": null
-      // },
-      // {
-      //    "menu_title": "sidebar.toDo",
-      //    "menu_icon": "zmdi zmdi-comment-text-alt",
-      //    "path": "/app/todo",
-      //    "new_item": false,
-      //    "child_routes": null
-      // }
+      },      
    ],
    category8: [
       {
@@ -179,6 +89,12 @@ export default {
          "menu_title": "sidebar.receipts",
          "menu_icon": "zmdi zmdi-receipt",
          "path": "/app/receipts",
+         "child_routes": null
+      },
+      {
+         "menu_title": "sidebar.viewers",
+         "menu_icon": "zmdi zmdi-account",
+         "path": "/app/viewers",
          "child_routes": null
       },
       {

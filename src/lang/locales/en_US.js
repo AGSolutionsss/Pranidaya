@@ -1,9 +1,10 @@
 module.exports = {
    "sidebar.dashboards":"Dashboard",
    "sidebar.userManagement": "User",
-   "sidebar.chapter" :"Chapter",
-   "sidebar.donor" :"Donor",
+   "sidebar.chapter" :"Chapters",
+   "sidebar.donor" :"Donors",
    "sidebar.receipts" :"Receipts",
+   "sidebar.viewers" :"Viewers",
    "sidebar.app": "App",
    "sidebar.news": "News",
    "sidebar.horizontal": "Horizontal",
