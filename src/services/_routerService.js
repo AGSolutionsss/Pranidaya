@@ -21,6 +21,8 @@ import Dropzone from 'Routes/dropzone';
 import NewListChapter from 'Routes/Chapter';
 import NewListDonor from 'Routes/Donor';
 import NewListReceipts from 'Routes/Receipts';
+import NewListViewer from 'Routes/Viewer';
+
 
 
 
@@ -138,5 +140,10 @@ export default [
    {
       path: 'Receipts',
       component: NewListReceipts
-   }
+   },
+   {
+      path: 'Viewer',
+      component: NewListViewer
+   },
+   
 ]

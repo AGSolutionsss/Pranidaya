@@ -92,9 +92,9 @@ export default {
          "child_routes": null
       },
       {
-         "menu_title": "sidebar.viewers",
+         "menu_title": "sidebar.viewer",
          "menu_icon": "zmdi zmdi-account",
-         "path": "/app/viewers",
+         "path": "/app/viewer",
          "child_routes": null
       },
       {

@@ -547,8 +547,15 @@ const AsyncReceiptsComponent = Loadable({
 	loader: () => import("Routes/receipts"),
 	loading: () => <RctPageLoader />,
 });
+const AsyncViewerComponent = Loadable({
+	loader: () => import("Routes/viewer"),
+	loading: () => <RctPageLoader />,
+});
+
+
 
 export {
+	AsyncViewerComponent,
 	AsyncChapterComponent,
 	AsyncReceiptsComponent,
 	AsyncDonorComponent,
