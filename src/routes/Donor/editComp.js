@@ -538,6 +538,7 @@ const EditComp = (props) => {
                 <TextField
                   fullWidth
                   label="Mobile Phone"
+                  inputProps={{ maxLength: 10 }}
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
                   value={donor.indicomp_mobile_phone}
@@ -550,6 +551,7 @@ const EditComp = (props) => {
                 <TextField
                   fullWidth
                   label="Whatsapp"
+                  inputProps={{ maxLength: 10 }}
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
                   value={donor.indicomp_mobile_whatsapp}
@@ -661,6 +663,7 @@ const EditComp = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
@@ -749,6 +752,7 @@ const EditComp = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}

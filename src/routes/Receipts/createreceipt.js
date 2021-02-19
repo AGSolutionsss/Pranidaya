@@ -3,6 +3,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { Button } from "reactstrap";
 import axios from "axios";
+import { useHistory, useParams } from "react-router-dom";
 
 
 
@@ -57,11 +58,90 @@ const donation_type = [
     label: 'Membership',
   },
 ];
+const donation_type_2 = [
+  {
+    value: 'One Teacher School',
+    label: 'One Teacher School',
+  },
+  {
+    value: 'General',
+    label: 'General',
+  },
+ 
+];
 
 export default function Createreceipt() {
   var url = new URL(window.location.href);
   var id = url.searchParams.get("id");
   const [userdata,setUserdata]= React.useState('')
+
+  let history = useHistory();
+  const [donor, setDonor] = React.useState({
+    receipt_no:"",
+        receipt_date:"",
+        receipt_old_no:"",
+        receipt_exemption_type:"",
+        receipt_total_amount:"",
+        receipt_realization_date:"",
+        receipt_donation_type:"",  
+        receipt_tran_pay_mode  :"",
+        receipt_tran_pay_details:"",
+        receipt_remarks:"",
+        receipt_reason  :"",
+        receipt_email_count  :"",
+        receipt_created_at  :"",
+        receipt_created_by  :"",
+        receipt_update_at  :"",
+        receipt_update_by:"",
+  });
+
+  var url = new URL(window.location.href);
+  var id = url.searchParams.get("id");
+
+  // const { personName, userName, mobile, email } = user;
+  const onInputChange = (e) => {
+    setDonor({
+      ...donor,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+ 
+
+  const onSubmit = () => {
+    let data = {
+      indicomp_fts_id:userdata.indicomp_fts_id,
+      receipt_no:donor.receipt_no,
+      receipt_date:donor.receipt_date,
+      receipt_old_no:donor.receipt_old_no,
+      receipt_exemption_type:donor.receipt_exemption_type,
+      receipt_total_amount:donor.receipt_total_amount,
+      receipt_realization_date:donor.receipt_realization_date,
+      receipt_donation_type  :donor.receipt_donation_type,
+      receipt_tran_pay_mode  :donor.receipt_tran_pay_mode,
+      receipt_tran_pay_details:donor.receipt_tran_pay_details,
+      receipt_remarks:donor.receipt_remarks,
+      receipt_reason  :donor.receipt_reason,
+      receipt_email_count  :donor.receipt_email_count,
+      receipt_created_at  :donor.receipt_created_at ,
+      receipt_created_by  :donor.receipt_created_by,
+      receipt_update_at  :donor.receipt_update_at,
+      receipt_update_by:donor.receipt_update_by,
+    };
+    axios({
+      url: "https://ftschamp.trikaradev.xyz/api/create-receipt",
+      method: "POST",
+      data,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("login")}`,
+      },
+    }).then((res) => {
+      console.log("receipt", res.data);
+      alert("success");
+      history.push('listing');
+    });
+  };
+
 
   React.useEffect(() => {
     axios({
@@ -101,6 +181,9 @@ export default function Createreceipt() {
                   }}
                   placeholder="Receipt Date"
                   fullWidth
+                  name="receipt_date"
+                  value={donor.receipt_date}
+                  onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
@@ -113,6 +196,9 @@ export default function Createreceipt() {
               <div className="form-group">
                 <TextField id="select-exemption" select label="Exemption Type"
                   // onChange={this.handleChange('exemption')}
+                  name="receipt_exemption_type"
+                  value={donor.receipt_exemption_type}
+                  onChange={(e) => onInputChange(e)}
                   SelectProps={{
                     MenuProps: {
                     },
@@ -124,18 +210,24 @@ export default function Createreceipt() {
                       {option.label}
                     </MenuItem>
                   ))}
+                  
                 </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="text" fullWidth label="Total Amount" autoComplete="Total Amount" />
+                <TextField id="text" fullWidth label="Total Amount"  name="receipt_total_amount"
+                  value={donor.receipt_total_amount}
+                  onChange={(e) => onInputChange(e)} autoComplete="Total Amount" />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField id="select-pay_mode" select label="Transaction Type"
                   // onChange={this.handleChange('pay_mode')}
+                  name="receipt_tran_pay_mode"
+                  value={donor.receipt_tran_pay_mode}
+                  onChange={(e) => onInputChange(e)}
                   SelectProps={{
                     MenuProps: {
                     },
@@ -154,17 +246,25 @@ export default function Createreceipt() {
               <div className="form-group">
                 <TextField id="select-donation_type" select label="Donation Type"
                   // onChange={this.handleChange('donation_type')}
+                  name="receipt_donation_type"
+                  value={donor.receipt_donation_type}
+                  onChange={(e) => onInputChange(e)}
                   SelectProps={{
                     MenuProps: {
                     },
                   }}
                   helperText="Please select your Donation Type"
                   fullWidth>
-                  {donation_type.map(option => (
+                  {donor.receipt_exemption_type == "80G"? donation_type_2.map(option => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
-                  ))}
+                  )) : donation_type.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))
+                }
                 </TextField>
               </div>
             </div>
@@ -174,6 +274,9 @@ export default function Createreceipt() {
                   id="full-width"
                   label="Realization Date"
                   type="date"
+                  name="receipt_realization_date"
+                  value={donor.receipt_realization_date}
+                  onChange={(e) => onInputChange(e)}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -184,18 +287,22 @@ export default function Createreceipt() {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-6">
               <div className="form-group">
-                <TextField id="text" fullWidth label="Transaction Pay Details" helperText="Cheque No / Bank Name / UTR / Any Other Details" autoComplete="Transaction Pay Details" />
+                <TextField id="text" fullWidth label="Transaction Pay Details" helperText="Cheque No / Bank Name / UTR / Any Other Details"  name="receipt_tran_pay_details"
+                  value={donor.receipt_tran_pay_details}
+                  onChange={(e) => onInputChange(e)} autoComplete="Transaction Pay Details" />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-6">
               <div className="form-group">
-                <TextField id="text" fullWidth label="Remarks" autoComplete="Remarks" />
+                <TextField id="text"  name="receipt_remarks"
+                  value={donor.receipt_remarks}
+                  onChange={(e) => onInputChange(e)} fullWidth label="Remarks" autoComplete="Remarks" />
               </div>
             </div>
 
           </div>
           <div className="receiptbuttons">
-            <Button className="mr-10 mb-10" color="primary">Submit</Button>
+            <Button onClick={()=>onSubmit()} className="mr-10 mb-10" color="primary">Submit</Button>
             <Button className="mr-10 mb-10" color="danger">Cancel</Button>
           </div>
           <div className="antifloat"></div>
