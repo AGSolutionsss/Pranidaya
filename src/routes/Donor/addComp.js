@@ -637,7 +637,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
-                  inputProps={{ maxLength: 10 }}
+                  inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
@@ -727,7 +727,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
-                  inputProps={{ maxLength: 10 }}
+                  inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}
