@@ -58,3 +58,12 @@
 .chapterdetailsform{
     padding: 10px 20px !important;
 }
+
+input[type="date"] {
+    padding-left: 40px !important;
+
+}
+.error{
+    visibility: hidden;
+    margin-top: -15px;
+}

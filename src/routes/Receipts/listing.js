@@ -89,7 +89,7 @@ export default class NewListReceipts extends React.Component {
 				tempRows.push([
 					i + 1,
 					response[i]["receipt_no"],
-					response[i]["receipt_created_by"],
+					response[i]["individual_company"]["indicomp_full_name"],
 					response[i]["receipt_date"],
 					response[i]["receipt_exemption_type"],
 					response[i]["receipt_total_amount"],

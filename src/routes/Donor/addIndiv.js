@@ -187,8 +187,17 @@ const state = [
 import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 import { SelectionState } from "draft-js";
-
+import { ImportantDevices } from "@material-ui/icons";
+import { validate } from "@material-ui/pickers";
+// const styles = {
+//   input: {
+//     "&:invalid": {
+//       border: "red solid 2px " 
+//     }
+//   }
+// };
 const Add = (props) => {
   let history = useHistory();
   const [donor, setDonor] = useState({
@@ -249,6 +258,18 @@ const Add = (props) => {
   //     setdonor(res.data.donor);
   //   });
   // }, []);
+  const validate = () => {
+    var txtPANCard = document.getElementById("txtPANCard");
+        var lblPANCard = document.getElementById("lblPANCard")
+        var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+        if (regex.test(txtPANCard.value.toUpperCase())) {
+            lblPANCard.style.visibility = "hidden";
+            return true;
+        } else {
+            lblPANCard.style.visibility = "visible";
+            return false;
+        }
+  }
 
   const onSubmit = () => {
     let data = {
@@ -286,6 +307,9 @@ const Add = (props) => {
       indicomp_belongs_to: donor.indicomp_belongs_to,
       indicomp_donor_type: donor.indicomp_donor_type,
     };
+    
+      const val= validate();
+  if(val){
     axios({
       url: "https://ftschamp.trikaradev.xyz/api/create-donor",
       method: "POST",
@@ -298,6 +322,8 @@ const Add = (props) => {
       //alert("success");
       history.push('listing');
     });
+  }
+  
   };
 
   const hr = {
@@ -435,12 +461,14 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="PAN Number"
+                  id="txtPANCard"
                   autoComplete="Name"
                   name="indicomp_pan_no"
                   value={donor.indicomp_pan_no}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
+              <span id="lblPANCard" class="error">Invalid PAN Number</span>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
@@ -566,6 +594,7 @@ const Add = (props) => {
                   label="Mobile Phone"
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
+                  inputProps={{ maxLength: 10 }}
                   value={donor.indicomp_mobile_phone}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -576,6 +605,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Whatsapp"
+                  inputProps={{ maxLength: 10 }}
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
                   value={donor.indicomp_mobile_whatsapp}
@@ -687,6 +717,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
@@ -775,6 +806,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}
