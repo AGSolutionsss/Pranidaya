@@ -159,12 +159,12 @@ const csr = [
 ];
 const corrpreffer = [
   {
-    value: 'Registered',
-    label: 'Registered',
+    value: 'Residence',
+    label: 'Residence',
   },
   {
-    value: 'Branch Office',
-    label: 'Branch Office',
+    value: 'Office',
+    label: 'Office',
   },
   {
     value: 'Digital',
@@ -215,7 +215,7 @@ const Add = (props) => {
     indicomp_belongs_to: "",
     indicomp_source: "",
     indicomp_donor_type: "",
-    indicomp_type: "",
+    indicomp_type: "Individual",
     indicomp_mobile_phone: "",
     indicomp_mobile_whatsapp: "",
     indicomp_email: "",
@@ -232,7 +232,7 @@ const Add = (props) => {
     indicomp_off_branch_city: "",
     indicomp_off_branch_state: "",
     indicomp_off_branch_pin_code: "",
-    indicomp_corr_preffer: "",
+    indicomp_corr_preffer: "Residence",
   });
 
   var url = new URL(window.location.href);
@@ -260,18 +260,30 @@ const Add = (props) => {
   // }, []);
   const validate = () => {
     var txtPANCard = document.getElementById("txtPANCard");
-        var lblPANCard = document.getElementById("lblPANCard")
-        var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
-        if (regex.test(txtPANCard.value.toUpperCase())) {
-            lblPANCard.style.visibility = "hidden";
-            return true;
-        } else {
-            lblPANCard.style.visibility = "visible";
-            return false;
-        }
+    var lblPANCard = document.getElementById("lblPANCard")
+    var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+    if (regex.test(txtPANCard.value)) {
+      lblPANCard.style.visibility = "hidden";
+      return true;
+    } else {
+      lblPANCard.style.visibility = "visible";
+      return false;
+    }
   }
+  // const datevalidate = () => {
+  //   var dateEntered = document.getElementById("dateEntered");
+  //   var lblDateCard = document.getElementById("lblDateCard")
+  //   var regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+  //   if (regex.test(dateEntered.value)) {
+  //     lblDateCard.style.visibility = "hidden";
+  //     return true;
+  //   } else {
+  //     lblDateCard.style.visibility = "visible";
+  //     return false;
+  //   }
+  // }
+  const onSubmit = (e) => {
 
-  const onSubmit = () => {
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
       title: donor.title,
@@ -307,23 +319,29 @@ const Add = (props) => {
       indicomp_belongs_to: donor.indicomp_belongs_to,
       indicomp_donor_type: donor.indicomp_donor_type,
     };
-    
-      const val= validate();
-  if(val){
-    axios({
-      url: "https://ftschamp.trikaradev.xyz/api/create-donor",
-      method: "POST",
-      data,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("login")}`,
-      },
-    }).then((res) => {
-      console.log("edit1", res.data);
-      //alert("success");
-      history.push('listing');
-    });
-  }
-  
+    var v = document.getElementById('addIndiv').checkValidity();
+    var v = document.getElementById('addIndiv').reportValidity();
+
+    const val = validate();
+    // const dateval = datevalidate();
+    e.preventDefault();
+
+    if (val && v ) {
+      axios({
+        url: "https://ftschamp.trikaradev.xyz/api/create-donor",
+        method: "POST",
+        data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("login")}`,
+        },
+      }).then((res) => {
+        console.log("edit1", res.data);
+        alert("success");
+        history.push('listing');
+
+      });
+    }
+
   };
 
   const hr = {
@@ -335,7 +353,8 @@ const Add = (props) => {
     <div className="textfields-wrapper">
       <PageTitleBar title="Create Individual Donor" match={props.match} />
       <RctCollapsibleCard>
-        <form noValidate autoComplete="off">
+        <form id="addIndiv"
+          autoComplete="off">
           <h1>Personal Details</h1>
           <hr style={hr} />
           <div className="row">
@@ -364,6 +383,7 @@ const Add = (props) => {
               <div className="form-group">
                 <TextField
                   fullWidth
+                  required
                   label="Full Name"
                   autoComplete="Name"
                   name="indicomp_full_name"
@@ -403,6 +423,7 @@ const Add = (props) => {
                     MenuProps: {
                     },
                   }}
+                  required
                   name="indicomp_gender"
                   value={donor.indicomp_gender}
                   onChange={(e) => onInputChange(e)}
@@ -435,12 +456,15 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="DOB"
+                  id="dateEntered"
                   autoComplete="Name"
                   name="indicomp_dob_annualday"
                   type="date"
                   value={donor.indicomp_dob_annualday}
                   onChange={(e) => onInputChange(e)}
                 />
+              <span id="lblDateCard" class="error">Invalid Date format</span>
+                
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -572,6 +596,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Type"
+                  required
                   autoComplete="Name"
                   name="indicomp_type"
                   value={donor.indicomp_type}
@@ -580,18 +605,19 @@ const Add = (props) => {
               </div>
             </div>
           </div>
-        </form>
 
 
-        <h1>Communication Details</h1>
-        <hr style={hr} />
-        <form>
+
+          <h1>Communication Details</h1>
+          <hr style={hr} />
+
           <div className="row">
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   fullWidth
                   label="Mobile Phone"
+                  required
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
                   inputProps={{ maxLength: 10 }}
@@ -684,6 +710,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="City"
+                  required
                   autoComplete="Name"
                   name="indicomp_res_reg_city"
                   value={donor.indicomp_res_reg_city}
@@ -699,6 +726,7 @@ const Add = (props) => {
                     MenuProps: {
                     },
                   }}
+                  required
                   helperText="Please select your State"
                   name="indicomp_res_reg_state"
                   value={donor.indicomp_res_reg_state}
@@ -717,6 +745,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  required
                   inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
@@ -773,6 +802,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="City"
+                  required
                   autoComplete="Name"
                   name="indicomp_off_branch_city"
                   value={donor.indicomp_off_branch_city}
@@ -788,6 +818,7 @@ const Add = (props) => {
                     MenuProps: {
                     },
                   }}
+                  required
                   helperText="Please select your State"
                   name="indicomp_off_branch_state"
                   value={donor.indicomp_off_branch_state}
@@ -807,6 +838,7 @@ const Add = (props) => {
                   fullWidth
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
+                  required
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}
@@ -822,9 +854,11 @@ const Add = (props) => {
                     MenuProps: {
                     },
                   }}
+                  required
                   helperText="Please select your Correspondence Preference"
                   name="indicomp_corr_preffer"
                   value={donor.indicomp_corr_preffer}
+                  
                   onChange={(e) => onInputChange(e)}
                   fullWidth>
                   {corrpreffer.map(option => (
@@ -835,13 +869,13 @@ const Add = (props) => {
                 </TextField>
               </div>
             </div>
-            
+
           </div>
           <div className="receiptbuttons">
-              <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
-              <Button className="mr-10 mb-10" color="danger">Cancel</Button>
-            </div>
-            <div className="antifloat"></div>
+            <Button type="submit" className="mr-10 mb-10" color="primary" onClick={(e) => onSubmit(e)}>Submit</Button>
+            <Button className="mr-10 mb-10" color="danger">Cancel</Button>
+          </div>
+          <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
 

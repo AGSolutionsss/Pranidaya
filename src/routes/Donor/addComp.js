@@ -22,8 +22,8 @@ const company_type = [
     label: 'Public',
   },
   {
-    value: 'Public',
-    label: 'Public',
+    value: 'PSU',
+    label: 'PSU',
   },
   {
     value: 'Trust',
@@ -185,7 +185,7 @@ const Add = (props) => {
     indicomp_off_branch_city: "",
     indicomp_off_branch_state: "",
     indicomp_off_branch_pin_code: "",
-    indicomp_corr_preffer: "",
+    indicomp_corr_preffer: "Registered",
     indicomp_csr: "",
   });
 
@@ -200,6 +200,18 @@ const Add = (props) => {
     });
   };
 
+  const validate = () => {
+    var txtPANCard = document.getElementById("txtPANCard");
+    var lblPANCard = document.getElementById("lblPANCard")
+    var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+    if (regex.test(txtPANCard.value)) {
+      lblPANCard.style.visibility = "hidden";
+      return true;
+    } else {
+      lblPANCard.style.visibility = "visible";
+      return false;
+    }
+  }
   // useEffect(() => {
   //   axios({
   //     url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
@@ -213,7 +225,7 @@ const Add = (props) => {
   //   });
   // }, []);
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
       title: donor.title,
@@ -248,6 +260,13 @@ const Add = (props) => {
       indicomp_donor_type: donor.indicomp_donor_type,
       indicomp_csr: donor.indicomp_csr,
     };
+    var v = document.getElementById('addComp').checkValidity();
+    var v = document.getElementById('addIndiv').reportValidity();
+    const val = validate();
+    e.preventDefault();
+
+    if (val && v ) {
+
     axios({
       url: "https://ftschamp.trikaradev.xyz/api/create-donor",
       method: "POST",
@@ -257,9 +276,10 @@ const Add = (props) => {
       },
     }).then((res) => {
       console.log("edit1", res.data);
-      //alert("success");
+      alert("success");
       history.push('listing');
     });
+  }
   };
 
   const hr = {
@@ -270,7 +290,7 @@ const Add = (props) => {
     <div className="textfields-wrapper">
       <PageTitleBar title="Create Company Donor" match={props.match} />
       <RctCollapsibleCard>
-        <form noValidate autoComplete="off">
+        <form id="addComp" autoComplete="off">
           <h1>Personal Details</h1>
           <hr style={hr}/>
           <div className="row">
@@ -279,6 +299,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Company Name"
+                  required
                   autoComplete="Name"
                   name="indicomp_full_name"
                   value={donor.indicomp_full_name}
@@ -293,6 +314,8 @@ const Add = (props) => {
                       MenuProps: {
                       },
                     }}
+                  required
+
                     helperText="Please select your Type"
                     name="indicomp_type"
                     value={donor.indicomp_type}
@@ -312,6 +335,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Contact Name"
+                  required
                   autoComplete="Name"
                   name="indicomp_com_contact_name"
                   value={donor.indicomp_com_contact_name}
@@ -338,6 +362,7 @@ const Add = (props) => {
                       MenuProps: {
                       },
                     }}
+                    required
                     helperText="Please select your Gender"
                     name="indicomp_gender"
                     value={donor.indicomp_gender}
@@ -357,6 +382,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Annual Day"
+                  id="annualday"
                   autoComplete="Name"
                   name="indicomp_dob_annualday"
                   type="date"
@@ -376,6 +402,8 @@ const Add = (props) => {
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
+              <span id="lblPANCard" class="error">Invalid PAN Number</span>
+
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
@@ -512,6 +540,7 @@ const Add = (props) => {
                   fullWidth
                   label="Mobile Phone"
                   inputProps={{ maxLength: 10 }}
+                  required
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
                   value={donor.indicomp_mobile_phone}
@@ -603,6 +632,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="City"
+                  required
                   autoComplete="Name"
                   name="indicomp_res_reg_city"
                   value={donor.indicomp_res_reg_city}
@@ -638,6 +668,7 @@ const Add = (props) => {
                   fullWidth
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
+                  required
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
@@ -743,6 +774,7 @@ const Add = (props) => {
                       MenuProps: {
                       },
                     }}
+                    required
                     helperText="Please select your Correspondence Preference"
                     name="indicomp_corr_preffer"
                     value={donor.indicomp_corr_preffer}
@@ -760,7 +792,7 @@ const Add = (props) => {
            
           </div>
           <div className="receiptbuttons">
-              <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
+              <Button type="submit" className="mr-10 mb-10" color="primary" onClick={(e) => onSubmit(e)}>Submit</Button>
               <Button className="mr-10 mb-10" color="danger">Cancel</Button>
             </div>
             <div className="antifloat"></div>

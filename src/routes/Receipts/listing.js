@@ -83,13 +83,15 @@ export default class NewListReceipts extends React.Component {
 		}).then((res) => {
 			//console.log("recept",res.data)
 			let response = res.data.receipts;
-			//console.log("recept2",res.data.receipts)
+			console.log("recept2",res.data.receipts)
 			let tempRows = [];
 			for(let i = 0; i < response.length; i++){
 				tempRows.push([
 					i + 1,
 					response[i]["receipt_no"],
-					response[i]["individual_company"]["indicomp_full_name"],
+					response[i]["receipt_created_by"],
+					// response[i]["individual_company"]["indicomp_full_name"],
+
 					response[i]["receipt_date"],
 					response[i]["receipt_exemption_type"],
 					response[i]["receipt_total_amount"],
@@ -112,6 +114,7 @@ export default class NewListReceipts extends React.Component {
 		console.log("printR",this.props.match)
 		
 		console.log(this.state.usertype)
+		console.log(this.state.receiptData)
 
 		const {loader}=this.state
 		return (
