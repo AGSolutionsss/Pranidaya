@@ -201,8 +201,8 @@ const Add = (props) => {
   };
 
   const validate = () => {
-    var txtPANCard = document.getElementById("txtPANCard");
-    var lblPANCard = document.getElementById("lblPANCard")
+    var txtPANCard = document.getElementById("txtPANCard2");
+    var lblPANCard = document.getElementById("lblPANCard2")
     var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
     if (regex.test(txtPANCard.value)) {
       lblPANCard.style.visibility = "hidden";
@@ -226,6 +226,8 @@ const Add = (props) => {
   // }, []);
 
   const onSubmit = (e) => {
+    e.preventDefault();
+
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
       title: donor.title,
@@ -261,7 +263,7 @@ const Add = (props) => {
       indicomp_csr: donor.indicomp_csr,
     };
     var v = document.getElementById('addComp').checkValidity();
-    var v = document.getElementById('addIndiv').reportValidity();
+    var v = document.getElementById('addComp').reportValidity();
     const val = validate();
     e.preventDefault();
 
@@ -396,13 +398,15 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Company PAN Number"
+                  id="txtPANCard2"
                   autoComplete="Name"
                   name="indicomp_pan_no"
                   value={donor.indicomp_pan_no}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-              <span id="lblPANCard" class="error">Invalid PAN Number</span>
+              
+              <span id="lblPANCard2" class="error">Invalid PAN Number</span>
 
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -540,6 +544,7 @@ const Add = (props) => {
                   fullWidth
                   label="Mobile Phone"
                   inputProps={{ maxLength: 10 }}
+                  type="number"
                   required
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
@@ -553,6 +558,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Whatsapp"
+                  type="number"
                   inputProps={{ maxLength: 10 }}
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
@@ -667,6 +673,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  type="number"
                   inputProps={{ maxLength: 6 }}
                   required
                   autoComplete="Name"
@@ -758,6 +765,8 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  type="number"
+
                   inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"

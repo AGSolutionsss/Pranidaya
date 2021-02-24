@@ -617,6 +617,8 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Mobile Phone"
+                  type="number"
+
                   required
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
@@ -631,6 +633,8 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Whatsapp"
+                  type="number"
+
                   inputProps={{ maxLength: 10 }}
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
@@ -745,6 +749,8 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  type="number"
+
                   required
                   inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
@@ -837,6 +843,8 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
+                  type="number"
+
                   inputProps={{ maxLength: 6 }}
                   required
                   autoComplete="Name"

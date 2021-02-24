@@ -97,11 +97,11 @@ export default function Createreceipt() {
   today = mm + '/' + dd + '/' + yyyy;
   const [donor, setDonor] = React.useState({
     receipt_no: "",
-    receipt_date: today,
+    receipt_date: "",
     receipt_old_no: "",
     receipt_exemption_type: "",
     receipt_total_amount: "",
-    receipt_realization_date: yyyy,
+    receipt_realization_date: "",
     receipt_donation_type: "",
     receipt_tran_pay_mode: "",
     receipt_tran_pay_details: "",
@@ -127,6 +127,8 @@ export default function Createreceipt() {
 
 
   const onSubmit = (e) => {
+    e.preventDefault();
+
     let data = {
       indicomp_fts_id: userdata.indicomp_fts_id,
       receipt_no: donor.receipt_no,
@@ -147,7 +149,7 @@ export default function Createreceipt() {
       receipt_update_by: donor.receipt_update_by,
     };
     var v = document.getElementById('createrec').checkValidity();
-    var v = document.getElementById('addIndiv').reportValidity();
+    var v = document.getElementById('createrec').reportValidity();
     e.preventDefault();
     // const val = validate();
     // const dateval = datevalidate();
@@ -164,7 +166,6 @@ export default function Createreceipt() {
         alert("success");
         history.push('listing');
       });
-      console.log("hell")
     }
   };
 
@@ -230,7 +231,7 @@ export default function Createreceipt() {
                   onChange={(e) => onInputChange(e)} autoComplete="Total Amount" />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            {/* <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField id="text" fullWidth label="Receipt Reference" name="receipt_reference"
                   // value={donor.receipt_total_amount}
@@ -238,7 +239,7 @@ export default function Createreceipt() {
                   // onChange={(e) => onInputChange(e)} 
                   autoComplete="Total Amount" />
               </div>
-            </div>
+            </div> */}
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField id="select-pay_mode" select label="Transaction Type"

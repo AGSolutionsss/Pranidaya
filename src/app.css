@@ -75,7 +75,7 @@ input[type="date"] {
 }
 .amounterror{
     color: red;
-    margin-bottom: 20px;
+    margin-bottom: 20px !important;
 }
 #annualday{
     padding-left: 80px !important;
