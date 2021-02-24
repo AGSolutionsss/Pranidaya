@@ -81,3 +81,10 @@ input[type="date"] {
     padding-left: 80px !important;
 
 }
+.redcard{
+    background-color: rgb(252, 22, 22);
+}
+.current-widget .cardHead{
+    font-size: 20px !important;
+    margin-bottom: 1.525rem !important;
+}

@@ -95,9 +95,11 @@ export default function EditReceipt() {
   // var yyyy = today.getFullYear();
 
   // today = mm + '/' + dd + '/' + yyyy;
+  // var todayback = yyyy + '-' + mm + '-' + dd;
+
   const [donor, setDonor] = React.useState({
     receipt_no: "",
-    receipt_date: "",
+    receipt_date: today,
     receipt_old_no: "",
     receipt_exemption_type: "",
     receipt_total_amount: "",

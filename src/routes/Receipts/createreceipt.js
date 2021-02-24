@@ -95,13 +95,15 @@ export default function Createreceipt() {
   var yyyy = today.getFullYear();
 
   today = mm + '/' + dd + '/' + yyyy;
+  var todayback = yyyy + '-' + mm + '-' + dd;
+
   const [donor, setDonor] = React.useState({
     receipt_no: "",
-    receipt_date: "",
+    receipt_date: today,
     receipt_old_no: "",
     receipt_exemption_type: "",
     receipt_total_amount: "",
-    receipt_realization_date: "",
+    receipt_realization_date: yyyy,
     receipt_donation_type: "",
     receipt_tran_pay_mode: "",
     receipt_tran_pay_details: "",
@@ -132,7 +134,7 @@ export default function Createreceipt() {
     let data = {
       indicomp_fts_id: userdata.indicomp_fts_id,
       receipt_no: donor.receipt_no,
-      receipt_date: donor.receipt_date,
+      receipt_date: todayback,
       receipt_old_no: donor.receipt_old_no,
       receipt_exemption_type: donor.receipt_exemption_type,
       receipt_total_amount: donor.receipt_total_amount,

@@ -137,11 +137,13 @@ export default class NewListChapter extends React.Component {
             + Add User
           </Button>
         </Link> */}
+        <div className="donorbtns">
         <Link className="btn btn-outline-light" to="addchapter">
           <Button  className="mr-10 mb-10 btn-get-start" color="danger">
             + Add Chapter
           </Button>
         </Link>
+        </div>
         <RctCollapsibleCard fullBlock>
         {this.state.chaptersData.length > 0 && (
           <MUIDataTable

@@ -282,54 +282,54 @@ export default class UserProfile extends Component {
 						</div>
 						<form noValidate autoComplete="off">
 							<h1 className="ml-20 mt-20">Chapter Details</h1>
-            <div className="row chapterdetailsform">
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <input id="text" className="form-control" fullWidth label="Chapter Name" placeholder="Chapter Name" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <input id="text" className="form-control" fullWidth label="Chapter Website" placeholder="Chapter Website" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <input id="text" className="form-control" fullWidth label="Address" placeholder="Address" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <input id="text" className="form-control" fullWidth label="City" placeholder="City" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <input id="text" className="form-control" fullWidth label="State" placeholder="State" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <input id="number" className="form-control" type="number" fullWidth label="Pincode" placeholder="Pincode" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <input id="number" className="form-control" type="number" fullWidth label="Phone" placeholder="Phone" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <input id="number" className="form-control" type="number" fullWidth label="Whats App" placeholder="Whats App" />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <input id="email" className="form-control" type="email" fullWidth label="Email" placeholder="Email" />
-                </div>
-              </div>
-            </div>
-          </form>
+							<div className="row chapterdetailsform">
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="text" className="form-control" fullWidth label="Chapter Name" placeholder="Chapter Name" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="text" className="form-control" fullWidth label="Chapter Website" placeholder="Chapter Website" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="text" className="form-control" fullWidth label="Address" placeholder="Address" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="text" className="form-control" fullWidth label="City" placeholder="City" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="text" className="form-control" fullWidth label="State" placeholder="State" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="number" className="form-control" type="number" fullWidth label="Pincode" placeholder="Pincode" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="number" className="form-control" type="number" fullWidth label="Phone" placeholder="Phone" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="number" className="form-control" type="number" fullWidth label="Whats App" placeholder="Whats App" />
+									</div>
+								</div>
+								<div className="col-sm-6 col-md-6 col-xl-3">
+									<div className="form-group">
+										<input id="email" className="form-control" type="email" fullWidth label="Email" placeholder="Email" />
+									</div>
+								</div>
+							</div>
+						</form>
 						<table className="table table-middle table-hover mb-0">
 							<thead>
 								<tr>

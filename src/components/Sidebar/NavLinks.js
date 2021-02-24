@@ -73,7 +73,7 @@ export default {
          "child_routes": null
       },
       {
-         "path": "/app/users/app/chapter",
+         "path": "/app/chapter",
          "new_item": false,
          "menu_icon": "zmdi zmdi-account-circle",
          "menu_title": "sidebar.chapter"
