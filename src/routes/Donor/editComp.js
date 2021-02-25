@@ -539,6 +539,10 @@ const EditComp = (props) => {
                   fullWidth
                   label="Mobile Phone"
                   inputProps={{ maxLength: 10 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
+                type="number"
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
                   value={donor.indicomp_mobile_phone}
@@ -552,6 +556,10 @@ const EditComp = (props) => {
                   fullWidth
                   label="Whatsapp"
                   inputProps={{ maxLength: 10 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
+                type="number"
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
                   value={donor.indicomp_mobile_whatsapp}
@@ -565,6 +573,7 @@ const EditComp = (props) => {
                   fullWidth
                   label="Email"
                   autoComplete="Name"
+                  type="email"
                   name="indicomp_email"
                   value={donor.indicomp_email}
                   onChange={(e) => onInputChange(e)}
@@ -664,6 +673,10 @@ const EditComp = (props) => {
                   fullWidth
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                }}
+                type="number"
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
@@ -753,6 +766,10 @@ const EditComp = (props) => {
                   fullWidth
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                }}
+                type="number"
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}

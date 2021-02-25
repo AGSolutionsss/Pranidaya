@@ -213,6 +213,9 @@ if(v){
                   type="number"
                   required
                   inputProps={{ maxLength: 6 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                }}
                   autoComplete="Name"
                   name="chapter_pin"
                   value={chapter.chapter_pin}
@@ -241,6 +244,10 @@ if(v){
                   type="number"
                   required
                   inputProps={{ maxLength: 10 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
+                
                   autoComplete="Name"
                   name="chapter_phone"
                   value={chapter.chapter_phone}
@@ -255,6 +262,9 @@ if(v){
                   label="Whatsapp"
                   type="number"
                   inputProps={{ maxLength: 10 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
                   autoComplete="Name"
                   name="chapter_whatsapp"
                   value={chapter.chapter_whatsapp}

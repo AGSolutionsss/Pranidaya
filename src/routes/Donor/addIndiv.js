@@ -618,11 +618,13 @@ const Add = (props) => {
                   fullWidth
                   label="Mobile Phone"
                   type="number"
-
                   required
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
-                  inputProps={{ maxLength: 10 }}
+                  inputProps={{ maxLength: 10   }}
                   value={donor.indicomp_mobile_phone}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -634,7 +636,9 @@ const Add = (props) => {
                   fullWidth
                   label="Whatsapp"
                   type="number"
-
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
                   inputProps={{ maxLength: 10 }}
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
@@ -648,6 +652,7 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Email"
+                  type="email"
                   autoComplete="Name"
                   name="indicomp_email"
                   value={donor.indicomp_email}
@@ -750,7 +755,9 @@ const Add = (props) => {
                   fullWidth
                   label="Pincode"
                   type="number"
-
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                }}
                   required
                   inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
@@ -844,7 +851,9 @@ const Add = (props) => {
                   fullWidth
                   label="Pincode"
                   type="number"
-
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                }}
                   inputProps={{ maxLength: 6 }}
                   required
                   autoComplete="Name"

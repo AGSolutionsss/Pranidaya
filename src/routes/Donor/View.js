@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
+import { Button } from "reactstrap";
 
 export default function View() {
   const [donor, setDonor] = useState([]);
+  const [donorfam, setDonorfam] = useState([]);
+  const [donation, setDonation] = useState([]);
+  const [membership, setMembership] = useState([]);
+  const [company, setCompany] = useState([]);
+
+
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
@@ -19,7 +26,12 @@ export default function View() {
       },
     }).then((res) => {
       setDonor(res.data.individualCompany);
+      setDonorfam(res.data.family_details);
+      setDonation(res.data.donor_receipts);
+      setMembership(res.data.membership_details);
+      setCompany(res.data.company_details);
       setLoader(false)
+      console.log(res.data)
 
     });
   }, []);
@@ -27,6 +39,7 @@ export default function View() {
     marginTop: "0rem"
   };
 
+  const relId = donor.indicomp_fts_id;
   const label1 = {
     fontSize: "0.875rem",
     fontWeight: "400"
@@ -47,9 +60,14 @@ export default function View() {
         <>
           {donor && (
             <div className="row">
+
               <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-8">
                 <RctCollapsibleCard>
-                  <h1>Personal Details</h1><hr style={hr} />
+                  <div className="flexbox">
+                    <h1>Personal Details</h1>
+                    <h3>Fts Id : {donor.indicomp_fts_id}</h3>
+                  </div>
+                  <hr style={hr} />
                   <div className="row">
                     <div className="col-sm-6 col-md-6 col-xl-3">
                       <div className="form-group">
@@ -174,24 +192,19 @@ export default function View() {
 
                     <tr>
                       <th><p>R.No</p></th>
-                      <th><p>Name</p></th>
+                      <th><p>Fts Id</p></th>
                       <th><p>Date</p></th>
                       <th><p>Amount</p></th>
                     </tr>
-                    <tr>
-                      <td>1234</td>
-                      <td>John Wick</td>
-                      <td>22-5-2020</td>
-                      <td>$200</td>
+                    {donation.map((fam, key) => (
+                      <tr>
+                        <td>{fam.receipt_no}</td>
+                        <td>{fam.indicomp_fts_id}</td>
+                        <td>{fam.receipt_date}</td>
+                        <td>{fam.receipt_total_amount}</td>
 
-                    </tr>
-                    <tr>
-                      <td>1234</td>
-                      <td>John Wick</td>
-                      <td>22-5-2020</td>
-                      <td>$200</td>
-
-                    </tr>
+                      </tr>
+                    ))}
 
                   </table>
                 </RctCollapsibleCard>
@@ -203,7 +216,13 @@ export default function View() {
       <div className="row">
         <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-8">
           <RctCollapsibleCard>
-            <h1>Family Details</h1><hr style={hr} />
+            <div className="flexbox">
+              <h1>Family Details</h1>
+              <Link to={"/app/donor/addindiv?id=" + relId}>
+                <Button className="mr-10 mb-10 btn-get-start" color="danger">+ Add Family Member</Button>
+              </Link>
+            </div>
+            <hr style={hr} />
             <table className="donortable">
 
               <tr>
@@ -212,13 +231,15 @@ export default function View() {
                 <th><p>DOB</p></th>
                 <th><p>Mobile</p></th>
               </tr>
-              <tr>
-                <td>1234</td>
-                <td>John Wick</td>
-                <td>22-5-2020</td>
-                <td>9999999999</td>
+              {donorfam.map((fam, key) => (
+                <tr>
+                  <td>{fam.indicomp_fts_id}</td>
+                  <td>{fam.indicomp_full_name}</td>
+                  <td>{fam.indicomp_dob_annualday}</td>
+                  <td>{fam.indicomp_mobile_phone}</td>
 
-              </tr>
+                </tr>
+              ))}
 
 
             </table>
@@ -234,13 +255,14 @@ export default function View() {
                 <th><p>Date</p></th>
                 <th><p>Amount</p></th>
               </tr>
-              <tr>
-                <td>1234</td>
-                <td>John Wick</td>
-                <td>22-5-2020</td>
-                <td>$200</td>
-
-              </tr>
+              {membership.map((fam, key) => (
+                <tr>
+                  <td>{fam.receipt_no}</td>
+                        <td>{fam.indicomp_fts_id}</td>
+                        <td>{fam.receipt_date}</td>
+                        <td>{fam.receipt_total_amount}</td>
+                </tr>
+              ))}
 
             </table>
           </RctCollapsibleCard>
@@ -249,7 +271,13 @@ export default function View() {
       <div className="row">
         <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-8">
           <RctCollapsibleCard>
-            <h1>Company Details</h1><hr style={hr} />
+            <div className="flexbox">
+              <h1>Company Details</h1>
+              <Link to={"/app/donor/addindiv?id=" + relId}>
+                <Button className="mr-10 mb-10 btn-get-start" color="danger">+ Add Company</Button>
+              </Link>
+            </div>
+            <hr style={hr} />
             <table className="donortable">
 
               <tr>
@@ -258,13 +286,15 @@ export default function View() {
                 <th><p>DOB</p></th>
                 <th><p>Mobile</p></th>
               </tr>
-              <tr>
-                <td>1234</td>
-                <td>John Wick</td>
-                <td>22-5-2020</td>
-                <td>9999999999</td>
+              {company.map((fam, key) => (
+                <tr>
+                  <td>{fam.indicomp_fts_id}</td>
+                  <td>{fam.indicomp_full_name}</td>
+                  <td>{fam.indicomp_dob_annualday}</td>
+                  <td>{fam.indicomp_mobile_phone}</td>
 
-              </tr>
+                </tr>
+              ))}
 
             </table>
           </RctCollapsibleCard>

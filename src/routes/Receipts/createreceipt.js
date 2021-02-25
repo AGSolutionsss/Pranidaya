@@ -96,14 +96,17 @@ export default function Createreceipt() {
 
   today = mm + '/' + dd + '/' + yyyy;
   var todayback = yyyy + '-' + mm + '-' + dd;
-
+var d=document.getElementById("datefield");
+if(d){
+  document.getElementById("datefield").setAttribute("max", todayback);
+}
   const [donor, setDonor] = React.useState({
     receipt_no: "",
     receipt_date: today,
     receipt_old_no: "",
     receipt_exemption_type: "",
     receipt_total_amount: "",
-    receipt_realization_date: yyyy,
+    receipt_realization_date: "",
     receipt_donation_type: "",
     receipt_tran_pay_mode: "",
     receipt_tran_pay_details: "",
@@ -166,7 +169,7 @@ export default function Createreceipt() {
       }).then((res) => {
         console.log("receipt", res.data);
         alert("success");
-        history.push('listing');
+        history.push('/app/receipts');
       });
     }
   };
@@ -193,7 +196,7 @@ export default function Createreceipt() {
           <h4>FTS Id : {userdata.indicomp_fts_id}</h4>
           <h4>Pan No : {pan}</h4>
           <h4>Receipt Date : {donor.receipt_date}</h4>
-          <h4>Year : {yyyy - 1} -{yyyy}</h4>
+          <h4>Year : 2020 - 2021</h4>
 
         </div>
         {donor.receipt_total_amount > 2000 && donor.receipt_exemption_type == "80G" && pan == "NA" ? <span className="amounterror">Max amount allowedwithout Pan card is 2000</span> : ""}
@@ -301,9 +304,10 @@ export default function Createreceipt() {
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
-                  id="full-width"
+                  id="datefield"
                   label="Realization Date"
                   type="date"
+                  max={today}
                   name="receipt_realization_date"
                   value={donor.receipt_realization_date}
                   onChange={(e) => onInputChange(e)}
@@ -314,7 +318,6 @@ export default function Createreceipt() {
                   fullWidth
                 />
               </div>
-              {donor.receipt_realization_date > new Date ? <span class="dateerror">Invalid Date </span> : ""}
 
             </div>
             <div className="col-sm-6 col-md-6 col-xl-6">

@@ -544,6 +544,9 @@ const Add = (props) => {
                   fullWidth
                   label="Mobile Phone"
                   inputProps={{ maxLength: 10 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
                   type="number"
                   required
                   autoComplete="Name"
@@ -560,6 +563,9 @@ const Add = (props) => {
                   label="Whatsapp"
                   type="number"
                   inputProps={{ maxLength: 10 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
+                }}
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
                   value={donor.indicomp_mobile_whatsapp}
@@ -573,6 +579,7 @@ const Add = (props) => {
                   fullWidth
                   label="Email"
                   autoComplete="Name"
+                  type="email"
                   name="indicomp_email"
                   value={donor.indicomp_email}
                   onChange={(e) => onInputChange(e)}
@@ -675,6 +682,9 @@ const Add = (props) => {
                   label="Pincode"
                   type="number"
                   inputProps={{ maxLength: 6 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                }}
                   required
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
@@ -768,6 +778,9 @@ const Add = (props) => {
                   type="number"
 
                   inputProps={{ maxLength: 6 }}
+                  onInput = {(e) =>{
+                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
+                }}
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}

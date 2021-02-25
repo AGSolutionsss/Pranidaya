@@ -88,3 +88,7 @@ input[type="date"] {
     font-size: 20px !important;
     margin-bottom: 1.525rem !important;
 }
+.flexbox{
+    display: flex;
+    justify-content: space-between;
+}
