@@ -242,6 +242,7 @@ const EditIndiv = (props) => {
       },
     }).then((res) => {
       setDonors(res.data.individualCompanies);
+      console.log(donor);
     });
   };
 
