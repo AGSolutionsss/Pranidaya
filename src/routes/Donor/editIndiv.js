@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from "@material-ui/core/MenuItem";
 import { Button } from "reactstrap";
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
@@ -18,175 +18,168 @@ import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { SelectionState } from "draft-js";
-import {
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-
-} from 'reactstrap';
-     
 const honorific = [
   {
-    value: 'Shri',
-    label: 'Shri',
+    value: "Shri",
+    label: "Shri",
   },
   {
-    value: 'Smt.',
-    label: 'Smt.',
+    value: "Smt.",
+    label: "Smt.",
   },
   {
-    value: 'Kum',
-    label: 'Kum',
+    value: "Kum",
+    label: "Kum",
   },
   {
-    value: 'Dr.',
-    label: 'Dr.',
+    value: "Dr.",
+    label: "Dr.",
   },
 ];
 
 const gender = [
   {
-    value: 'Male',
-    label: 'Male',
+    value: "Male",
+    label: "Male",
   },
   {
-    value: 'Female',
-    label: 'Female',
+    value: "Female",
+    label: "Female",
   },
 ];
 
 const corr_preffer = [
   {
-    value: 'Registered',
-    label: 'Registered',
+    value: "Registered",
+    label: "Registered",
   },
   {
-    value: 'Branch Office',
-    label: 'Branch Office',
+    value: "Branch Office",
+    label: "Branch Office",
   },
   {
-    value: 'Digital',
-    label: 'Digital',
+    value: "Digital",
+    label: "Digital",
   },
 ];
 
 const donor_type = [
   {
-    value: 'Member',
-    lablel: 'Member',
+    value: "Member",
+    lablel: "Member",
   },
   {
-    value: 'Donor',
-    label: 'Donor',
+    value: "Donor",
+    label: "Donor",
   },
   {
-    value: 'Member+Donor',
-    label: 'Member+Donor',
+    value: "Member+Donor",
+    label: "Member+Donor",
   },
   {
-    value: 'None',
-    label: 'None',
+    value: "None",
+    label: "None",
   },
 ];
 
 const source = [
   {
-    value: 'Ekal Run',
-    label: 'Ekal Run',
+    value: "Ekal Run",
+    label: "Ekal Run",
   },
   {
-    value: 'Sakranti',
-    label: 'Sakranti',
+    value: "Sakranti",
+    label: "Sakranti",
   },
 ];
 
 const belongs_to = [
   {
-    value: 'Chapter',
-    label: 'Chapter',
+    value: "Chapter",
+    label: "Chapter",
   },
   {
-    value: 'Mahila',
-    label: 'Mahila',
+    value: "Mahila",
+    label: "Mahila",
   },
   {
-    value: 'Yuva',
-    label: 'Yuva',
+    value: "Yuva",
+    label: "Yuva",
   },
 ];
 
 const company_type = [
   {
-    value: 'Private',
-    label: 'Private',
+    value: "Private",
+    label: "Private",
   },
   {
-    value: 'Public',
-    label: 'Public',
+    value: "Public",
+    label: "Public",
   },
   {
-    value: 'Public',
-    label: 'Public',
+    value: "Public",
+    label: "Public",
   },
   {
-    value: 'Trust',
-    label: 'Trust',
+    value: "Trust",
+    label: "Trust",
   },
   {
-    value: 'Society',
-    label: 'Society',
+    value: "Society",
+    label: "Society",
   },
   {
-    value: 'Others',
-    label: 'Others',
+    value: "Others",
+    label: "Others",
   },
 ];
 
 const csr = [
   {
-    value: '0',
-    label: 'No',
+    value: "0",
+    label: "No",
   },
   {
-    value: '1',
-    label: 'Yes',
+    value: "1",
+    label: "Yes",
   },
 ];
 const corrpreffer = [
   {
-    value: 'Registered',
-    label: 'Registered',
+    value: "Registered",
+    label: "Registered",
   },
   {
-    value: 'Branch Office',
-    label: 'Branch Office',
+    value: "Branch Office",
+    label: "Branch Office",
   },
   {
-    value: 'Digital',
-    label: 'Digital',
+    value: "Digital",
+    label: "Digital",
   },
 ];
 
 const state = [
   {
-    value: 'Karnataka',
-    label: 'Karnataka',
+    value: "Karnataka",
+    label: "Karnataka",
   },
   {
-    value: 'Kerala',
-    label: 'Kerala',
+    value: "Kerala",
+    label: "Kerala",
   },
 ];
- 
+
 const columns = ["Name", "Company", "City", "State"];
 
 const tabledata = [
- ["Joe James", "Test Corp", "Yonkers", "NY"],
- ["John Walsh", "Test Corp", "Hartford", "CT"],
- ["Bob Herm", "Test Corp", "Tampa", "FL"],
- ["James Houston", "Test Corp", "Dallas", "TX"],
+  ["Joe James", "Test Corp", "Yonkers", "NY"],
+  ["John Walsh", "Test Corp", "Hartford", "CT"],
+  ["Bob Herm", "Test Corp", "Tampa", "FL"],
+  ["James Houston", "Test Corp", "Dallas", "TX"],
 ];
 
 const EditIndiv = (props) => {
@@ -226,15 +219,29 @@ const EditIndiv = (props) => {
     indicomp_corr_preffer: "",
   });
 
+  const [donors, setDonors] = useState([]);
+  const [family_related_id, setFamilyRelatedId] = useState("");
+
   // var url = new URL(window.location.href);
   // var id = url.searchParams.get("id");
-  var id = props.id
+  var id = props.id;
 
   // const { personName, userName, mobile, email } = user;
   const onInputChange = (e) => {
     setDonor({
       ...donor,
       [e.target.name]: e.target.value,
+    });
+  };
+  const fetchDonors = () => {
+    axios({
+      url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("login")}`,
+      },
+    }).then((res) => {
+      setDonors(res.data.individualCompanies);
     });
   };
 
@@ -246,8 +253,8 @@ const EditIndiv = (props) => {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      console.log("editdon", res.data)
       setDonor(res.data.individualCompany);
+      fetchDonors();
     });
   }, []);
 
@@ -286,7 +293,6 @@ const EditIndiv = (props) => {
       indicomp_corr_preffer: donor.indicomp_corr_preffer,
       indicomp_belongs_to: donor.indicomp_belongs_to,
       indicomp_donor_type: donor.indicomp_donor_type,
-
     };
     axios({
       url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
@@ -297,21 +303,50 @@ const EditIndiv = (props) => {
       },
     }).then((res) => {
       console.log("editdonor", res.data);
+      setDonor(res.data.individualCompany);
       //alert("success");
-      history.push('listing');
+      history.push("listing");
     });
   };
 
   const hr = {
-    marginTop: "0rem"
+    marginTop: "0rem",
   };
   const [showmodal, setShowmodal] = useState(false);
   const closegroupModal = () => {
-    setShowmodal(false)
-  }
+    setShowmodal(false);
+  };
   const openmodal = () => {
-    setShowmodal(true)
-  }
+    setShowmodal(true);
+  };
+
+  const familyGroupStatus = (status) => {
+    var data = {};
+
+    if (status == "add_to_family_group") {
+      data = {
+        indicomp_related_id: family_related_id,
+      };
+    } else {
+      data = {
+        leave_family_group: true,
+      };
+    }
+
+    axios({
+      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
+      method: "PUT",
+      data,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("login")}`,
+      },
+    }).then((res) => {
+      alert("success");
+      setDonor(res.data.individualCompany);
+      //alert("success");
+      setShowmodal(false);
+    });
+  };
   return (
     <div className="textfields-wrapper">
       <PageTitleBar title="Update Individual Donor" />
@@ -322,18 +357,20 @@ const EditIndiv = (props) => {
           <div className="row">
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="Title"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="Title"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your Title"
                   name="title"
                   value={donor.title}
                   onChange={(e) => onInputChange(e)}
-                  fullWidth>
-                  {honorific.map(option => (
-
+                  fullWidth
+                >
+                  {honorific.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -379,19 +416,20 @@ const EditIndiv = (props) => {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="Gender"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="Gender"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   name="indicomp_gender"
                   value={donor.indicomp_gender}
                   onChange={(e) => onInputChange(e)}
                   helperText="Please select your Gender"
-
-                  fullWidth>
-                  {gender.map(option => (
-
+                  fullWidth
+                >
+                  {gender.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -488,17 +526,20 @@ const EditIndiv = (props) => {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="Belongs To"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="Belongs To"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your Belongs To"
                   name="indicomp_belongs_to"
                   value={donor.indicomp_belongs_to}
                   onChange={(e) => onInputChange(e)}
-                  fullWidth>
-                  {belongs_to.map(option => (
+                  fullWidth
+                >
+                  {belongs_to.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -508,17 +549,20 @@ const EditIndiv = (props) => {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="Source"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="Source"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your Source"
                   name="indicomp_source"
                   value={donor.indicomp_source}
                   onChange={(e) => onInputChange(e)}
-                  fullWidth>
-                  {source.map(option => (
+                  fullWidth
+                >
+                  {source.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -528,17 +572,20 @@ const EditIndiv = (props) => {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="Donor Type"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="Donor Type"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your Donor Type"
                   name="indicomp_donor_type"
                   value={donor.indicomp_donor_type}
                   onChange={(e) => onInputChange(e)}
-                  fullWidth>
-                  {donor_type.map(option => (
+                  fullWidth
+                >
+                  {donor_type.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -568,10 +615,12 @@ const EditIndiv = (props) => {
                   fullWidth
                   label="Mobile Phone"
                   inputProps={{ maxLength: 10 }}
-                  onInput = {(e) =>{
-                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
-                }}
-                type="number"
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 10);
+                  }}
+                  type="number"
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
                   value={donor.indicomp_mobile_phone}
@@ -585,10 +634,12 @@ const EditIndiv = (props) => {
                   fullWidth
                   label="Whatsapp"
                   inputProps={{ maxLength: 10 }}
-                  onInput = {(e) =>{
-                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10)
-                }}
-                type="number"
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 10);
+                  }}
+                  type="number"
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
                   value={donor.indicomp_mobile_whatsapp}
@@ -633,7 +684,6 @@ const EditIndiv = (props) => {
                   name="indicomp_res_reg_address"
                   value={donor.indicomp_res_reg_address}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
@@ -646,7 +696,6 @@ const EditIndiv = (props) => {
                   name="indicomp_res_reg_area"
                   value={donor.indicomp_res_reg_area}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
@@ -659,7 +708,6 @@ const EditIndiv = (props) => {
                   name="indicomp_res_reg_ladmark"
                   value={donor.indicomp_res_reg_ladmark}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
@@ -672,23 +720,25 @@ const EditIndiv = (props) => {
                   name="indicomp_res_reg_city"
                   value={donor.indicomp_res_reg_city}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="State"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="State"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your State"
                   name="indicomp_res_reg_state"
                   value={donor.indicomp_res_reg_state}
                   onChange={(e) => onInputChange(e)}
-                  fullWidth>
-                  {state.map(option => (
+                  fullWidth
+                >
+                  {state.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -702,15 +752,16 @@ const EditIndiv = (props) => {
                   fullWidth
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
-                  onInput = {(e) =>{
-                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
-                }}
-                type="number"
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 6);
+                  }}
+                  type="number"
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
@@ -726,7 +777,6 @@ const EditIndiv = (props) => {
                   name="indicomp_off_branch_address"
                   value={donor.indicomp_off_branch_address}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
@@ -739,7 +789,6 @@ const EditIndiv = (props) => {
                   name="indicomp_off_branch_area"
                   value={donor.indicomp_off_branch_area}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
@@ -752,7 +801,6 @@ const EditIndiv = (props) => {
                   name="indicomp_off_branch_ladmark"
                   value={donor.indicomp_off_branch_ladmark}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
@@ -765,23 +813,25 @@ const EditIndiv = (props) => {
                   name="indicomp_off_branch_city"
                   value={donor.indicomp_off_branch_city}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="State"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="State"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your State"
                   name="indicomp_off_branch_state"
                   value={donor.indicomp_off_branch_state}
                   onChange={(e) => onInputChange(e)}
-                  fullWidth>
-                  {state.map(option => (
+                  fullWidth
+                >
+                  {state.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -795,31 +845,35 @@ const EditIndiv = (props) => {
                   fullWidth
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
-                  onInput = {(e) =>{
-                    e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
-                }}
-                type="number"
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 6);
+                  }}
+                  type="number"
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}
                   onChange={(e) => onInputChange(e)}
-
                 />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-corrpreffer" select label="Correspondence Preference"
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  label="Correspondence Preference"
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your Correspondence Preference"
                   name="indicomp_corr_preffer"
                   value={donor.indicomp_corr_preffer}
                   onChange={(e) => onInputChange(e)}
-                  fullWidth>
-                  {corrpreffer.map(option => (
+                  fullWidth
+                >
+                  {corrpreffer.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
@@ -827,61 +881,104 @@ const EditIndiv = (props) => {
                 </TextField>
               </div>
             </div>
-
           </div>
           <div className="receiptbuttons">
-            <Button className="mr-10 mb-10" color="primary" onClick={() => onSubmit()}>Submit</Button>
-            <Button className="mr-10 mb-10" color="danger">Cancel</Button>
-           {donor.indicomp_related_id == donor.indicomp_fts_id ? <Button onClick={() => openmodal()} className="mr-10 mb-10" color="success">Attach to Group</Button> : <Button disabled onClick={() => openmodal()} className="mr-10 mb-10" >Attach to Group</Button>  }
-           {donor.indicomp_related_id == donor.indicomp_fts_id ? <Button disabled className="mr-10 mb-10" >Leave Group</Button> : <Button className="mr-10 mb-10" color="info">Leave Group</Button> }
-          
-            
+            <Button
+              className="mr-10 mb-10"
+              color="primary"
+              onClick={() => onSubmit()}
+            >
+              Submit
+            </Button>
+            <Button className="mr-10 mb-10" color="danger">
+              Cancel
+            </Button>
+            {donor.indicomp_related_id == donor.indicomp_fts_id ? (
+              <Button
+                onClick={() => openmodal()}
+                className="mr-10 mb-10"
+                color="success"
+              >
+                Attach to Group
+              </Button>
+            ) : (
+              <Button
+                disabled
+                onClick={() => openmodal()}
+                className="mr-10 mb-10"
+              >
+                Attach to Group
+              </Button>
+            )}
+            {donor.indicomp_related_id == donor.indicomp_fts_id ? (
+              <Button disabled className="mr-10 mb-10">
+                Leave Group
+              </Button>
+            ) : (
+              <Button
+                className="mr-10 mb-10"
+                color="info"
+                onClick={() => familyGroupStatus("leave_family_group")}
+              >
+                Leave Group
+              </Button>
+            )}
           </div>
           <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
       <Modal isOpen={showmodal} toggle={() => closegroupModal()}>
-        <ModalHeader toggle={() => closegroupModal()}>
-          Add to Group
-					</ModalHeader>
+        <ModalHeader toggle={() => closegroupModal()}>Add to Group</ModalHeader>
         <ModalBody>
           <table className="donortable">
-
             <tr>
-              <th><p>FTS</p></th>
-              <th><p>Name</p></th>
-              <th><p>Phone No</p></th>
-              <th><p>Action</p></th>
+              <th>
+                <p>FTS</p>
+              </th>
+              <th>
+                <p>Name</p>
+              </th>
+              <th>
+                <p>Phone No</p>
+              </th>
+              <th>
+                <p>Action</p>
+              </th>
             </tr>
+            {donors &&
+              donors.map((member, key) => (
+                <tr>
+                  <td>{key + 1}</td>
+                  <td>{member.indicomp_full_name}</td>
+                  <td>{member.indicomp_mobile_phone}</td>
+                  <td>
+                    <Button
+                      className="mr-10 mb-10"
+                      color="primary"
+                      onClick={() => {
+                        setFamilyRelatedId(member.indicomp_related_id);
+                        familyGroupStatus("add_to_family_group");
+                      }}
+                    >
+                      Add
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+
             <tr>
               <td>1234</td>
               <td>John Wick</td>
               <td>9999999999</td>
               <td>
-                <Button className="mr-10 mb-10" color="primary" >Add</Button>
+                <Button className="mr-10 mb-10" color="primary">
+                  Add
+                </Button>
               </td>
-
             </tr>
-            <tr>
-              <td>1234</td>
-              <td>John Wick</td>
-              <td>9999999999</td>
-              <td>
-                <Button className="mr-10 mb-10" color="primary" >Add</Button>
-              </td>
-
-            </tr>
-
           </table>
-         {/* <MUIDataTable
-						title={"Receipts List"}
-						data={ tabledata }
-						columns={ columns }
-						// options={ option }
-					/> */}
         </ModalBody>
-        <ModalFooter>
-        </ModalFooter>
+        <ModalFooter></ModalFooter>
       </Modal>
     </div>
   );
