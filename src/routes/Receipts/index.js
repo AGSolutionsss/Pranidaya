@@ -20,15 +20,14 @@ import {
 
 const NewListDonor = ({ match }) => (
   <div className="dashboard-wrapper">
-   <Helmet>
-			<title>FTS | Donor</title>
-			<meta name="description" content="FTS Donor" />
-		</Helmet>
+    <Helmet>
+      <title>FTS | Donor</title>
+      <meta name="description" content="FTS Donor" />
+    </Helmet>
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}/listing`} />
       <Route path={`${match.url}/listing`} component={Listing} />
       <Route path={`${match.url}/editreceipt`} component={Edit} />
-
     </Switch>
   </div>
 );

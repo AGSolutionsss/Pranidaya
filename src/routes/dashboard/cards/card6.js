@@ -10,14 +10,14 @@ import IntlMessages from "Util/IntlMessages";
 // rct card box
 import { RctCardContent } from "Components/RctCard";
 
-const TotalOrderStats = (props) => (
+const Card6 = (props) => (
   <div className="current-widget bg-primary">
     <RctCardContent>
       <div className="d-flex justify-content-between">
         <div className="align-items-start">
-          <h3 className="cardHead">Total Donation</h3>
+          <h3 className="cardHead">OTS Donations</h3>
           <h2 className="mb-0">
-            <CountUp start={0} end={props.totalDonation} />
+            <CountUp start={0} end={props.totalOtsDonation} />
           </h2>
         </div>
         <div className="align-items-end">
@@ -28,4 +28,4 @@ const TotalOrderStats = (props) => (
   </div>
 );
 
-export default TotalOrderStats;
+export default Card6;

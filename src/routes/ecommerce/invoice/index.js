@@ -1,7 +1,8 @@
 /**
  * Invoice
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import ReactToPrint from "react-to-print";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
 
@@ -85,6 +86,7 @@ const label1 = {
 };
 
 export default function Invoice(props) {
+  const componentRef = useRef();
   const [receipts, setReceipts] = useState({});
 
   const amountInWords = numWords(receipts.receipt_total_amount);
@@ -103,197 +105,206 @@ export default function Invoice(props) {
     });
   }, []);
   return (
-    <div className="invoice-wrapper">
-      <PageTitleBar
-        title={<IntlMessages id="sidebar.invoice" />}
-        match={props.match}
-      />
-      <div className="row">
-        <div className="col-sm-12 col-md-12 col-xl-10 mx-auto">
-          <RctCard>
-            <div className="invoice-head text-right">
-              <ul className="list-inline">
-                <li>
-                  <a href="#">
-                    <i className="mr-10 ti-download"></i> Download
-                  </a>
-                </li>
-                <li>
-                  <a href="mailto: tongra1@gmail.com">
-                    <i className="mr-10 ti-email"></i> Email
-                  </a>
-                </li>
-                <li>
-                  <a href="#" onClick={(e) => window.print()}>
-                    <i className="mr-10 ti-printer"></i> Print
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="p-50">
-              <div className="d-flex justify-content-between">
-                <div className="invoice-logo ">
-                  <img
-                    src={require("Assets/receipt/fts.png")}
-                    alt="session-logo"
-                    className="img-fluid"
-                    width="100"
-                    height="40"
-                  />
+    <div>
+      <div className="invoice-wrapper">
+        <PageTitleBar
+          title={<IntlMessages id="sidebar.invoice" />}
+          match={props.match}
+        />
+        <div className="row">
+          <div className="col-sm-12 col-md-12 col-xl-10 mx-auto">
+            <RctCard>
+              <div className="invoice-head text-right">
+                <ul className="list-inline">
+                  <li>
+                    <a href="#">
+                      <i className="mr-10 ti-download"></i> Download
+                    </a>
+                  </li>
+                  <li>
+                    <a href="mailto: tongra1@gmail.com">
+                      <i className="mr-10 ti-email"></i> Email
+                    </a>
+                  </li>
+                  <li>
+                    <ReactToPrint
+                      trigger={() => (
+                        <a href="#">
+                          <i className="mr-10 ti-printer"></i> Print
+                        </a>
+                      )}
+                      content={() => componentRef.current}
+                    />
+                  </li>
+                </ul>
+              </div>
+              <div className="p-50" ref={componentRef}>
+                <div className="d-flex justify-content-between">
+                  <div className="invoice-logo ">
+                    <img
+                      src={require("Assets/receipt/fts.png")}
+                      alt="session-logo"
+                      className="img-fluid"
+                      width="100"
+                      height="40"
+                    />
+                  </div>
+                  <div className="address text-center">
+                    <h1>
+                      <strong>
+                        <b>वनबंधु परिषद </b>
+                      </strong>
+                    </h1>
+                    <h1>
+                      <strong>
+                        <b>FRIENDS OF TRIBALS SOCIETY</b>
+                      </strong>
+                    </h1>
+                    <h2>
+                      <strong>
+                        <b>Chapter Name</b>
+                      </strong>
+                    </h2>
+                    <label>
+                      Chapter Address, Chapter City - Chapter pincode, Chapter
+                      State
+                    </label>{" "}
+                    <br />
+                    <label>
+                      Email: Chapter Email | Chapter Website | Ph : Chapter
+                      Phone | Mob : Chapter What's App
+                    </label>
+                    <br />
+                  </div>
+                  <div className="invoice-logo mb-30 text-right">
+                    <img
+                      src={require("Assets/receipt/ekal.png")}
+                      alt="session-logo"
+                      className="img-fluid"
+                      width="100"
+                      height="40"
+                    />
+                  </div>
                 </div>
-                <div className="address text-center">
-                  <h1>
-                    <strong>
-                      <b>वनबंधु परिषद </b>
-                    </strong>
-                  </h1>
-                  <h1>
-                    <strong>
-                      <b>FRIENDS OF TRIBALS SOCIETY</b>
-                    </strong>
-                  </h1>
-                  <h2>
-                    <strong>
-                      <b>Chapter Name</b>
-                    </strong>
-                  </h2>
+                <div className="text-center mb-30">
                   <label>
-                    Chapter Address, Chapter City - Chapter pincode, Chapter
-                    State
-                  </label>{" "}
-                  <br />
-                  <label>
-                    Email: Chapter Email | Chapter Website | Ph : Chapter Phone
-                    | Mob : Chapter What's App
+                    <small>
+                      Head Office: Ekal Bhawan, 123/A, Harish Mukherjee Road,
+                      Kolkata-26. Web: www.ftsindia.com Ph: 033 - 2454
+                      4510/11/12/13 PAN: AAAAF0290L
+                    </small>
                   </label>
                   <br />
                 </div>
-                <div className="invoice-logo mb-30 text-right">
-                  <img
-                    src={require("Assets/receipt/ekal.png")}
-                    alt="session-logo"
-                    className="img-fluid"
-                    width="100"
-                    height="40"
-                  />
-                </div>
-              </div>
-              <div className="text-center mb-30">
-                <label>
-                  <small>
-                    Head Office: Ekal Bhawan, 123/A, Harish Mukherjee Road,
-                    Kolkata-26. Web: www.ftsindia.com Ph: 033 - 2454
-                    4510/11/12/13 PAN: AAAAF0290L
-                  </small>
-                </label>
-                <br />
-              </div>
 
-              <div className="table-responsive mb-40">
-                <table className="table table-borderless">
-                  <tbody>
-                    <tr>
-                      <td style={td_top}>Received with thanks from :</td>
-                      <td style={td_top_mid}>Receipt No.</td>
-                      <td style={td_top_right}>:</td>
-                      <td style={td_top_right1}>
-                        <label style={label}>
-                          <b>{receipts.receipt_no}</b>
-                        </label>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style={td_top1} rowspan="2">
-                        <label style={label}>
-                          {Object.keys(receipts).length != 0 && (
-                            <div>
-                              <p>
-                                {receipts.individual_company.indicomp_full_name}
-                              </p>
-                              {receipts.individual_company.hasOwnProperty(
-                                "indicomp_off_branch_address"
-                              ) && (
-                                <div>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_off_branch_address
-                                    }
-                                  </p>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_off_branch_area
-                                    }
-                                  </p>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_off_branch_ladmark
-                                    }
-                                  </p>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_off_branch_city
-                                    }
-                                    -{" "}
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_off_branch_pin_code
-                                    }
-                                    ,
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_off_branch_state
-                                    }
-                                  </p>
-                                </div>
-                              )}
-                              {receipts.individual_company.hasOwnProperty(
-                                "indicomp_res_reg_address"
-                              ) && (
-                                <div>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_res_reg_address
-                                    }
-                                  </p>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_res_reg_area
-                                    }
-                                  </p>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_res_reg_ladmark
-                                    }
-                                  </p>
-                                  <p>
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_res_reg_city
-                                    }
-                                    -{" "}
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_res_reg_pin_code
-                                    }
-                                    ,
-                                    {
-                                      receipts.individual_company
-                                        .indicomp_res_reg_state
-                                    }
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </label>
-                        {/* <br />
+                <div className="table-responsive mb-40">
+                  <table className="table table-borderless">
+                    <tbody>
+                      <tr>
+                        <td style={td_top}>Received with thanks from :</td>
+                        <td style={td_top_mid}>Receipt No.</td>
+                        <td style={td_top_right}>:</td>
+                        <td style={td_top_right1}>
+                          <label style={label}>
+                            <b>{receipts.receipt_no}</b>
+                          </label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={td_top1} rowspan="2">
+                          <label style={label}>
+                            {Object.keys(receipts).length != 0 && (
+                              <div>
+                                <p>
+                                  {
+                                    receipts.individual_company
+                                      .indicomp_full_name
+                                  }
+                                </p>
+                                {receipts.individual_company.hasOwnProperty(
+                                  "indicomp_off_branch_address"
+                                ) && (
+                                  <div>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_off_branch_address
+                                      }
+                                    </p>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_off_branch_area
+                                      }
+                                    </p>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_off_branch_ladmark
+                                      }
+                                    </p>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_off_branch_city
+                                      }
+                                      -{" "}
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_off_branch_pin_code
+                                      }
+                                      ,
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_off_branch_state
+                                      }
+                                    </p>
+                                  </div>
+                                )}
+                                {receipts.individual_company.hasOwnProperty(
+                                  "indicomp_res_reg_address"
+                                ) && (
+                                  <div>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_res_reg_address
+                                      }
+                                    </p>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_res_reg_area
+                                      }
+                                    </p>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_res_reg_ladmark
+                                      }
+                                    </p>
+                                    <p>
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_res_reg_city
+                                      }
+                                      -{" "}
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_res_reg_pin_code
+                                      }
+                                      ,
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_res_reg_state
+                                      }
+                                    </p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </label>
+                          {/* <br />
                         <label style={label}>
                           Flat No.4102, Prestige Wellington Park ,
                         </label>
@@ -302,96 +313,101 @@ export default function Invoice(props) {
                           Gangamma Circle, Jalahalli , Bangalore - 560013 ,
                           Karnataka .
                         </label> */}
-                      </td>
-                      <td style={td_top_mid1}> Date</td>
-                      <td style={td_top_right}>:</td>
-                      <td style={td_top_right1}>
-                        <label style={label}>
-                          <b>{receipts.receipt_realization_date}</b>
-                        </label>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style={td_top_mid}>On account of</td>
-                      <td style={td_top_right}>:</td>
-                      <td style={td_top_right1}>
-                        <label style={label}>
-                          <b>{receipts.receipt_donation_type}</b>
-                        </label>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style={td_left}>
-                        PAN No :{" "}
-                        <label style={label}>
-                          <b>
-                            {Object.keys(receipts).length != 0 && (
-                              <div>
-                                <p>
-                                  {receipts.individual_company.indicomp_pan_no}
-                                </p>
-                              </div>
-                            )}
-                          </b>
-                        </label>
-                      </td>
-                      <td style={td_top_mid}> Pay Mode</td>
-                      <td style={td_top_right}>:</td>
-                      <td style={td_top_right1}>
-                        <label style={label}>
-                          <b>{receipts.receipt_tran_pay_mode}</b>
-                        </label>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style={td_left}>
-                        Amount in words :{" "}
-                        <label style={label}>
-                          <b>{amountInWords}</b>
-                        </label>
-                      </td>
-                      <td style={td_top_mid}>Amount</td>
-                      <td style={td_top_right}>:</td>
-                      <td style={td_top_right1}>
-                        Rs.{" "}
-                        <label style={label}>
-                          <b>{receipts.receipt_total_amount}</b>
-                        </label>{" "}
-                        /-
-                        <br />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td style={td_left} colspan="4">
-                        Reference :{" "}
-                        <label style={label}>
-                          <b>{receipts.receipt_tran_pay_details}</b>
-                        </label>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="note-wrapper row">
-                <div className="invoice-note col-sm-12 col-md-8">
-                  <p className="fs-14">
-                    This receipt is valid only after realisation of the payment.
-                    <br />
-                    This donation is eligible for deduction U/S 80(G) of the
-                    <br />
-                    Income Tax Act 1961 vide order NO: DIT(E)/3260/8E/73/89-90
-                    Dt. 13-12-2011.
-                  </p>
+                        </td>
+                        <td style={td_top_mid1}> Date</td>
+                        <td style={td_top_right}>:</td>
+                        <td style={td_top_right1}>
+                          <label style={label}>
+                            <b>{receipts.receipt_realization_date}</b>
+                          </label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={td_top_mid}>On account of</td>
+                        <td style={td_top_right}>:</td>
+                        <td style={td_top_right1}>
+                          <label style={label}>
+                            <b>{receipts.receipt_donation_type}</b>
+                          </label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={td_left}>
+                          PAN No :{" "}
+                          <label style={label}>
+                            <b>
+                              {Object.keys(receipts).length != 0 && (
+                                <div>
+                                  <p>
+                                    {
+                                      receipts.individual_company
+                                        .indicomp_pan_no
+                                    }
+                                  </p>
+                                </div>
+                              )}
+                            </b>
+                          </label>
+                        </td>
+                        <td style={td_top_mid}> Pay Mode</td>
+                        <td style={td_top_right}>:</td>
+                        <td style={td_top_right1}>
+                          <label style={label}>
+                            <b>{receipts.receipt_tran_pay_mode}</b>
+                          </label>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={td_left}>
+                          Amount in words :{" "}
+                          <label style={label}>
+                            <b>{amountInWords}</b>
+                          </label>
+                        </td>
+                        <td style={td_top_mid}>Amount</td>
+                        <td style={td_top_right}>:</td>
+                        <td style={td_top_right1}>
+                          Rs.{" "}
+                          <label style={label}>
+                            <b>{receipts.receipt_total_amount}</b>
+                          </label>{" "}
+                          /-
+                          <br />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style={td_left} colspan="4">
+                          Reference :{" "}
+                          <label style={label}>
+                            <b>{receipts.receipt_tran_pay_details}</b>
+                          </label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                <div className="totle-amount col-sm-12 col-md-4 text-right">
-                  <h4>For Friends of Tribals Society</h4>
-                  <br />
-                  <br />
-                  <h4>Secretary / Treasurer</h4>
+                <div className="note-wrapper row">
+                  <div className="invoice-note col-sm-12 col-md-8">
+                    <p className="fs-14">
+                      This receipt is valid only after realisation of the
+                      payment.
+                      <br />
+                      This donation is eligible for deduction U/S 80(G) of the
+                      <br />
+                      Income Tax Act 1961 vide order NO: DIT(E)/3260/8E/73/89-90
+                      Dt. 13-12-2011.
+                    </p>
+                  </div>
+                  <div className="totle-amount col-sm-12 col-md-4 text-right">
+                    <h4>For Friends of Tribals Society</h4>
+                    <br />
+                    <br />
+                    <h4>Secretary / Treasurer</h4>
+                  </div>
                 </div>
               </div>
-            </div>
-          </RctCard>
+            </RctCard>
+          </div>
         </div>
       </div>
     </div>
