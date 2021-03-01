@@ -8,9 +8,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { Button } from "reactstrap";
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
+import InputMask from "react-input-mask";
 
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
+import states from "../states";
 
 const company_type = [
   {
@@ -200,6 +202,10 @@ const Add = (props) => {
     });
   };
 
+  const onChangePanNumber = (e) => {
+    setDonor({ ...donor, indicomp_pan_no: e.target.value });
+  };
+
   const validate = () => {
     var txtPANCard = document.getElementById("txtPANCard2");
     var lblPANCard = document.getElementById("lblPANCard2");
@@ -272,10 +278,10 @@ const Add = (props) => {
 
     var v = document.getElementById("addComp").checkValidity();
     var v = document.getElementById("addComp").reportValidity();
-    const val = validate();
+    // const val = validate();
     e.preventDefault();
 
-    if (val && v) {
+    if (v) {
       axios({
         url: "https://ftschamp.trikaradev.xyz/api/create-donor",
         method: "POST",
@@ -404,21 +410,17 @@ const Add = (props) => {
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Company PAN Number"
-                  id="txtPANCard2"
-                  autoComplete="Name"
-                  name="indicomp_pan_no"
-                  value={donor.indicomp_pan_no}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-
-              <span id="lblPANCard2" class="error">
-                Invalid PAN Number
-              </span>
+              <InputMask
+                mask="aaaaa 9999 a"
+                formatChars={{
+                  9: "[0-9]",
+                  a: "[A-Z]",
+                }}
+                value={donor.indicomp_pan_no}
+                onChange={(e) => onChangePanNumber(e)}
+              >
+                {() => <TextField label="PAN Number" />}
+              </InputMask>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
@@ -687,9 +689,9 @@ const Add = (props) => {
                   onChange={(e) => onInputChange(e)}
                   fullWidth
                 >
-                  {state.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  {states.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -781,9 +783,9 @@ const Add = (props) => {
                   onChange={(e) => onInputChange(e)}
                   fullWidth
                 >
-                  {state.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  {states.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
                     </MenuItem>
                   ))}
                 </TextField>

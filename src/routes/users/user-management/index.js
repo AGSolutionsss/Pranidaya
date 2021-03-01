@@ -236,7 +236,7 @@ const Index = (props) => {
               <div className="form-group">
                 <TextField
                   fullWidth
-                  label="Person Name"
+                  label="Chapter Name"
                   autoComplete="Person Name"
                   name="chapter_name"
                   required
@@ -245,7 +245,7 @@ const Index = (props) => {
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            {/* <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -257,7 +257,7 @@ const Index = (props) => {
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-            </div>
+            </div> */}
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
@@ -371,6 +371,7 @@ const Index = (props) => {
                 <TextField
                   fullWidth
                   label="Date Of Incorporation"
+                  type="date"
                   autoComplete="Name"
                   name="chapter_date_of_incorporation"
                   value={chapter.chapter_date_of_incorporation}
@@ -398,7 +399,7 @@ const Index = (props) => {
               style={{ width: "100%" }}
               onClick={(e) => onSubmit(e)}
             >
-              Submit
+              Update
             </Button>
           </div>
         </form>

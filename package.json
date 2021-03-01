@@ -109,6 +109,7 @@
 		"react-dropzone-component": "^3.2.0",
 		"react-helmet": "^6.0.0",
 		"react-hot-loader": "^4.12.21",
+		"react-input-mask": "^2.0.4",
 		"react-instantsearch-dom": "^6.4.0",
 		"react-intl": "^2.9.0",
 		"react-joyride": "~1.11.4",

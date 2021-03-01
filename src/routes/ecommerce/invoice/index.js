@@ -88,6 +88,7 @@ const label1 = {
 export default function Invoice(props) {
   const componentRef = useRef();
   const [receipts, setReceipts] = useState({});
+  const [chapter, setChapter] = useState({});
 
   const amountInWords = numWords(receipts.receipt_total_amount);
 
@@ -102,6 +103,7 @@ export default function Invoice(props) {
       },
     }).then((res) => {
       setReceipts(res.data.receipt);
+      setChapter(res.data.chapter);
     });
   }, []);
   return (
@@ -166,13 +168,14 @@ export default function Invoice(props) {
                       </strong>
                     </h2>
                     <label>
-                      Chapter Address, Chapter City - Chapter pincode, Chapter
-                      State
+                      {chapter.chapter_address},{chapter.chapter_city} -{" "}
+                      {chapter.chapter_pin}, {chapter.chapter_state}
                     </label>{" "}
                     <br />
                     <label>
-                      Email: Chapter Email | Chapter Website | Ph : Chapter
-                      Phone | Mob : Chapter What's App
+                      Email: {chapter.chapter_email} | {chapter.chapter_website}{" "}
+                      | Ph : {chapter.chapter_phone} | Mob :{" "}
+                      {chapter.chapter_whatsapp}
                     </label>
                     <br />
                   </div>

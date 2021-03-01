@@ -19,6 +19,8 @@ import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { SelectionState } from "draft-js";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import InputMask from "react-input-mask";
+import states from "../states";
 
 const honorific = [
   {
@@ -233,6 +235,11 @@ const EditIndiv = (props) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  const onChangePanNumber = (e) => {
+    setDonor({ ...donor, indicomp_pan_no: e.target.value });
+  };
+
   const fetchDonors = () => {
     axios({
       url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
@@ -478,14 +485,17 @@ const EditIndiv = (props) => {
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="PAN Number"
-                  autoComplete="Name"
-                  name="indicomp_pan_no"
+                <InputMask
+                  mask="aaaaa 9999 a"
+                  formatChars={{
+                    9: "[0-9]",
+                    a: "[A-Z]",
+                  }}
                   value={donor.indicomp_pan_no}
-                  onChange={(e) => onInputChange(e)}
-                />
+                  onChange={(e) => onChangePanNumber(e)}
+                >
+                  {() => <TextField label="PAN Number" />}
+                </InputMask>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -739,9 +749,9 @@ const EditIndiv = (props) => {
                   onChange={(e) => onInputChange(e)}
                   fullWidth
                 >
-                  {state.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  {states.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -832,9 +842,9 @@ const EditIndiv = (props) => {
                   onChange={(e) => onInputChange(e)}
                   fullWidth
                 >
-                  {state.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
+                  {states.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
                     </MenuItem>
                   ))}
                 </TextField>

@@ -60,14 +60,30 @@ export default class NewListDonor extends React.Component {
                 </Tooltip>
                 <Tooltip title="Edit" placement="top">
                   <IconButton aria-label="Edit">
-                    <Link to={"edit?id=" + value}>
+                    <Link
+                      to={"edit?id=" + value}
+                      style={{
+                        display:
+                          localStorage.getItem("user_type_id") == 1
+                            ? "none"
+                            : "",
+                      }}
+                    >
                       <EditIcon />
                     </Link>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Receipt" placement="top">
                   <IconButton aria-label="Receipt">
-                    <Link to={"receipt?id=" + value}>
+                    <Link
+                      to={"receipt?id=" + value}
+                      style={{
+                        display:
+                          localStorage.getItem("user_type_id") == 1
+                            ? "none"
+                            : "",
+                      }}
+                    >
                       <ConfirmationNumberIcon />
                     </Link>
                   </IconButton>
