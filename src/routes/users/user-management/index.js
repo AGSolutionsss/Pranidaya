@@ -228,11 +228,24 @@ const Index = (props) => {
         Create A New User
       </Button>
       <RctCollapsibleCard>
-        <h1>Chapter Details</h1>
+        {chapter.chapter_name != "" && (
+          <div>
+            <h1>
+              {chapter.chapter_name}{" "}
+              {"( " +
+                chapter.chapter_city +
+                "," +
+                chapter.chapter_state +
+                "- " +
+                chapter.chapter_pin +
+                " )"}
+            </h1>
+          </div>
+        )}
 
         <form id="editChap" autoComplete="off">
           <div className="row">
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            {/* <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -240,11 +253,11 @@ const Index = (props) => {
                   autoComplete="Person Name"
                   name="chapter_name"
                   required
-                  value={chapter.chapter_name}
+                  value={}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-            </div>
+            </div> */}
             {/* <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
@@ -258,7 +271,7 @@ const Index = (props) => {
                 />
               </div>
             </div> */}
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            <div className="col-sm-6 col-md-6 col-xl-9">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -271,47 +284,7 @@ const Index = (props) => {
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="City"
-                  required
-                  autoComplete="Name"
-                  name="chapter_city"
-                  value={chapter.chapter_city}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Pin"
-                  type="number"
-                  required
-                  inputProps={{ maxLength: 6 }}
-                  autoComplete="Name"
-                  name="chapter_pin"
-                  value={chapter.chapter_pin}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="State"
-                  required
-                  autoComplete="Name"
-                  name="chapter_state"
-                  value={chapter.chapter_state}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
+
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
@@ -320,6 +293,11 @@ const Index = (props) => {
                   type="number"
                   required
                   inputProps={{ maxLength: 10 }}
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 10);
+                  }}
                   autoComplete="Name"
                   name="chapter_phone"
                   value={chapter.chapter_phone}
@@ -334,6 +312,11 @@ const Index = (props) => {
                   label="Whatsapp"
                   type="number"
                   inputProps={{ maxLength: 10 }}
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 10);
+                  }}
                   autoComplete="Name"
                   name="chapter_whatsapp"
                   value={chapter.chapter_whatsapp}

@@ -20,7 +20,7 @@ import { SelectionState } from "draft-js";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import InputMask from "react-input-mask";
 import states from "../states";
-
+import AddToGroup from "./addToGroup";
 const honorific = [
   {
     value: "Shri",
@@ -296,6 +296,35 @@ const EditComp = (props) => {
   const openmodal = () => {
     setShowmodal(true);
   };
+
+  const familyGroupStatus = (status) => {
+    var data = {};
+
+    if (status == "add_to_family_group") {
+      data = {
+        indicomp_related_id: family_related_id,
+      };
+    } else {
+      data = {
+        leave_family_group: true,
+      };
+    }
+
+    axios({
+      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
+      method: "PUT",
+      data,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("login")}`,
+      },
+    }).then((res) => {
+      alert("success");
+      setDonor(res.data.individualCompany);
+      //alert("success");
+      setShowmodal(false);
+    });
+  };
+
   return (
     <div className="textfields-wrapper">
       <PageTitleBar title="Update Company Donor" match={props.match} />
@@ -830,9 +859,9 @@ const EditComp = (props) => {
             >
               Submit
             </Button>
-            <Button className="mr-10 mb-10" color="danger">
+            {/* <Button className="mr-10 mb-10" color="danger">
               Cancel
-            </Button>
+            </Button> */}
             {donor.indicomp_related_id == donor.indicomp_fts_id ? (
               <Button
                 onClick={() => openmodal()}
@@ -855,7 +884,11 @@ const EditComp = (props) => {
                 Leave Group
               </Button>
             ) : (
-              <Button className="mr-10 mb-10" color="info">
+              <Button
+                className="mr-10 mb-10"
+                color="info"
+                onClick={() => familyGroupStatus("leave_family_group")}
+              >
                 Leave Group
               </Button>
             )}
@@ -866,42 +899,7 @@ const EditComp = (props) => {
       <Modal isOpen={showmodal} toggle={() => closegroupModal()}>
         <ModalHeader toggle={() => closegroupModal()}>Add to Group</ModalHeader>
         <ModalBody>
-          <table className="donortable">
-            <tr>
-              <th>
-                <p>FTS</p>
-              </th>
-              <th>
-                <p>Name</p>
-              </th>
-              <th>
-                <p>Phone No</p>
-              </th>
-              <th>
-                <p>Action</p>
-              </th>
-            </tr>
-            <tr>
-              <td>1234</td>
-              <td>John Wick</td>
-              <td>9999999999</td>
-              <td>
-                <Button className="mr-10 mb-10" color="primary">
-                  Add
-                </Button>
-              </td>
-            </tr>
-            <tr>
-              <td>1234</td>
-              <td>John Wick</td>
-              <td>9999999999</td>
-              <td>
-                <Button className="mr-10 mb-10" color="primary">
-                  Add
-                </Button>
-              </td>
-            </tr>
-          </table>
+          <AddToGroup id={donor.id} />
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>

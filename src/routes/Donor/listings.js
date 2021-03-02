@@ -59,31 +59,30 @@ export default class NewListDonor extends React.Component {
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Edit" placement="top">
-                  <IconButton aria-label="Edit">
-                    <Link
-                      to={"edit?id=" + value}
-                      style={{
-                        display:
-                          localStorage.getItem("user_type_id") == 1
-                            ? "none"
-                            : "",
-                      }}
-                    >
+                  <IconButton
+                    aria-label="Edit"
+                    style={{
+                      display:
+                        localStorage.getItem("user_type_id") == 3 ? "none" : "",
+                    }}
+                  >
+                    <Link to={"edit?id=" + value}>
                       <EditIcon />
                     </Link>
                   </IconButton>
                 </Tooltip>
                 <Tooltip title="Receipt" placement="top">
-                  <IconButton aria-label="Receipt">
-                    <Link
-                      to={"receipt?id=" + value}
-                      style={{
-                        display:
-                          localStorage.getItem("user_type_id") == 1
-                            ? "none"
-                            : "",
-                      }}
-                    >
+                  <IconButton
+                    aria-label="Receipt"
+                    style={{
+                      display:
+                        localStorage.getItem("user_type_id") == 2 ||
+                        localStorage.getItem("user_type_id") == 3
+                          ? "none"
+                          : "",
+                    }}
+                  >
+                    <Link to={"receipt?id=" + value}>
                       <ConfirmationNumberIcon />
                     </Link>
                   </IconButton>
@@ -111,15 +110,27 @@ export default class NewListDonor extends React.Component {
         console.log("donorleng", res.data.individualCompanies);
         let tempRows = [];
         for (let i = 0; i < response.length; i++) {
-          tempRows.push([
-            i + 1,
-            response[i]["indicomp_full_name"],
-            response[i]["indicomp_type"],
-            response[i]["indicomp_com_contact_name"],
-            response[i]["indicomp_mobile_phone"],
-            response[i]["indicomp_email"],
-            response[i]["id"],
-          ]);
+          if (response[i]["indicomp_type"] == "Individual") {
+            tempRows.push([
+              i + 1,
+              response[i]["indicomp_full_name"],
+              response[i]["indicomp_type"],
+              response[i]["indicomp_spouse_name"],
+              response[i]["indicomp_mobile_phone"],
+              response[i]["indicomp_email"],
+              response[i]["id"],
+            ]);
+          } else {
+            tempRows.push([
+              i + 1,
+              response[i]["indicomp_full_name"],
+              response[i]["indicomp_type"],
+              response[i]["indicomp_com_contact_name"],
+              response[i]["indicomp_mobile_phone"],
+              response[i]["indicomp_email"],
+              response[i]["id"],
+            ]);
+          }
         }
         this.setState({ donorData: tempRows, loader: false });
       })

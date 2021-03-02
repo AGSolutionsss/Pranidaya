@@ -64,7 +64,7 @@ export default class NewListReceipts extends React.Component {
                   <IconButton aria-label="Edit">
                     <Link
                       style={{
-                        display: this.state.usertype == 1 ? "none" : "",
+                        display: this.state.usertype == 3 ? "none" : "",
                       }}
                       to={"editreceipt?id=" + value}
                     >

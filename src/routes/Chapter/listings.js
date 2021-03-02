@@ -8,8 +8,8 @@ import IconButton from "@material-ui/core/IconButton";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import "./index.css"
+import CircularProgress from "@material-ui/core/CircularProgress";
+import "./index.css";
 
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
@@ -40,12 +40,11 @@ const classes = (theme) => ({
 
 export default class NewListChapter extends React.Component {
   state = {
-    loader:true,
+    loader: true,
     users: [],
     chaptersData: [],
     columnData: [
       "#",
-      "Code",
       "Name",
       "Email",
       "State",
@@ -77,7 +76,6 @@ export default class NewListChapter extends React.Component {
         },
       },
     ],
-   
   };
 
   getData = () => {
@@ -87,26 +85,27 @@ export default class NewListChapter extends React.Component {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
-    }).then((res) => {
-      console.log("rest", res.data);
-      let response = res.data.chapters;
-      //console.log("chapleng", res.data.chapters);
-      let tempRows = [];
-      for (let i = 0; i < response.length; i++) {
-        tempRows.push([
-          i + 1,
-          response[i]["chapter_code"],
-          response[i]["chapter_name"],
-          response[i]["chapter_email"],
-          response[i]["chapter_state"],
-          response[i]["chapter_whatsapp"],
-          response[i]["id"],
-        ]);
-      }
-      this.setState({ chaptersData: tempRows, loader: false });
-    }).catch((res) => {
-      this.setState({ loader: false });
     })
+      .then((res) => {
+        console.log("rest", res.data);
+        let response = res.data.chapters;
+        //console.log("chapleng", res.data.chapters);
+        let tempRows = [];
+        for (let i = 0; i < response.length; i++) {
+          tempRows.push([
+            i + 1,
+            response[i]["chapter_name"],
+            response[i]["chapter_email"],
+            response[i]["chapter_state"],
+            response[i]["chapter_whatsapp"],
+            response[i]["id"],
+          ]);
+        }
+        this.setState({ chaptersData: tempRows, loader: false });
+      })
+      .catch((res) => {
+        this.setState({ loader: false });
+      });
   };
 
   componentDidMount() {
@@ -114,47 +113,56 @@ export default class NewListChapter extends React.Component {
   }
 
   render() {
-    const {loader}=this.state
+    const { loader } = this.state;
     return (
       <div className="data-table-wrapper">
-      {loader && 
-       <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} />}
-        {!loader &&  
-        <>
-        <PageTitleBar
-          title={<IntlMessages id="sidebar.dataTable" />}
-          match={this.props.match}
-        /> 
-        {/* <div className="alert alert-info">
+        {loader && (
+          <CircularProgress
+            disableShrink
+            style={{
+              marginLeft: "600px",
+              marginTop: "300px",
+              marginBottom: "300px",
+            }}
+          />
+        )}
+        {!loader && (
+          <>
+            <PageTitleBar
+              title={<IntlMessages id="sidebar.dataTable" />}
+              match={this.props.match}
+            />
+            {/* <div className="alert alert-info">
 					<p>MUI-Datatables is a data tables component built on Material-UI V1.
             It comes with features like filtering, view/hide columns, search, export to CSV download, printing, pagination, and sorting.
             On top of the ability to customize styling on most views, there are two responsive modes "stacked" and "scroll" for mobile/tablet
             devices. If you want more customize option please <a href="https://github.com/gregnb/mui-datatables" className="btn btn-danger btn-small mx-10">Click </a> here</p>
 				</div> */}
 
-        {/* <Link className="btn btn-outline-light" to="addchapter">
+            {/* <Link className="btn btn-outline-light" to="addchapter">
           <Button className="mr-10 mb-10 btn-get-started" color="danger">
             + Add User
           </Button>
         </Link> */}
-        <div className="donorbtns">
-        <Link className="btn btn-outline-light" to="addchapter">
-          <Button  className="mr-10 mb-10 btn-get-start" color="danger">
-            + Add Chapter
-          </Button>
-        </Link>
-        </div>
-        <RctCollapsibleCard fullBlock>
-        {this.state.chaptersData.length > 0 && (
-          <MUIDataTable
-            title={"Employee list"}
-            data={this.state.chaptersData}
-            columns={this.state.columnData}
-            options={option}
-          />
+            <div className="donorbtns">
+              <Link className="btn btn-outline-light" to="addchapter">
+                <Button className="mr-10 mb-10 btn-get-start" color="danger">
+                  + Add Chapter
+                </Button>
+              </Link>
+            </div>
+            <RctCollapsibleCard fullBlock>
+              {this.state.chaptersData.length > 0 && (
+                <MUIDataTable
+                  title={"Chapter list"}
+                  data={this.state.chaptersData}
+                  columns={this.state.columnData}
+                  options={option}
+                />
+              )}
+            </RctCollapsibleCard>
+          </>
         )}
-         </RctCollapsibleCard> 
-         </>}
       </div>
     );
   }

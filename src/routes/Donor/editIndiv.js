@@ -21,6 +21,7 @@ import { SelectionState } from "draft-js";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import InputMask from "react-input-mask";
 import states from "../states";
+import AddToGroup from "./addToGroup";
 
 const honorific = [
   {
@@ -161,6 +162,10 @@ const corrpreffer = [
   {
     value: "Digital",
     label: "Digital",
+  },
+  {
+    value: "Residence",
+    label: "Residence",
   },
 ];
 
@@ -466,6 +471,7 @@ const EditIndiv = (props) => {
                   name="indicomp_dob_annualday"
                   type="date"
                   value={donor.indicomp_dob_annualday}
+                  InputLabelProps={{ shrink: true }}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
@@ -613,6 +619,7 @@ const EditIndiv = (props) => {
                   name="indicomp_type"
                   value={donor.indicomp_type}
                   onChange={(e) => onInputChange(e)}
+                  disabled
                 />
               </div>
             </div>
@@ -880,7 +887,7 @@ const EditIndiv = (props) => {
                   }}
                   helperText="Please select your Correspondence Preference"
                   name="indicomp_corr_preffer"
-                  value={donor.indicomp_corr_preffer}
+                  defaultValue={donor.indicomp_corr_preffer}
                   onChange={(e) => onInputChange(e)}
                   fullWidth
                 >
@@ -901,9 +908,9 @@ const EditIndiv = (props) => {
             >
               Submit
             </Button>
-            <Button className="mr-10 mb-10" color="danger">
+            {/* <Button className="mr-10 mb-10" color="danger">
               Cancel
-            </Button>
+            </Button> */}
             {donor.indicomp_related_id == donor.indicomp_fts_id ? (
               <Button
                 onClick={() => openmodal()}
@@ -941,53 +948,7 @@ const EditIndiv = (props) => {
       <Modal isOpen={showmodal} toggle={() => closegroupModal()}>
         <ModalHeader toggle={() => closegroupModal()}>Add to Group</ModalHeader>
         <ModalBody>
-          <table className="donortable">
-            <tr>
-              <th>
-                <p>FTS</p>
-              </th>
-              <th>
-                <p>Name</p>
-              </th>
-              <th>
-                <p>Phone No</p>
-              </th>
-              <th>
-                <p>Action</p>
-              </th>
-            </tr>
-            {donors &&
-              donors.map((member, key) => (
-                <tr>
-                  <td>{key + 1}</td>
-                  <td>{member.indicomp_full_name}</td>
-                  <td>{member.indicomp_mobile_phone}</td>
-                  <td>
-                    <Button
-                      className="mr-10 mb-10"
-                      color="primary"
-                      onClick={() => {
-                        setFamilyRelatedId(member.indicomp_related_id);
-                        familyGroupStatus("add_to_family_group");
-                      }}
-                    >
-                      Add
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-
-            <tr>
-              <td>1234</td>
-              <td>John Wick</td>
-              <td>9999999999</td>
-              <td>
-                <Button className="mr-10 mb-10" color="primary">
-                  Add
-                </Button>
-              </td>
-            </tr>
-          </table>
+          <AddToGroup id={donor.id} />
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>

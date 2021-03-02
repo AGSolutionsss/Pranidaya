@@ -473,7 +473,8 @@ const Add = (props) => {
                   autoComplete="Name"
                   name="indicomp_dob_annualday"
                   type="date"
-                  value={donor.indicomp_dob_annualday}
+                  // value={donor.indicomp_dob_annualday}
+                  InputLabelProps={{ shrink: true }}
                   onChange={(e) => onInputChange(e)}
                 />
                 <span id="lblDateCard" class="error">
@@ -636,6 +637,7 @@ const Add = (props) => {
                   required
                   autoComplete="Name"
                   name="indicomp_type"
+                  disabled
                   value={donor.indicomp_type}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -755,7 +757,6 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="City"
-                  required
                   autoComplete="Name"
                   name="indicomp_res_reg_city"
                   value={donor.indicomp_res_reg_city}
@@ -772,7 +773,6 @@ const Add = (props) => {
                   SelectProps={{
                     MenuProps: {},
                   }}
-                  required
                   helperText="Please select your State"
                   name="indicomp_res_reg_state"
                   value={donor.indicomp_res_reg_state}
@@ -798,7 +798,6 @@ const Add = (props) => {
                       .toString()
                       .slice(0, 6);
                   }}
-                  required
                   inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
@@ -851,7 +850,6 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="City"
-                  required
                   autoComplete="Name"
                   name="indicomp_off_branch_city"
                   value={donor.indicomp_off_branch_city}
@@ -868,7 +866,6 @@ const Add = (props) => {
                   SelectProps={{
                     MenuProps: {},
                   }}
-                  required
                   helperText="Please select your State"
                   name="indicomp_off_branch_state"
                   value={donor.indicomp_off_branch_state}
@@ -895,7 +892,6 @@ const Add = (props) => {
                       .slice(0, 6);
                   }}
                   inputProps={{ maxLength: 6 }}
-                  required
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}
@@ -937,9 +933,11 @@ const Add = (props) => {
             >
               Submit
             </Button>
-            <Button className="mr-10 mb-10" color="danger">
-              Cancel
-            </Button>
+            <Link to="listing">
+              <Button className="mr-10 mb-10" color="success">
+                Back
+              </Button>
+            </Link>
           </div>
           <div className="antifloat"></div>
         </form>

@@ -16,8 +16,8 @@ import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { SelectionState } from "draft-js";
-
-
+import states from "../states";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const Edit = (props) => {
   let history = useHistory();
@@ -55,7 +55,7 @@ const Edit = (props) => {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      console.log("edit",res.data)
+      console.log("edit", res.data);
       setChapter(res.data.chapter);
     });
   }, []);
@@ -77,23 +77,23 @@ const Edit = (props) => {
       chapter_date_of_incorporation: chapter.chapter_date_of_incorporation,
       chapter_region_code: chapter.chapter_region_code,
     };
-    var v = document.getElementById('editChap').checkValidity();
-    var v = document.getElementById('editChap').reportValidity();
+    var v = document.getElementById("editChap").checkValidity();
+    var v = document.getElementById("editChap").reportValidity();
     e.preventDefault();
-if(v){
-    axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-chapter/" + id,
-      method: "PUT",
-      data,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("login")}`,
-      },
-    }).then((res) => {
-      //console.log("edit1", res.data);
-      //alert("success");
-      history.push('listing');
-    });
-  }
+    if (v) {
+      axios({
+        url: "https://ftschamp.trikaradev.xyz/api/update-chapter/" + id,
+        method: "PUT",
+        data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("login")}`,
+        },
+      }).then((res) => {
+        //console.log("edit1", res.data);
+        alert("success");
+        history.push("listing");
+      });
+    }
   };
 
   return (
@@ -155,12 +155,13 @@ if(v){
             <Button className="mr-10 mb-10" color="danger">Cancel</Button>
           </form>  */}
         <form id="editChap" autoComplete="off">
-        <div className="row">
+          <div className="row">
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
-                  fullWidth label="Person Name"
-                  autoComplete="Person Name"
+                  fullWidth
+                  label="Chapter Name"
+                  autoComplete="Chapter Name"
                   name="chapter_name"
                   required
                   value={chapter.chapter_name}
@@ -168,19 +169,7 @@ if(v){
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Code"
-                  autoComplete="Name"
-                  required
-                  name="chapter_code"
-                  value={chapter.chapter_code}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
+
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
@@ -215,6 +204,11 @@ if(v){
                   type="number"
                   required
                   inputProps={{ maxLength: 6 }}
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 6);
+                  }}
                   autoComplete="Name"
                   name="chapter_pin"
                   value={chapter.chapter_pin}
@@ -225,14 +219,24 @@ if(v){
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
-                  fullWidth
+                  id="select-corrpreffer"
+                  select
                   label="State"
-                  required
-                  autoComplete="Name"
+                  SelectProps={{
+                    MenuProps: {},
+                  }}
+                  helperText="Please select your State"
                   name="chapter_state"
                   value={chapter.chapter_state}
                   onChange={(e) => onInputChange(e)}
-                />
+                  fullWidth
+                >
+                  {states.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -243,6 +247,11 @@ if(v){
                   type="number"
                   required
                   inputProps={{ maxLength: 10 }}
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 10);
+                  }}
                   autoComplete="Name"
                   name="chapter_phone"
                   value={chapter.chapter_phone}
@@ -257,6 +266,11 @@ if(v){
                   label="Whatsapp"
                   type="number"
                   inputProps={{ maxLength: 10 }}
+                  onInput={(e) => {
+                    e.target.value = Math.max(0, parseInt(e.target.value))
+                      .toString()
+                      .slice(0, 10);
+                  }}
                   autoComplete="Name"
                   name="chapter_whatsapp"
                   value={chapter.chapter_whatsapp}
@@ -298,6 +312,7 @@ if(v){
                   name="chapter_date_of_incorporation"
                   value={chapter.chapter_date_of_incorporation}
                   onChange={(e) => onInputChange(e)}
+                  type="date"
                 />
               </div>
             </div>

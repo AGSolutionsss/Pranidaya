@@ -109,10 +109,7 @@ export default function Invoice(props) {
   return (
     <div>
       <div className="invoice-wrapper">
-        <PageTitleBar
-          title={<IntlMessages id="sidebar.invoice" />}
-          match={props.match}
-        />
+        <PageTitleBar title="Receipt" match={props.match} />
         <div className="row">
           <div className="col-sm-12 col-md-12 col-xl-10 mx-auto">
             <RctCard>
@@ -164,7 +161,7 @@ export default function Invoice(props) {
                     </h1>
                     <h2>
                       <strong>
-                        <b>Chapter Name</b>
+                        <b>{chapter.chapter_name}</b>
                       </strong>
                     </h2>
                     <label>
@@ -391,15 +388,28 @@ export default function Invoice(props) {
                 </div>
                 <div className="note-wrapper row">
                   <div className="invoice-note col-sm-12 col-md-8">
-                    <p className="fs-14">
-                      This receipt is valid only after realisation of the
-                      payment.
-                      <br />
-                      This donation is eligible for deduction U/S 80(G) of the
-                      <br />
-                      Income Tax Act 1961 vide order NO: DIT(E)/3260/8E/73/89-90
-                      Dt. 13-12-2011.
-                    </p>
+                    {receipts.receipt_exemption_type == "80G" && (
+                      <div>
+                        <p className="fs-14">
+                          This receipt is valid only after realisation of the
+                          payment.
+                          <br />
+                          This donation is eligible for deduction U/S 80(G) of
+                          the
+                          <br />
+                          Income Tax Act 1961 vide order NO:
+                          DIT(E)/3260/8E/73/89-90 Dt. 13-12-2011.
+                        </p>
+                      </div>
+                    )}
+                    {receipts.receipt_exemption_type != "80G" && (
+                      <div>
+                        <p className="fs-14">
+                          This receipt is valid only after realisation of the
+                          payment.
+                        </p>
+                      </div>
+                    )}
                   </div>
                   <div className="totle-amount col-sm-12 col-md-4 text-right">
                     <h4>For Friends of Tribals Society</h4>

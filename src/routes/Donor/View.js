@@ -113,14 +113,52 @@ export default function View() {
                               <p style={label2}>{donor.indicomp_doa}</p>
                             </div>
                           </div>
+                          <div className="col-sm-6 col-md-6 col-xl-3">
+                            <div className="form-group">
+                              <p style={label1}>DOB</p>{" "}
+                              <p style={label2}>
+                                {donor.indicomp_dob_annualday}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       )}
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label1}>DOB</p>{" "}
-                          <p style={label2}>{donor.indicomp_dob_annualday}</p>
+                      {donor.indicomp_type != "Individual" && (
+                        <div>
+                          <div className="col-sm-6 col-md-6 col-xl-3">
+                            <div className="form-group">
+                              <p style={label1}>Contact Name</p>{" "}
+                              <p style={label2}>
+                                {donor.indicomp_com_contact_name}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-sm-6 col-md-6 col-xl-3">
+                            <div className="form-group">
+                              <p style={label1}>Designation</p>{" "}
+                              <p style={label2}>
+                                {donor.indicomp_com_contact_designation}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="col-sm-6 col-md-6 col-xl-3">
+                            <div className="form-group">
+                              <p style={label1}>CSR</p>{" "}
+                              <p style={label2}>{donor.indicomp_csr}</p>
+                            </div>
+                          </div>
+                          <div className="col-sm-6 col-md-6 col-xl-3">
+                            <div className="form-group">
+                              <p style={label1}>Annual Day</p>{" "}
+                              <p style={label2}>
+                                {donor.indicomp_dob_annualday}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      )}
+
                       <div className="col-sm-6 col-md-6 col-xl-3">
                         <div className="form-group">
                           <p style={label1}>Gender</p>{" "}
@@ -247,7 +285,7 @@ export default function View() {
                           <p>R.No</p>
                         </th>
                         <th>
-                          <p>Fts Id</p>
+                          <p>Name</p>
                         </th>
                         <th>
                           <p>Date</p>
@@ -259,7 +297,7 @@ export default function View() {
                       {donation.map((fam, key) => (
                         <tr>
                           <td>{fam.receipt_no}</td>
-                          <td>{fam.indicomp_fts_id}</td>
+                          <td>{fam.individual_company.indicomp_full_name}</td>
                           <td>{fam.receipt_date}</td>
                           <td>{fam.receipt_total_amount}</td>
                         </tr>
@@ -332,7 +370,7 @@ export default function View() {
               {membership.map((fam, key) => (
                 <tr>
                   <td>{fam.receipt_no}</td>
-                  <td>{fam.indicomp_fts_id}</td>
+                  <td>{fam.individual_company.indicomp_full_name}</td>
                   <td>{fam.receipt_date}</td>
                   <td>{fam.receipt_total_amount}</td>
                 </tr>
@@ -346,7 +384,7 @@ export default function View() {
           <RctCollapsibleCard>
             <div className="flexbox">
               <h1>Company Details</h1>
-              <Link to={"/app/donor/addindiv?id=" + relId}>
+              <Link to={"/app/donor/addcomp?id=" + relId}>
                 <Button className="mr-10 mb-10 btn-get-start" color="danger">
                   + Add Company
                 </Button>

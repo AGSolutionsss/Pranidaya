@@ -844,9 +844,11 @@ const Add = (props) => {
             >
               Submit
             </Button>
-            <Button className="mr-10 mb-10" color="danger">
-              Cancel
-            </Button>
+            <Link to="listing">
+              <Button className="mr-10 mb-10" color="success">
+                Back
+              </Button>
+            </Link>
           </div>
           <div className="antifloat"></div>
         </form>

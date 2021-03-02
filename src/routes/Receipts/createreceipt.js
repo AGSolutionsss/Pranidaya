@@ -1,105 +1,103 @@
-import React, { useEffect } from 'react'
-import MenuItem from '@material-ui/core/MenuItem';
-import TextField from '@material-ui/core/TextField';
+import React, { useEffect } from "react";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import { Button } from "reactstrap";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 // rct card box
-import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
+import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 const exemption = [
   {
-    value: '80G',
-    label: '80G',
+    value: "80G",
+    label: "80G",
   },
   {
-    value: 'Non 80G',
-    label: 'Non 80G',
+    value: "Non 80G",
+    label: "Non 80G",
   },
   {
-    value: 'FCRA',
-    label: 'FCRA',
+    value: "FCRA",
+    label: "FCRA",
   },
 ];
 
 const pay_mode = [
   {
-    value: 'Cash',
-    label: 'Cash',
+    value: "Cash",
+    label: "Cash",
   },
   {
-    value: 'Cheque',
-    label: 'Cheque',
+    value: "Cheque",
+    label: "Cheque",
   },
   {
-    value: 'Transfer',
-    label: 'Transfer',
+    value: "Transfer",
+    label: "Transfer",
   },
   {
-    value: 'Others',
-    label: 'Others',
+    value: "Others",
+    label: "Others",
   },
 ];
 
 const pay_mode_2 = [
-
   {
-    value: 'Cheque',
-    label: 'Cheque',
+    value: "Cheque",
+    label: "Cheque",
   },
   {
-    value: 'Transfer',
-    label: 'Transfer',
+    value: "Transfer",
+    label: "Transfer",
   },
   {
-    value: 'Others',
-    label: 'Others',
+    value: "Others",
+    label: "Others",
   },
 ];
 const donation_type = [
   {
-    value: 'One Teacher School',
-    label: 'One Teacher School',
+    value: "One Teacher School",
+    label: "One Teacher School",
   },
   {
-    value: 'General',
-    label: 'General',
+    value: "General",
+    label: "General",
   },
   {
-    value: 'Membership',
-    label: 'Membership',
+    value: "Membership",
+    label: "Membership",
   },
 ];
 const donation_type_2 = [
   {
-    value: 'One Teacher School',
-    label: 'One Teacher School',
+    value: "One Teacher School",
+    label: "One Teacher School",
   },
   {
-    value: 'General',
-    label: 'General',
+    value: "General",
+    label: "General",
   },
-
 ];
 
 export default function Createreceipt() {
   var url = new URL(window.location.href);
   var id = url.searchParams.get("id");
-  const [userdata, setUserdata] = React.useState('')
+  const [userdata, setUserdata] = React.useState("");
 
   let history = useHistory();
   var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
   var yyyy = today.getFullYear();
 
-  today = mm + '/' + dd + '/' + yyyy;
-  var todayback = yyyy + '-' + mm + '-' + dd;
-var d=document.getElementById("datefield");
-if(d){
-  document.getElementById("datefield").setAttribute("max", todayback);
-}
+  today = mm + "/" + dd + "/" + yyyy;
+  var todayback = yyyy + "-" + mm + "-" + dd;
+  var d = document.getElementById("datefield");
+  if (d) {
+    document.getElementById("datefield").setAttribute("max", todayback);
+  }
   const [donor, setDonor] = React.useState({
     receipt_no: "",
     receipt_date: today,
@@ -119,8 +117,6 @@ if(d){
     receipt_update_by: "",
   });
 
-
-
   // const { personName, userName, mobile, email } = user;
   const onInputChange = (e) => {
     setDonor({
@@ -128,8 +124,6 @@ if(d){
       [e.target.name]: e.target.value,
     });
   };
-
-
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -153,8 +147,8 @@ if(d){
       receipt_update_at: donor.receipt_update_at,
       receipt_update_by: donor.receipt_update_by,
     };
-    var v = document.getElementById('createrec').checkValidity();
-    var v = document.getElementById('createrec').reportValidity();
+    var v = document.getElementById("createrec").checkValidity();
+    var v = document.getElementById("createrec").reportValidity();
     e.preventDefault();
     // const val = validate();
     // const dateval = datevalidate();
@@ -169,11 +163,10 @@ if(d){
       }).then((res) => {
         console.log("receipt", res.data);
         alert("success");
-        history.push('/app/receipts');
+        history.push("/app/receipts");
       });
     }
   };
-
 
   useEffect(() => {
     axios({
@@ -183,10 +176,10 @@ if(d){
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      setUserdata(res.data.individualCompany)
+      setUserdata(res.data.individualCompany);
     });
   }, []);
-  console.log(userdata.indicomp_pan_no)
+  console.log(userdata.indicomp_pan_no);
   const pan = userdata.indicomp_pan_no == "" ? "NA" : userdata.indicomp_pan_no;
   return (
     <div>
@@ -197,43 +190,55 @@ if(d){
           <h4>Pan No : {pan}</h4>
           <h4>Receipt Date : {donor.receipt_date}</h4>
           <h4>Year : 2020 - 2021</h4>
-
         </div>
-        {donor.receipt_total_amount > 2000 && donor.receipt_exemption_type == "80G" && pan == "NA" ? <span className="amounterror">Max amount allowedwithout Pan card is 2000</span> : ""}
+        {donor.receipt_total_amount > 2000 &&
+        donor.receipt_exemption_type == "80G" &&
+        pan == "NA" ? (
+          <span className="amounterror">
+            Max amount allowedwithout Pan card is 2000
+          </span>
+        ) : (
+          ""
+        )}
         <form id="createrec" autoComplete="off">
           <div className="row">
-
-
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-exemption" select label="Category"
+                <TextField
+                  id="select-exemption"
+                  select
+                  label="Category"
                   // onChange={this.handleChange('exemption')}
                   name="receipt_exemption_type"
                   value={donor.receipt_exemption_type}
                   onChange={(e) => onInputChange(e)}
                   required
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
-
                   helperText="Please select your Exemption Type"
-                  fullWidth>
-                  {exemption.map(option => (
+                  fullWidth
+                >
+                  {exemption.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
                     </MenuItem>
                   ))}
-
                 </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="text" fullWidth label="Total Amount" name="receipt_total_amount"
+                <TextField
+                  id="text"
+                  fullWidth
+                  label="Total Amount"
+                  name="receipt_total_amount"
                   value={donor.receipt_total_amount}
                   required
-                  onChange={(e) => onInputChange(e)} autoComplete="Total Amount" />
+                  onChange={(e) => onInputChange(e)}
+                  autoComplete="Total Amount"
+                />
               </div>
             </div>
             {/* <div className="col-sm-6 col-md-6 col-xl-3">
@@ -247,57 +252,64 @@ if(d){
             </div> */}
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-pay_mode" select label="Transaction Type"
+                <TextField
+                  id="select-pay_mode"
+                  select
+                  label="Transaction Type"
                   // onChange={this.handleChange('pay_mode')}
                   name="receipt_tran_pay_mode"
                   required
                   value={donor.receipt_tran_pay_mode}
                   onChange={(e) => onInputChange(e)}
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
-
                   helperText="Please select your Transaction Type"
-                  fullWidth>
-
-                  {donor.receipt_exemption_type == "80G" && donor.receipt_total_amount > 2000 ? pay_mode_2.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  )) : pay_mode.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))
-                  }
+                  fullWidth
+                >
+                  {donor.receipt_exemption_type == "80G" &&
+                  donor.receipt_total_amount > 2000
+                    ? pay_mode_2.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))
+                    : pay_mode.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
                 </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
-                <TextField id="select-donation_type" select label="Purpose"
+                <TextField
+                  id="select-donation_type"
+                  select
+                  label="Purpose"
                   // onChange={this.handleChange('donation_type')}
                   name="receipt_donation_type"
                   required
                   value={donor.receipt_donation_type}
                   onChange={(e) => onInputChange(e)}
                   SelectProps={{
-                    MenuProps: {
-                    },
+                    MenuProps: {},
                   }}
                   helperText="Please select your Donation Type"
-                  fullWidth>
-                  {donor.receipt_exemption_type == "80G" ? donation_type_2.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  )) : donation_type.map(option => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))
-                  }
+                  fullWidth
+                >
+                  {donor.receipt_exemption_type == "80G"
+                    ? donation_type_2.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))
+                    : donation_type.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
                 </TextField>
               </div>
             </div>
@@ -318,31 +330,53 @@ if(d){
                   fullWidth
                 />
               </div>
-
             </div>
             <div className="col-sm-6 col-md-6 col-xl-6">
               <div className="form-group">
-                <TextField id="text" fullWidth label="Transaction Pay Details" helperText="Cheque No / Bank Name / UTR / Any Other Details" name="receipt_tran_pay_details"
+                <TextField
+                  id="text"
+                  fullWidth
+                  label="Transaction Pay Details"
+                  helperText="Cheque No / Bank Name / UTR / Any Other Details"
+                  name="receipt_tran_pay_details"
                   value={donor.receipt_tran_pay_details}
-                  onChange={(e) => onInputChange(e)} autoComplete="Transaction Pay Details" />
+                  onChange={(e) => onInputChange(e)}
+                  autoComplete="Transaction Pay Details"
+                />
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-6">
               <div className="form-group">
-                <TextField id="text" name="receipt_remarks"
+                <TextField
+                  id="text"
+                  name="receipt_remarks"
                   value={donor.receipt_remarks}
-                  onChange={(e) => onInputChange(e)} fullWidth label="Remarks" autoComplete="Remarks" />
+                  onChange={(e) => onInputChange(e)}
+                  fullWidth
+                  label="Remarks"
+                  autoComplete="Remarks"
+                />
               </div>
             </div>
-
           </div>
           <div className="receiptbuttons">
-            <Button type="submit" onClick={(e) => onSubmit(e)} className="mr-10 mb-10" color="primary">Submit</Button>
-            <Button className="mr-10 mb-10" color="danger">Cancel</Button>
+            <Button
+              type="submit"
+              onClick={(e) => onSubmit(e)}
+              className="mr-10 mb-10"
+              color="primary"
+            >
+              Submit
+            </Button>
+            <Link to="listing">
+              <Button className="mr-10 mb-10" color="danger">
+                Back
+              </Button>
+            </Link>
           </div>
           <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
     </div>
-  )
+  );
 }
