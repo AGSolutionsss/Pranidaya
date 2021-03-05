@@ -170,7 +170,7 @@ const Edit = (props) => {
               </div>
             </div>
 
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            <div className="col-sm-6 col-md-6 col-xl-6">
               <div className="form-group">
                 <TextField
                   fullWidth

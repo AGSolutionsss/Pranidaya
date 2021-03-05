@@ -14,6 +14,12 @@ export default {
       child_routes: null,
     },
     {
+      menu_title: "sidebar.member",
+      menu_icon: "zmdi zmdi-account",
+      path: "/app/member",
+      child_routes: null,
+    },
+    {
       menu_title: "sidebar.receipts",
       menu_icon: "zmdi zmdi-receipt",
       path: "/app/receipts",
@@ -53,6 +59,12 @@ export default {
       child_routes: null,
     },
     {
+      menu_title: "sidebar.member",
+      menu_icon: "zmdi zmdi-account",
+      path: "/app/member",
+      child_routes: null,
+    },
+    {
       menu_title: "sidebar.receipts",
       menu_icon: "zmdi zmdi-receipt",
       path: "/app/receipts",
@@ -83,6 +95,12 @@ export default {
       menu_title: "sidebar.donor",
       menu_icon: "zmdi zmdi-account",
       path: "/app/donor",
+      child_routes: null,
+    },
+    {
+      menu_title: "sidebar.member",
+      menu_icon: "zmdi zmdi-account",
+      path: "/app/member",
       child_routes: null,
     },
     {

@@ -5,6 +5,7 @@ import { Button } from "reactstrap";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Moment from 'moment';
 
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
@@ -195,7 +196,7 @@ export default function EditReceipt() {
           <h4>Name : {userdata.indicomp_full_name}</h4>
           <h4>FTS Id : {userdata.indicomp_fts_id}</h4>
           <h4>Pan No : {pan}</h4>
-          <h4>Receipt Date : {donor.receipt_date}</h4>
+          <h4>Receipt Date : {Moment(donor.receipt_date).format('DD-MM-YYYY')}</h4>
           <h4>Year : {donor.receipt_financial_year}</h4>
         </div>
         <div className="receiptDetails">

@@ -5,6 +5,7 @@ import { Button } from "reactstrap";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Moment from 'moment';
 
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
@@ -98,11 +99,18 @@ export default function Createreceipt() {
   if (d) {
     document.getElementById("datefield").setAttribute("max", todayback);
   }
+
+  var todayyear = new Date().getFullYear();
+  var twoDigitYear = todayyear.toString().substr(-2);
+  var preyear = todayyear-1;
+  var finalyear = preyear+'-'+twoDigitYear;
+
   const [donor, setDonor] = React.useState({
     receipt_no: "",
     receipt_date: today,
     receipt_old_no: "",
     receipt_exemption_type: "",
+    receipt_financial_year: "",
     receipt_total_amount: "",
     receipt_realization_date: "",
     receipt_donation_type: "",
@@ -134,6 +142,7 @@ export default function Createreceipt() {
       receipt_date: todayback,
       receipt_old_no: donor.receipt_old_no,
       receipt_exemption_type: donor.receipt_exemption_type,
+      receipt_financial_year:finalyear,
       receipt_total_amount: donor.receipt_total_amount,
       receipt_realization_date: donor.receipt_realization_date,
       receipt_donation_type: donor.receipt_donation_type,
@@ -188,8 +197,8 @@ export default function Createreceipt() {
           <h4>Name : {userdata.indicomp_full_name}</h4>
           <h4>FTS Id : {userdata.indicomp_fts_id}</h4>
           <h4>Pan No : {pan}</h4>
-          <h4>Receipt Date : {donor.receipt_date}</h4>
-          <h4>Year : 2020 - 2021</h4>
+          <h4>Receipt Date : {Moment(donor.receipt_date).format('DD-MM-YYYY')}</h4>
+          <h4>Year : {finalyear}</h4>
         </div>
         {donor.receipt_total_amount > 2000 &&
         donor.receipt_exemption_type == "80G" &&

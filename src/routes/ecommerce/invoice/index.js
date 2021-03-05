@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef } from "react";
 import ReactToPrint from "react-to-print";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
-
+import Moment from 'moment';
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
@@ -57,7 +57,7 @@ const td_top1 = {
 const td_top_mid = {
   borderTop: "1px solid black",
   borderBottom: "1px solid black",
-  width: "100px",
+  width: "111px",
 };
 const td_top_mid1 = {
   borderTop: "1px solid black",
@@ -83,6 +83,10 @@ const label = {
 };
 const label1 = {
   color: "rgb(42, 46, 143)",
+};
+
+const p_text = {
+  marginBottom: "0px",
 };
 
 export default function Invoice(props) {
@@ -111,12 +115,12 @@ export default function Invoice(props) {
       <div className="invoice-wrapper">
         <PageTitleBar title="Receipt" match={props.match} />
         <div className="row">
-          <div className="col-sm-12 col-md-12 col-xl-10 mx-auto">
+          <div className="col-sm-12 col-md-12 col-xl-10 mx-auto" style={{width:'auto'}}>
             <RctCard>
               <div className="invoice-head text-right">
                 <ul className="list-inline">
                   <li>
-                    <a href="#">
+                    <a href= "https://legacy.testags.com/public/generate-pdf?id=id">
                       <i className="mr-10 ti-download"></i> Download
                     </a>
                   </li>
@@ -137,24 +141,29 @@ export default function Invoice(props) {
                   </li>
                 </ul>
               </div>
-              <div className="p-50" ref={componentRef}>
-                <div className="d-flex justify-content-between">
+              <div className="p-50" ref={componentRef} style={{margin:'20px'}}>
+                <img
+                    src={require("Assets/receipt/fts_wm.png")}
+                    alt="water mark"
+                    style={{width:'20cm',height:'20cm',position:'absolute', top:'130px',left:'100px'}}
+                    />
+                <div className="d-flex justify-content-between" style={{borderLeft:'1px solid black',borderRight:'1px solid black',borderTop:'1px solid black'}}>
                   <div className="invoice-logo ">
                     <img
                       src={require("Assets/receipt/fts.png")}
                       alt="session-logo"
-                      className="img-fluid"
                       width="100"
-                      height="40"
+                      height="100"
+                      style={{margin:'20px',marginLeft:'50px'}}
                     />
                   </div>
                   <div className="address text-center">
-                    <h1>
+                    <h1 style={{marginTop:'30px',color:'#468ccc'}}>
                       <strong>
                         <b>वनबंधु परिषद </b>
                       </strong>
                     </h1>
-                    <h1>
+                    <h1 style={{color:'#468ccc'}}>
                       <strong>
                         <b>FRIENDS OF TRIBALS SOCIETY</b>
                       </strong>
@@ -164,7 +173,20 @@ export default function Invoice(props) {
                         <b>{chapter.chapter_name}</b>
                       </strong>
                     </h2>
-                    <label>
+                  </div>
+                  <div className="invoice-logo mb-30 text-right">
+                    <img
+                      src={require("Assets/receipt/ekal.png")}
+                      alt="session-logo"
+                      width="100"
+                      height="100"
+                      style={{margin:'20px',marginRight:'50px'}}
+                    />
+                  </div>
+                </div>
+                <div className="text-center" style={{borderLeft:'1px solid black',borderRight:'1px solid black',borderBottom:'1px solid black',marginTop:'-40px'}}>
+                  <div className="address text-center">
+                    <label style={{paddingLeft:'30px',paddingRight:'30px'}}>
                       {chapter.chapter_address},{chapter.chapter_city} -{" "}
                       {chapter.chapter_pin}, {chapter.chapter_state}
                     </label>{" "}
@@ -176,18 +198,9 @@ export default function Invoice(props) {
                     </label>
                     <br />
                   </div>
-                  <div className="invoice-logo mb-30 text-right">
-                    <img
-                      src={require("Assets/receipt/ekal.png")}
-                      alt="session-logo"
-                      className="img-fluid"
-                      width="100"
-                      height="40"
-                    />
-                  </div>
                 </div>
-                <div className="text-center mb-30">
-                  <label>
+                <div className="text-center" style={{borderLeft:'1px solid black',borderRight:'1px solid black'}}>
+                  <label style={{fontSize:'14px',marginBottom:'2px',marginTop:'2px'}}>
                     <small>
                       Head Office: Ekal Bhawan, 123/A, Harish Mukherjee Road,
                       Kolkata-26. Web: www.ftsindia.com Ph: 033 - 2454
@@ -197,8 +210,8 @@ export default function Invoice(props) {
                   <br />
                 </div>
 
-                <div className="table-responsive mb-40">
-                  <table className="table table-borderless">
+                <div className="table-responsive">
+                  <table className="table table-borderless" style={{marginBottom:'0px'}}>
                     <tbody>
                       <tr>
                         <td style={td_top}>Received with thanks from :</td>
@@ -215,7 +228,7 @@ export default function Invoice(props) {
                           <label style={label}>
                             {Object.keys(receipts).length != 0 && (
                               <div>
-                                <p>
+                                <p style={p_text}>
                                   {
                                     receipts.individual_company
                                       .indicomp_full_name
@@ -225,25 +238,25 @@ export default function Invoice(props) {
                                   "indicomp_off_branch_address"
                                 ) && (
                                   <div>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_off_branch_address
                                       }
                                     </p>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_off_branch_area
                                       }
                                     </p>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_off_branch_ladmark
                                       }
                                     </p>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_off_branch_city
@@ -265,25 +278,25 @@ export default function Invoice(props) {
                                   "indicomp_res_reg_address"
                                 ) && (
                                   <div>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_res_reg_address
                                       }
                                     </p>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_res_reg_area
                                       }
                                     </p>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_res_reg_ladmark
                                       }
                                     </p>
-                                    <p>
+                                    <p style={p_text}>
                                       {
                                         receipts.individual_company
                                           .indicomp_res_reg_city
@@ -318,7 +331,7 @@ export default function Invoice(props) {
                         <td style={td_top_right}>:</td>
                         <td style={td_top_right1}>
                           <label style={label}>
-                            <b>{receipts.receipt_realization_date}</b>
+                            <b>{Moment(receipts.receipt_date).format('DD-MM-YYYY')}</b>
                           </label>
                         </td>
                       </tr>
@@ -383,40 +396,37 @@ export default function Invoice(props) {
                           </label>
                         </td>
                       </tr>
+                      <tr>
+                        <td colspan="1" style={{borderLeft:'1px solid black', borderBottom:'1px solid black'}}>
+                          {receipts.receipt_exemption_type == "80G" && (
+                            <div>
+                              This receipt is valid only after realisation of the
+                              payment.
+                              <br />
+                              This donation is eligible for deduction U/S 80(G) of
+                              the
+                              <br />
+                              Income Tax Act 1961 vide order NO:
+                              DIT(E)/3260/8E/73/89-90 Dt. 13-12-2011.
+                            </div>
+                          )}
+                          {receipts.receipt_exemption_type != "80G" && (
+                            <div>
+                              This receipt is valid only after realisation of the
+                              payment.
+                            </div>
+                          )}
+                        </td>
+                        <td colSpan="3" style={{borderBottom:'1px solid black', borderRight:'1px solid black', textAlign:'right'}}>
+                          For Friends of Tribals Society
+                          <br />
+                          <br />
+                          <br />
+                          Secretary / Treasurer
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
-                </div>
-                <div className="note-wrapper row">
-                  <div className="invoice-note col-sm-12 col-md-8">
-                    {receipts.receipt_exemption_type == "80G" && (
-                      <div>
-                        <p className="fs-14">
-                          This receipt is valid only after realisation of the
-                          payment.
-                          <br />
-                          This donation is eligible for deduction U/S 80(G) of
-                          the
-                          <br />
-                          Income Tax Act 1961 vide order NO:
-                          DIT(E)/3260/8E/73/89-90 Dt. 13-12-2011.
-                        </p>
-                      </div>
-                    )}
-                    {receipts.receipt_exemption_type != "80G" && (
-                      <div>
-                        <p className="fs-14">
-                          This receipt is valid only after realisation of the
-                          payment.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                  <div className="totle-amount col-sm-12 col-md-4 text-right">
-                    <h4>For Friends of Tribals Society</h4>
-                    <br />
-                    <br />
-                    <h4>Secretary / Treasurer</h4>
-                  </div>
                 </div>
               </div>
             </RctCard>

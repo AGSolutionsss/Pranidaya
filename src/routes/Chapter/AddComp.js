@@ -16,6 +16,8 @@ import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { SelectionState } from "draft-js";
+import states from "../states";
+import MenuItem from "@material-ui/core/MenuItem";
 
 const Add = (props) => {
   let history = useHistory();
@@ -157,8 +159,8 @@ if(v){
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
-                  fullWidth label="Person Name"
-                  autoComplete="Person Name"
+                  fullWidth label="Chapter Name"
+                  autoComplete="Chapter Name"
                   name="chapter_name"
                   required
                   value={chapter.chapter_name}
@@ -166,20 +168,7 @@ if(v){
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Code"
-                  autoComplete="Name"
-                  required
-                  name="chapter_code"
-                  value={chapter.chapter_code}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            <div className="col-sm-6 col-md-6 col-xl-6">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -226,14 +215,24 @@ if(v){
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
-                  fullWidth
+                  id="select-corrpreffer"
+                  select
                   label="State"
-                  required
-                  autoComplete="Name"
+                  SelectProps={{
+                    MenuProps: {},
+                  }}
+                  helperText="Please select your State"
                   name="chapter_state"
                   value={chapter.chapter_state}
                   onChange={(e) => onInputChange(e)}
-                />
+                  fullWidth
+                >
+                  {states.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -306,6 +305,7 @@ if(v){
                   name="chapter_date_of_incorporation"
                   value={chapter.chapter_date_of_incorporation}
                   onChange={(e) => onInputChange(e)}
+                  type="date"
                 />
               </div>
             </div>

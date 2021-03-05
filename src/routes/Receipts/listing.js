@@ -4,6 +4,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
+import Moment from 'moment';
 
 import { Link } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -64,12 +65,18 @@ export default class NewListReceipts extends React.Component {
                   <IconButton aria-label="Edit">
                     <Link
                       style={{
-                        display: this.state.usertype == 3 ? "none" : "",
+                        display: this.state.usertype == 2 ? "" : "none",
                       }}
                       to={"editreceipt?id=" + value}
                     >
                       <EditIcon />
                     </Link>
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="down" placement="top">
+                  <IconButton aria-label="view">
+                    <a target="_blank" href={"https://legacy.testags.com/public/generate-pdf?id="+value}>D</a>
+                    
                   </IconButton>
                 </Tooltip>
               </div>
@@ -100,8 +107,7 @@ export default class NewListReceipts extends React.Component {
             response[i]["receipt_no"],
             // response[i]["receipt_created_by"],
             response[i]["individual_company"]["indicomp_full_name"],
-
-            response[i]["receipt_date"],
+            Moment(response[i]["receipt_date"]).format('DD-MM-YYYY'),
             response[i]["receipt_exemption_type"],
             response[i]["receipt_total_amount"],
             response[i]["id"],
