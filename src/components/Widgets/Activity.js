@@ -12,7 +12,7 @@ const Activity = () => (
 			<ul className="list-unstyled">
 				<li className="media border-bottom">
 					<img
-						src={require('Assets/avatars/user-1.jpg')}
+						src={require('Assets/avatars/profile.jpg')}
 						className="rounded-circle mr-20 img-fluid"
 						alt="user profile"
 						width="60"
@@ -25,7 +25,7 @@ const Activity = () => (
 				</li>
 				<li className="media border-bottom">
 					<img
-						src={require('Assets/avatars/user-2.jpg')}
+						src={require('Assets/avatars/profile.jpg')}
 						className="rounded-circle mr-20 img-fluid"
 						alt="user profile"
 						width="60"
@@ -45,7 +45,7 @@ const Activity = () => (
 				</li>
 				<li className="media border-bottom">
 					<img
-						src={require('Assets/avatars/user-3.jpg')}
+						src={require('Assets/avatars/profile.jpg')}
 						className="rounded-circle mr-20 img-fluid"
 						alt="user profile"
 						width="60"
@@ -60,7 +60,7 @@ const Activity = () => (
 				</li>
 				<li className="media border-bottom">
 					<img
-						src={require('Assets/avatars/user-4.jpg')}
+						src={require('Assets/avatars/profile.jpg')}
 						className="rounded-circle mr-20 img-fluid"
 						alt="user profile"
 						width="60"
@@ -111,7 +111,7 @@ const Activity = () => (
 				</li>
 				<li className="media border-bottom">
 					<img
-						src={require('Assets/avatars/user-5.jpg')}
+						src={require('Assets/avatars/profile.jpg')}
 						className="rounded-circle mr-20 img-fluid"
 						alt="user profile"
 						width="60"

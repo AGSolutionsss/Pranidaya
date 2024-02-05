@@ -105,36 +105,7 @@ export default class Profile extends Component {
           </FormGroup>
         </Form>
         <hr />
-        {/* <h2 className="heading">
-          <IntlMessages id="components.address" />
-        </h2> */}
-        {/* <Form>
-               <FormGroup row>
-                  <Label for="address" sm={3}><IntlMessages id="components.address" /></Label>
-                  <Col sm={9}>
-                     <Input type="text" name="address" id="address" className="input-lg" />
-                  </Col>
-               </FormGroup>
-               <FormGroup row>
-                  <Label for="city" sm={3}><IntlMessages id="components.city" /></Label>
-                  <Col sm={9}>
-                     <Input type="text" name="city" id="city" className="input-lg" />
-                  </Col>
-               </FormGroup>
-               <FormGroup row>
-                  <Label for="state" sm={3}><IntlMessages id="components.state" /></Label>
-                  <Col sm={9}>
-                     <Input type="text" name="state" id="state" className="input-lg" />
-                  </Col>
-               </FormGroup>
-               <FormGroup row>
-                  <Label for="zip" sm={3}><IntlMessages id="components.zipCode" /></Label>
-                  <Col sm={9}>
-                     <Input type="text" name="zip" id="zip" className="input-lg" />
-                  </Col>
-               </FormGroup>
-            </Form> */}
-        {/* <hr /> */}
+        
 
         <Button
           variant="contained"

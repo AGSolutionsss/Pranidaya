@@ -48,15 +48,15 @@ class StockExchange extends Component {
 				{ratesData !== null &&
 					<List className="list-unstyled p-0">
 						<ListItem>
-							<span><img src={require('Assets/flag-icons/icons8-canada.png')} className="img-fluid mr-10" alt="cad" /> CAD (Canadian Dollar)</span>
+							<span><img src={require('Assets/flag-icons/icons8-india.png')} className="img-fluid mr-10" alt="cad" /> INR (Indian Rupees)</span>
 							<span><i className="ti-arrow-up text-success"></i> {ratesData.rates ? ratesData.rates.CAD.toFixed(2) : 0}</span>
 						</ListItem>
 						<ListItem>
-							<span><img src={require('Assets/flag-icons/icons8-germany.png')} className="img-fluid mr-10" alt="eur" /> EUR (Euro)</span>
+							<span><img src={require('Assets/flag-icons/icons8-india.png')} className="img-fluid mr-10" alt="eur" /> INR (Indian Rupees)</span>
 							<span><i className="ti-arrow-down text-danger"></i> {ratesData.rates ? ratesData.rates.EUR.toFixed(2) : 0}</span>
 						</ListItem>
 						<ListItem>
-							<span><img src={require('Assets/flag-icons/icons8-south_korea.png')} className="img-fluid mr-10" alt="krw" /> KRW (Korea)</span>
+							<span><img src={require('Assets/flag-icons/icons8-india.png')} className="img-fluid mr-10" alt="krw" /> INR (Indian Rupees)</span>
 							<span><i className="ti-arrow-down text-danger"></i> {ratesData.rates ? ratesData.rates.NZD.toFixed(2) : 0}</span>
 						</ListItem>
 						<ListItem>
@@ -64,7 +64,7 @@ class StockExchange extends Component {
 							<span><i className="ti-arrow-up text-success"></i> {ratesData.rates ? ratesData.rates.INR.toFixed(2) : 0}</span>
 						</ListItem>
 						<ListItem>
-							<span><img src={require('Assets/flag-icons/icons8-singapore.png')} className="img-fluid mr-10" alt="sgd" /> SGD (Singapore Dollar)</span>
+							<span><img src={require('Assets/flag-icons/icons8-india.png')} className="img-fluid mr-10" alt="sgd" /> SGD (Singapore Dollar)</span>
 							<span><i className="ti-arrow-down text-danger"></i> {ratesData.rates ? ratesData.rates.SGD.toFixed(2) : 0}</span>
 						</ListItem>
 					</List>

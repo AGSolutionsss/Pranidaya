@@ -1,13 +1,6 @@
-/**
- * Today Orders Stats
- */
 import React from "react";
 import CountUp from "react-countup";
-
-// intl messages
 import IntlMessages from "Util/IntlMessages";
-
-// rct card box
 import { RctCardContent } from "Components/RctCard";
 
 const TotalOrderStats = (props) => (

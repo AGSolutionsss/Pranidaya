@@ -2,8 +2,8 @@
  * App Config File
  */
 const AppConfig = {
-   appLogo: require('Assets/receipt/fts.png'),          // App Logo
-   brandName: 'FTS Champ ',                                    // Brand Name
+   appLogo: require('Assets/receipt/logo.jpg'),          // App Logo
+   brandName: 'Pranidaya ',                                    // Brand Name
    navCollapsed: false,                                      // Sidebar collapse
    darkMode: false,                                          // Dark Mode
    boxLayout: false,                                         // Box Layout

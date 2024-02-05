@@ -59,64 +59,33 @@ export default class Forgotpwd extends Component {
    render() {
       return (
          <QueueAnim type="bottom" duration={2000}>
-            <div className="rct-session-wrapper" key="1">
-               <AppBar position="static" className="session-header">
-                  <Toolbar>
-                     <div className="container">
-                        <div className="d-flex justify-content-between">
-                           <div className="session-logo">
-                           <Link to="/">
-                                 <img src={AppConfig.appLogo} alt="session-logo" className="img-fluid" width="45" height="45" />
-                                 <span><h1 style={{ color: "#fff", marginTop: "-33px", marginLeft: "50px" }}>FTS Champ</h1></span>
-                              </Link>
-                           </div>
-                           <div className="session-social-icon">
-                              <IconButton className="text-white" aria-label="facebook">
-                                 <i className="zmdi zmdi-facebook"></i>
-                              </IconButton>
-                              <IconButton className="text-white" aria-label="twitter">
-                                 <i className="zmdi zmdi-twitter"></i>
-                              </IconButton>
-                              <IconButton className="text-white" aria-label="google">
-                                 <i className="zmdi zmdi-google"></i>
-                              </IconButton>
-                           </div>
-                        </div>
-                     </div>
-                  </Toolbar>
-               </AppBar>
-               <div className="session-inner-wrapper p-4 h-100 p-md-0">
+            <div className="session-inner-wrapper">
+               <div className="container-fluid">
                   <div className="row">
-                     <div className="col-sm-8 col-lg-5 mx-auto">
-                        <div className="session-body text-center">
+                     <div className="col-md-8 desktop">
+                     </div>
+                     <div className="col-md-4 login">
+                        <div className="session-body text-center" style={{backgroundColor:'transparent'}}>
                            <div className="session-head mb-30">
-                              <h2>Get started with {AppConfig.brandName}</h2>
+                              <h1 className='login-heading'>PRANI DAYA</h1>
                               
                            </div>
-                           <Form>
-                              {/* <FormGroup className="has-wrapper">
-                                 <Input value={username} type="text" name="user-pwd" id="pwd" className="has-input input-lg"
-                                 placeholder="Username" onChange={(event) =>this.setState({ password: event.target.value })}
-                                 required />
+                           <Form style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
                               
-                                 <span className="has-icon">
-                                 <VisibilityOffOutlinedIcon />
-                                 </span>
-                              </FormGroup> */}
-                              <FormGroup className="has-wrapper">
-                                 <Input type="text" name="Username" id="signin" className="has-input input-lg" placeholder="Enter User Name" onChange={(event) => this.setState({ username: event.target.value })} />
+                              <FormGroup className="has-wrapper mt-2" style={{width:'70%'}}>
+                                 <Input type="text" name="Username" autoFocus="autoFocus" id="signin" className="has-input input-lg" placeholder="Enter User Name" onChange={(event) => this.setState({ username: event.target.value })} />
                                  <span className="has-icon"><i className="ti-user"></i></span>
                               </FormGroup>
-                              <FormGroup className="has-wrapper">
+                              <FormGroup className="has-wrapper mt-2" style={{width:'70%'}}>
                                  <Input type="email" name="user-mail" id="email" className="has-input input-lg" placeholder="Enter Email Address" onChange={(event) => this.setState({ email: event.target.value })} />
                                  <span className="has-icon"><i className="ti-email"></i></span>
                               </FormGroup>
-                              <FormGroup>
-                              <Button color="primary" className="btn-info text-white btn-block btn-large w-100" variant="contained" id="signin"
+                              <FormGroup style={{width:'60%'}}>
+                              <Button color="primary" className="btn-info text-white btn-block btn-large w-100 mt-4" variant="contained" id="signin"
                                  onClick={() => this.onResetPassword()}>Reset Password</Button>
 
                               </FormGroup>
-                              <Button component={Link} to="/signin" className="btn-dark btn-block btn-large text-white w-100">Already having account?  Login</Button>
+                              <Button style={{width:'60%'}} component={Link} to="/signin" className="btn-dark btn-block btn-large text-white mt-3">Already having account?  Login</Button>
                            </Form>
                         </div>
                      </div>

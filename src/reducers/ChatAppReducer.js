@@ -16,7 +16,7 @@ import {
 import recentChatUsers from 'Assets/data/chat-app/users';
 
 const INITIAL_STATE = {
-    admin_photo_url: require('Assets/avatars/user-15.jpg'),
+    admin_photo_url: require('Assets/avatars/profile.jpg'),
     recentChatUsers: recentChatUsers,
     allRecentChatUsers: recentChatUsers,
     allChatUsers: recentChatUsers,

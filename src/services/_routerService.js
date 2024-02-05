@@ -1,39 +1,26 @@
-// routes
 import Widgets from "Routes/widgets";
-import Pages from "Routes/pages";
 import AdvanceUIComponents from "Routes/advance-ui-components";
-import CalendarComponents from "Routes/calendar";
 import ChartsComponents from "Routes/charts";
-import FormElements from "Routes/forms";
 import Users from "Routes/users";
 import Components from "Routes/components";
-import Tables from "Routes/tables";
 import Icons from "Routes/icons";
-import Maps from "Routes/maps";
-import DragAndDrop from "Routes/drag-drop";
-import Editor from "Routes/editor";
-import Ecommerce from "Routes/ecommerce";
 import Dashboard from "Routes/dashboard";
 import Crm from "Routes/crm";
-import ImageCropper from "Routes/image-cropper";
-import VideoPlayer from "Routes/video-player";
-import Dropzone from "Routes/dropzone";
-import NewListChapter from "Routes/Chapter";
 import NewListDonor from "Routes/Donor";
 import NewListReceipts from "Routes/Receipts";
-import NewListViewer from "Routes/Viewer";
-import NewListMember from "Routes/Member";
-import NewListSuspense from "Routes/Suspense";
-import NewListSchools from "Routes/Schools";
-import NewListFaqs from "Routes/Faqs";
-
-// async component
-import {
-  AsyncAboutUsComponent,
-  AsyncChatComponent,
-  AsyncMailComponent,
-  AsyncTodoComponent,
-} from "Components/AsyncComponent/AsyncComponent";
+import NewListReceiptsM from "Routes/ReceiptsM";
+import NewListPayment from "Routes/Payment";
+import Team from "Routes/Team";
+import Maintenance from "../container/Maintenance";
+import { AsyncAboutUsComponent} from "Components/AsyncComponent/AsyncComponent";
+import DonorDownload from "Routes/Download/DonorDownload";
+import ReceiptDownload from "Routes/Download/ReceiptDownload";
+import TeamDownload from "Routes/Download/TeamDownload";
+import NewListVendors from "Routes/Vendors";
+import NewListItem from "Routes/Items";
+import NewListPurchase from "Routes/Purchase";
+import NewListCons from "Routes/Cons";
+import NewListStock from "Routes/Stock";
 
 export default [
   {
@@ -48,10 +35,7 @@ export default [
     path: "widgets",
     component: Widgets,
   },
-  {
-    path: "ecommerce",
-    component: Ecommerce,
-  },
+ 
   {
     path: "icons",
     component: Icons,
@@ -61,32 +45,8 @@ export default [
     component: AsyncAboutUsComponent,
   },
   {
-    path: "pages",
-    component: Pages,
-  },
-  {
-    path: "chat",
-    component: AsyncChatComponent,
-  },
-  {
-    path: "mail",
-    component: AsyncMailComponent,
-  },
-  {
-    path: "todo",
-    component: AsyncTodoComponent,
-  },
-  {
     path: "charts",
     component: ChartsComponents,
-  },
-  {
-    path: "tables",
-    component: Tables,
-  },
-  {
-    path: "maps",
-    component: Maps,
   },
   {
     path: "users",
@@ -100,39 +60,7 @@ export default [
     path: "advanced-component",
     component: AdvanceUIComponents,
   },
-  {
-    path: "drag-andDrop",
-    component: DragAndDrop,
-  },
-  {
-    path: "forms",
-    component: FormElements,
-  },
-  {
-    path: "editor",
-    component: Editor,
-  },
-  {
-    path: "calendar",
-    component: CalendarComponents,
-  },
-  {
-    path: "image-cropper",
-    component: ImageCropper,
-  },
-  {
-    path: "video-player",
-    component: VideoPlayer,
-  },
-  {
-    path: "dropzone",
-    component: Dropzone,
-  },
-  {
-    path: "Chapter",
-    component: NewListChapter,
-  },
-
+  
   {
     path: "Donor",
     component: NewListDonor,
@@ -142,27 +70,51 @@ export default [
     component: NewListReceipts,
   },
   {
-    path: "Viewer",
-    component: NewListViewer,
+    path: "ReceiptsM",
+    component: NewListReceiptsM,
   },
   {
-    path: "Member",
-    component: NewListMember,
+    path: "Team",
+    component: Team,
   },
   {
-    path: "Suspense",
-    component: NewListSuspense,
-
+    path: "maintenance",
+    component: Maintenance,
   },
   {
-    path: "Schools",
-    component: NewListSchools,
-
+    path:"donor-download",
+    component: DonorDownload,
   },
   {
-    path: "Faqs",
-    component: NewListFaqs,
-
+    path:"receipt-download",
+    component: ReceiptDownload,
   },
-
+  {
+    path:"team-download",
+    component: TeamDownload,
+  },
+  {
+    path:"payment",
+    component: NewListPayment,
+  },
+  {
+    path:"vendor",
+    component: NewListVendors,
+  },
+  {
+    path:"item",
+    component: NewListItem,
+  },
+  {
+    path:"purchase",
+    component: NewListPurchase,
+  },
+  {
+    path:"cons",
+    component: NewListCons,
+  },
+  {
+    path:"stock",
+    component: NewListStock,
+  }
 ];

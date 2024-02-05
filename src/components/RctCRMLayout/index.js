@@ -18,7 +18,6 @@ import ThemeOptions from 'Components/ThemeOptions/ThemeOptions';
 import PreloadHeader from 'Components/PreloadLayout/PreloadHeader';
 import PreloadSidebar from 'Components/PreloadLayout/PreloadSidebar';
 
-
 // app config
 import AppConfig from 'Constants/AppConfig';
 

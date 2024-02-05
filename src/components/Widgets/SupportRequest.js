@@ -47,7 +47,7 @@ class SupportRequest extends Component {
                   </IconButton>
                </ListItem>
             </List>
-            <RctCardFooter customClasses="d-flex justify-content-between border-0 align-items-center">
+            {/* <RctCardFooter customClasses="d-flex justify-content-between border-0 align-items-center">
                <p className="fs-12 mb-0 text-base">
                   <span><i className="mr-5 zmdi zmdi-refresh"></i></span>
                   <IntlMessages id="widgets.updated10Minago" />
@@ -55,7 +55,7 @@ class SupportRequest extends Component {
                <Button variant="contained" color="primary" className="btn-xs text-white">
                   <IntlMessages id="button.assignNow" />
                </Button>
-            </RctCardFooter>
+            </RctCardFooter> */}
          </div>
       );
    }

@@ -147,7 +147,7 @@ export default class TopHeadlines extends Component {
    
    componentDidMount() {
   	
-      var isLoggedIn = localStorage.getItem("id");
+      var isLoggedIn = localStorage.getItem("user_type_id");
     if(!isLoggedIn){
 
       window.location = "/signin";
@@ -157,7 +157,7 @@ export default class TopHeadlines extends Component {
     }
   	
   	     var theLoginToken = localStorage.getItem('login');   	     
-  	     var userTypeId = localStorage.getItem('id');    	     
+  	     var userTypeId = localStorage.getItem('user_type_id');    	     
        
         
         const requestOptions = {

@@ -2,21 +2,21 @@ export default [
     {
         id: 5,
         name: 'John Doe',
-        photo_url: require('Assets/avatars/user-2.jpg')
+        photo_url: require('Assets/avatars/profile.jpg')
     },
     {
         id: 6,
         name: 'Smith Lee',
-        photo_url: require('Assets/avatars/user-3.jpg')
+        photo_url: require('Assets/avatars/profile.jpg')
     },
     {
         id: 7,
         name: 'Lisa Roy',
-        photo_url: require('Assets/avatars/user-4.jpg')
+        photo_url: require('Assets/avatars/profile.jpg')
     },
     {
         id: 8,
         name: 'Lusile Beck',
-        photo_url: require('Assets/avatars/user-5.jpg')
+        photo_url: require('Assets/avatars/profile.jpg')
     }
 ];

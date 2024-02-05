@@ -1,6 +1,3 @@
-/**
- * Profile Page
- */
 import React, { Component } from "react";
 import {
   FormGroup,
@@ -16,7 +13,6 @@ import Button from "@material-ui/core/Button";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
 import {baseURL} from '../../../../api';
-// intlmessages
 import IntlMessages from "Util/IntlMessages";
 
 export default class Profile extends Component {
@@ -38,7 +34,7 @@ export default class Profile extends Component {
       },
     })
       .then((res) => {
-        this.setState({ firstName: res.data.user.first_name });
+        this.setState({ firstName: res.data.user.full_name });
         this.setState({ phone: res.data.user.phone });
         this.setState({ email: res.data.user.email });
         
@@ -49,7 +45,7 @@ export default class Profile extends Component {
   };
 
   componentDidMount() {
-    var isLoggedIn = localStorage.getItem("id");
+    var isLoggedIn = localStorage.getItem("user_type_id");
     if(!isLoggedIn){
 
       window.location = "/signin";
@@ -58,8 +54,7 @@ export default class Profile extends Component {
 
     }
     this.getData();
-   // this.setState({ phone: document.getElementById("telephone").value })
-
+   
   }
 
   onUpdateProfile(e) {
@@ -72,8 +67,14 @@ export default class Profile extends Component {
       NotificationManager.error("Enter Mobile Number");
       return false;
     }
+
+    if((this.state.phone.length !== 10)){
+      NotificationManager.error("Mobile Number allow only 10 Digits");
+      return false;
+    }
+
     let data = {
-      first_name: this.state.firstName,
+      full_name: this.state.firstName,
       phone: this.state.phone,
       
     };
@@ -95,14 +96,46 @@ export default class Profile extends Component {
     });
   };
 
-  changeFirstName(e){
+  validateOnlyText = (inputtxt) => {
 
-   // alert('gagagga')
-
-    this.setState({ firstName: e.target.value })
+    var re = /^[A-Za-z ]+$/;
+    if(inputtxt === "" || re.test(inputtxt)){
+      return true;
+    }else{
+      return false;
+    }
   }
 
+  validateOnlyDigits = (inputtxt) => {
+    var phoneno = /^\d+$/;
+    if(inputtxt.match(phoneno) || inputtxt.length==0){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
+  changeFirstName(e){
+    if(e.target.name=="full_name"){
+      if(this.validateOnlyText(e.target.value)){
+        this.setState({ firstName: e.target.value })
+      }
+    }else{
+      this.setState({ firstName: e.target.value })
+    }
+    
+  }
+
+  changePhone(e){
+    if(e.target.name=="telephone"){
+      if(this.validateOnlyDigits(e.target.value)){
+        this.setState({ phone: e.target.value })
+      }
+    }else{
+      this.setState({ phone: e.target.value })
+    }
+    
+  }
 
   render() {
     return (
@@ -118,14 +151,14 @@ export default class Profile extends Component {
             <Col sm={9}>
               <Input
                 type="text"
-                name="first_name"
+                name="full_name"
                 id="fullName"
                 className="input-lg"
                 required
                 value={this.state.firstName}
                 onChange={(e) =>
                   
-                  this.setState({ firstName: e.target.value })
+                  this.changeFirstName(e)
                   
                 }
               />
@@ -138,26 +171,17 @@ export default class Profile extends Component {
             </Label>
             <Col sm={9}>
               <Input
-                type="tel"
+                type="text"
                 name="telephone"
                 id="telephone"
                 className="input-lg "
                 required
-                onInput={(e) => {
-                  e.target.value = Math.max(0, parseInt(e.target.value))
-                    .toString()
-                    .slice(0, 10);
-                    
-                }}
+                inputProps={{ maxLength: 10, minLength: 10 }}
                 value={this.state.phone}
                 onChange={(e) =>
-                  this.setState({ phone: e.target.value })
+                  this.changePhone(e)
                 }
-              /*  onInput={(e) => {
-                  e.target.value = Math.max(0, parseInt(e.target.value))
-                    .toString()
-                    .slice(0, 10);
-                }}*/
+              
               />
             </Col>
           </FormGroup>

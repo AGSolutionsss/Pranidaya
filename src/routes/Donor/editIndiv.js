@@ -1,32 +1,34 @@
-/**
- * Material Text Field
- */
 import React, { useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
-import { Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Button } from "reactstrap";
-// page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
-import MUIDataTable from "mui-datatables";
-
-// rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
-
-// intl messages
-import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
-import { useHistory, useParams } from "react-router-dom";
-import { SelectionState } from "draft-js";
+import { useHistory } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import InputMask from "react-input-mask";
-import states from "../states";
 import AddToGroup from "./addToGroup";
-import { NotificationContainer, NotificationManager,} from "react-notifications";
+import { NotificationManager,} from "react-notifications";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {baseURL} from '../../api';
+import honorific from "../honorific";
+import company_type from "../company_type";
+import { RssFeed } from "@material-ui/icons";
 
-const honorific = [
+
+const gender = [
+  {
+    value: "Male",
+    label: "Male",
+  },
+  {
+    value: "Female",
+    label: "Female",
+  },
+];
+
+const title = [
   {
     value: "Shri",
     label: "Shri",
@@ -45,220 +47,64 @@ const honorific = [
   },
 ];
 
-const gender = [
+const title1 = [
   {
-    value: "Male",
-    label: "Male",
+    value: "M/s",
+    label: "M/s",
   },
-  {
-    value: "Female",
-    label: "Female",
-  },
-];
-
-const corr_preffer = [
-  {
-    value: "Registered",
-    label: "Registered",
-  },
-  {
-    value: "Branch Office",
-    label: "Branch Office",
-  },
-  {
-    value: "Digital",
-    label: "Digital",
-  },
-];
-
-const donor_type = [
-  {
-    value: "Member",
-    lablel: "Member",
-  },
-  {
-    value: "Donor",
-    label: "Donor",
-  },
-  {
-    value: "Member+Donor",
-    label: "Member+Donor",
-  },
-  {
-    value: "None",
-    label: "None",
-  },
-];
-
-const source = [
-  {
-    value: "Ekal Run",
-    label: "Ekal Run",
-  },
-  {
-    value: "Sakranti",
-    label: "Sakranti",
-  },
-];
-
-const belongs_to = [
-  {
-    value: "Chapter",
-    label: "Chapter",
-  },
-  {
-    value: "Mahila",
-    label: "Mahila",
-  },
-  {
-    value: "Yuva",
-    label: "Yuva",
-  },
-];
-
-const company_type = [
-  {
-    value: "Private",
-    label: "Private",
-  },
-  {
-    value: "Public",
-    label: "Public",
-  },
-  {
-    value: "Public",
-    label: "Public",
-  },
-  {
-    value: "Trust",
-    label: "Trust",
-  },
-  {
-    value: "Society",
-    label: "Society",
-  },
-  {
-    value: "Others",
-    label: "Others",
-  },
-];
-
-const csr = [
-  {
-    value: "0",
-    label: "No",
-  },
-  {
-    value: "1",
-    label: "Yes",
-  },
-];
-const corrpreffer = [
-  {
-    value: "Residence",
-    label: "Residence",
-  },
-  {
-    value: "Office",
-    label: "Office",
-  },
-  {
-    value: "Digital",
-    label: "Digital",
-  },
-];
-
-const state = [
-  {
-    value: "Karnataka",
-    label: "Karnataka",
-  },
-  {
-    value: "Kerala",
-    label: "Kerala",
-  },
-];
-
-const columns = ["Name", "Company", "City", "State"];
-
-const tabledata = [
-  ["Joe James", "Test Corp", "Yonkers", "NY"],
-  ["John Walsh", "Test Corp", "Hartford", "CT"],
-  ["Bob Herm", "Test Corp", "Tampa", "FL"],
-  ["James Houston", "Test Corp", "Dallas", "TX"],
 ];
 
 const EditIndiv = (props) => {
   let history = useHistory();
   const [donor, setDonor] = useState({
-    indicomp_full_name: "",
-    title: "",
-    indicomp_father_name: "",
-    indicomp_mother_name: "",
-    indicomp_gender: "",
-    indicomp_spouse_name: "",
-    indicomp_dob_annualday: "",
-    indicomp_doa: "",
-    indicomp_pan_no: "",
-    indicomp_image_logo: "",
-    indicomp_remarks: "",
-    indicomp_promoter: "",
-    indicomp_belongs_to: "",
-    indicomp_source: "",
-    indicomp_donor_type: "",
-    indicomp_type: "",
-    indicomp_mobile_phone: "",
-    indicomp_mobile_whatsapp: "",
-    indicomp_email: "",
-    indicomp_website: "",
-    indicomp_res_reg_address: "",
-    indicomp_res_reg_area: "",
-    indicomp_res_reg_ladmark: "",
-    indicomp_res_reg_city: "",
-    indicomp_res_reg_state: "",
-    indicomp_res_reg_pin_code: "",
-    indicomp_off_branch_address: "",
-    indicomp_off_branch_area: "",
-    indicomp_off_branch_ladmark: "",
-    indicomp_off_branch_city: "",
-    indicomp_off_branch_state: "",
-    indicomp_off_branch_pin_code: "",
-    indicomp_corr_preffer: "",
+    donor_full_name: "",
+    donor_title: "",
+    donor_gender: "",
+    donor_father_name: "",
+    donor_mother_name: "",
+    donor_spouse_name: "",
+    donor_contact_name: "",
+    donor_contact_designation: "",
+    donor_dob_annualday: "",
+    donor_doa: "",
+    donor_pan_no: "",
+    donor_image_logo: "",
+    donor_remarks: "",
+    donor_type: "",
+    donor_mobile: "",
+    donor_whatsapp: "",
+    donor_email: "",
+    donor_address: "",
+    donor_area: "",
+    donor_ladmark: "",
+    donor_city: "",
+    donor_state: "",
+    donor_pin_code: "",
   });
 
-  const [donors, setDonors] = useState([]);
+  
   const [family_related_id, setFamilyRelatedId] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
   const [loader, setLoader]= useState(true);
-  // var url = new URL(window.location.href);
-  // var id = url.searchParams.get("id");
-  var id = props.id;
-
-  // const { personName, userName, mobile, email } = user;
+  var url = new URL(window.location.href);
+  var id = url.searchParams.get("id");
   const validateOnlyDigits = (inputtxt) => {
 
-    // function phonenumber(inputtxt)
-   //{
+    
      var phoneno = /^\d+$/;
      if(inputtxt.match(phoneno) || inputtxt.length==0){
          return true;
            }
          else
            {
-           //alert("message");
+           
            return false;
            }
    }
 
-
-
-  // const { personName, userName, mobile, email } = user;
   const onInputChange = (e) => {
 
-    if(e.target.name=="indicomp_mobile_phone"){
-
-
-      // alert('aaya')
+    if(e.target.name=="donor_mobile"){
 
       if(validateOnlyDigits(e.target.value)){
         setDonor({
@@ -269,10 +115,14 @@ const EditIndiv = (props) => {
         
       
        
-    } else if(e.target.name=="indicomp_mobile_whatsapp"){
-
-
-      // alert('aaya')
+    } else if(e.target.name=="donor_whatsapp"){
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+    }else if(e.target.name=="donor_pin_code"){
 
       if(validateOnlyDigits(e.target.value)){
         setDonor({
@@ -280,66 +130,23 @@ const EditIndiv = (props) => {
           [e.target.name]: e.target.value,
         });
       }
-        
-      
-       
-    }else if(e.target.name=="indicomp_res_reg_pin_code"){
-
-
-      // alert('aaya')
-
-      if(validateOnlyDigits(e.target.value)){
-        setDonor({
-          ...donor,
-          [e.target.name]: e.target.value,
-        });
-      }
-        
-      
-       
-    }else if(e.target.name=="indicomp_off_branch_pin_code"){
-
-
-      // alert('aaya')
-
-      if(validateOnlyDigits(e.target.value)){
-        setDonor({
-          ...donor,
-          [e.target.name]: e.target.value,
-        });
-      }
-        
-      
-       
     }else{
 
-    setDonor({
-      ...donor,
-      [e.target.name]: e.target.value,
-    });
-  }
+      setDonor({
+        ...donor,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const onChangePanNumber = (e) => {
-    setDonor({ ...donor, indicomp_pan_no: e.target.value });
+    setDonor({ ...donor, donor_pan_no: e.target.value });
   };
 
-  const fetchDonors = () => {
-    axios({
-      url: baseURL+"/fetch-donors",
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("login")}`,
-      },
-    }).then((res) => {
-      setDonors(res.data.individualCompanies);
-      setLoader(false)
-      console.log(donor);
-    });
-  };
+  
 
   useEffect(() => {
-    var isLoggedIn = localStorage.getItem("id");
+    var isLoggedIn = localStorage.getItem("user_type_id");
     if(!isLoggedIn){
 
       window.location = "/signin";
@@ -354,8 +161,9 @@ const EditIndiv = (props) => {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      setDonor(res.data.individualCompany);
-      fetchDonors();
+      
+      setDonor(res.data.donor);
+      setLoader(false);
     });
   }, []);
 
@@ -363,60 +171,57 @@ const EditIndiv = (props) => {
     e.preventDefault();
     
     let data = {
-      indicomp_full_name: donor.indicomp_full_name,
-      title: donor.title,
-      indicomp_type: donor.indicomp_type,
-      indicomp_father_name: donor.indicomp_father_name,
-      indicomp_mother_name: donor.indicomp_mother_name,
-      indicomp_gender: donor.indicomp_gender,
-      indicomp_spouse_name: donor.indicomp_spouse_name,
-      indicomp_dob_annualday: donor.indicomp_dob_annualday,
-      indicomp_doa: donor.indicomp_doa,
-      indicomp_pan_no: donor.indicomp_pan_no,
-      indicomp_image_logo: donor.indicomp_image_logo,
-      indicomp_remarks: donor.indicomp_remarks,
-      indicomp_promoter: donor.indicomp_promoter,
-      indicomp_source: donor.indicomp_source,
-      indicomp_mobile_phone: donor.indicomp_mobile_phone,
-      indicomp_mobile_whatsapp: donor.indicomp_mobile_whatsapp,
-      indicomp_email: donor.indicomp_email,
-      indicomp_website: donor.indicomp_website,
-      indicomp_res_reg_address: donor.indicomp_res_reg_address,
-      indicomp_res_reg_area: donor.indicomp_res_reg_area,
-      indicomp_res_reg_ladmark: donor.indicomp_res_reg_ladmark,
-      indicomp_res_reg_city: donor.indicomp_res_reg_city,
-      indicomp_res_reg_state: donor.indicomp_res_reg_state,
-      indicomp_res_reg_pin_code: donor.indicomp_res_reg_pin_code,
-      indicomp_off_branch_address: donor.indicomp_off_branch_address,
-      indicomp_off_branch_area: donor.indicomp_off_branch_area,
-      indicomp_off_branch_ladmark: donor.indicomp_off_branch_ladmark,
-      indicomp_off_branch_city: donor.indicomp_off_branch_city,
-      indicomp_off_branch_state: donor.indicomp_off_branch_state,
-      indicomp_off_branch_pin_code: donor.indicomp_off_branch_pin_code,
-      indicomp_corr_preffer: donor.indicomp_corr_preffer,
-      indicomp_belongs_to: donor.indicomp_belongs_to,
-      indicomp_donor_type: donor.indicomp_donor_type,
+      donor_full_name: donor.donor_full_name,
+      donor_title: donor.donor_title,
+      donor_type: donor.donor_type,
+      donor_gender: donor.donor_gender,
+      donor_father_name: donor.donor_father_name,
+      donor_mother_name: donor.donor_mother_name,
+      donor_spouse_name: donor.donor_spouse_name,
+      donor_contact_name: donor.donor_contact_name,
+      donor_contact_designation: donor.donor_contact_designation,
+      donor_dob_annualday: donor.donor_dob_annualday,
+      donor_doa: donor.donor_doa,
+      donor_pan_no: donor.donor_pan_no,
+      donor_image_logo: donor.donor_image_logo,
+      donor_remarks: donor.donor_remarks,
+      donor_mobile: donor.donor_mobile,
+      donor_whatsapp: donor.donor_whatsapp,
+      donor_email: donor.donor_email,
+      donor_address: donor.donor_address,
+      donor_area: donor.donor_area,
+      donor_ladmark: donor.donor_ladmark,
+      donor_city: donor.donor_city,
+      donor_state: donor.donor_state,
+      donor_pin_code: donor.donor_pin_code,
+      
     };
     var v = document.getElementById("editIndiv").checkValidity();
     var v = document.getElementById("editIndiv").reportValidity();
 
-    // const val = validate();
-    // const dateval = datevalidate();
+    
     e.preventDefault();
 if(v){
   setIsButtonDisabled(true)
     axios({
-      url: baseURL+"/update-donor/" + id,
+      url: baseURL+"/update-donor-by-id/" + id,
       method: "PUT",
       data,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      console.log("editdonor", res.data);
-      setDonor(res.data.individualCompany);
-      NotificationManager.success("Data Updated Sucessfully");
-      history.push("listing");
+      if(res.data.code == 201){
+        NotificationManager.success("Data Updated Sucessfully");
+        history.push("listing");
+      }else if(res.data.code == 401){
+        NotificationManager.error("Email Duplicate Entry");
+      }else if(res.data.code == 402){
+        NotificationManager.error("Mobile Duplicate Entry");
+      }else{
+        NotificationManager.error("Data Duplicate Entry");
+      }
+      
     });
   }
   };
@@ -437,7 +242,7 @@ if(v){
 
     if (status == "add_to_family_group") {
       data = {
-        indicomp_related_id: family_related_id,
+        donor_related_id: family_related_id,
       };
     } else {
       data = {
@@ -446,7 +251,7 @@ if(v){
     }
 
     axios({
-      url: baseURL+"/update-donor/" + id,
+      url: baseURL+"/update-donor-by-id/" + id,
       method: "PUT",
       data,
       headers: {
@@ -454,22 +259,65 @@ if(v){
       },
     }).then((res) => {
       NotificationManager.success("Data Sucessfully Removed From the Group");
-      setDonor(res.data.individualCompany);
-      //alert("success");
+      
       setShowmodal(false);
     });
   };
+
+  const [states, setStates] = useState([]);
+  useEffect(() => {
+    var theLoginToken = localStorage.getItem('login');       
+        
+      const requestOptions = {
+            method: 'GET', 
+            headers: {
+               'Authorization': 'Bearer '+theLoginToken
+            }             
+      };     
+
+
+    fetch(baseURL+'/fetch-states', requestOptions)
+    .then(response => response.json())
+    .then(data => setStates(data.states)); 
+  }, []);
+
+  
+
   return (
     <div className="textfields-wrapper">
       { loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
       {!loader && 
       <>
-      <PageTitleBar title="Edit Individual Donor" />
+      <PageTitleBar title="Edit Donor" />
       <RctCollapsibleCard>
         <form id="editIndiv" autoComplete="off">
           <h1>Personal Details</h1>
           <hr style={hr} />
           <div className="row">
+          <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  id="select-corrpreffer"
+                  select
+                  required
+                  label="Donor Type"
+                  SelectProps={{
+                    MenuProps: {},
+                  }}
+                  helperText="Please select your Donor Type"
+                  name="donor_type"
+                  value={donor.donor_type}
+                  onChange={(e) => onInputChange(e)}
+                  fullWidth
+                >
+                  {company_type.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
@@ -480,16 +328,25 @@ if(v){
                     MenuProps: {},
                   }}
                   helperText="Please select your Title"
-                  name="title"
+                  name="donor_title"
                   required
-                  value={donor.title}
+                  value={donor.donor_title}
                   onChange={(e) => onInputChange(e)}
                   fullWidth
                 >
-                  {honorific.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
+                  {donor.donor_type == 'Individual' ?
+                    
+                    title.map((option) => (
+                      <MenuItem key={option.label} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                  ))
+                  
+                  :
+                    title1.map((option) => (
+                      <MenuItem key={option.label} value={option.value}>
+                        {option.label}
+                      </MenuItem>
                   ))}
                 </TextField>
               </div>
@@ -501,32 +358,8 @@ if(v){
                   required
                   label="Full Name"
                   autoComplete="Name"
-                  name="indicomp_full_name"
-                  value={donor.indicomp_full_name}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Father Name"
-                  autoComplete="Name"
-                  name="indicomp_father_name"
-                  value={donor.indicomp_father_name}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Mother Name"
-                  autoComplete="Name"
-                  name="indicomp_mother_name"
-                  value={donor.indicomp_mother_name}
+                  name="donor_full_name"
+                  value={donor.donor_full_name}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
@@ -535,16 +368,14 @@ if(v){
               <div className="form-group">
                 <TextField
                   id="select-corrpreffer"
-                  required
                   select
                   label="Gender"
                   SelectProps={{
                     MenuProps: {},
                   }}
-                  name="indicomp_gender"
-                  value={donor.indicomp_gender}
+                  name="donor_gender"
+                  value={donor.donor_gender}
                   onChange={(e) => onInputChange(e)}
-                  helperText="Please select your Gender"
                   fullWidth
                 >
                   {gender.map((option) => (
@@ -555,187 +386,142 @@ if(v){
                 </TextField>
               </div>
             </div>
+            {donor.donor_type == 'Individual' ?
+            "" :
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Contact Name"
+                  autoComplete="Name"
+                  name="donor_contact_name"
+                  value={donor.donor_contact_name}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            }
+            {donor.donor_type == 'Individual' ?
+                        "" :
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Contact Designation"
+                  autoComplete="Name"
+                  name="donor_contact_designation"
+                  value={donor.donor_contact_designation}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>
+            }
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              
+              <InputMask
+                mask="aaaaa 9999 a"
+                formatChars={{
+                  9: "[0-9]",
+                  a: "[a-z]",
+                }}
+                value={donor.donor_pan_no}
+                onChange={(e) => onChangePanNumber(e)}
+              >
+                {() => <TextField label="PAN Number" />}
+              </InputMask>
+            
+          </div>
+
+          {donor.donor_type == 'Individual' ?
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Father Name"
+                  autoComplete="Name"
+                  name="donor_father_name"
+                  value={donor.donor_father_name}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>: ""}
+            {donor.donor_type == 'Individual' ?
+            <div className="col-sm-6 col-md-6 col-xl-3">
+              <div className="form-group">
+                <TextField
+                  fullWidth
+                  label="Mother Name"
+                  autoComplete="Name"
+                  name="donor_mother_name"
+                  value={donor.donor_mother_name}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+            </div>: ""}
+           {donor.donor_type == 'Individual' ?
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   fullWidth
                   label="Spouse Name"
                   autoComplete="Name"
-                  name="indicomp_spouse_name"
-                  value={donor.indicomp_spouse_name}
+                  name="donor_spouse_name"
+                  value={donor.donor_spouse_name}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-            </div>
+            </div>: ""}
+            {donor.donor_type == 'Individual' ?
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   fullWidth
                   label="DOB"
                   autoComplete="Name"
-                  name="indicomp_dob_annualday"
+                  name="donor_dob_annualday"
                   type="date"
-                  value={donor.indicomp_dob_annualday}
-                  InputLabelProps={{ shrink: true }}
+                  value={donor.donor_dob_annualday}
+                  helperText="Date of Birthday"
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
-            </div>
+            </div>: ""}
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   fullWidth
                   label="DOA"
                   autoComplete="Name"
-                  name="indicomp_doa"
+                  name="donor_doa"
                   type="date"
-                  value={donor.indicomp_doa}
+                  helperText="Date of Anniversary"
+                  value={donor.donor_doa}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              
-                <InputMask
-                  mask="aaaaa 9999 a"
-                  formatChars={{
-                    9: "[0-9]",
-                    a: "[A-Z]",
-                  }}
-                  value={donor.indicomp_pan_no}
-                  onChange={(e) => onChangePanNumber(e)}
-                >
-                  {() => <TextField label="PAN Number" />}
-                </InputMask>
-              
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Upload Image"
-                  autoComplete="Name"
-                  name="indicomp_image_logo"
-                  type="file"
-                  disabled
-                  helperText="Upload Donor Image"
-                  value={donor.indicomp_image_logo}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            
+            
+            <div className="col-sm-6 col-md-6 col-xl-12">
               <div className="form-group">
                 <TextField
                   fullWidth
                   label="Remarks"
                   autoComplete="Name"
-                  name="indicomp_remarks"
-                  value={donor.indicomp_remarks}
+                  name="donor_remarks"
+                  value={donor.donor_remarks}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Promoter"
-                  autoComplete="Name"
-                  name="indicomp_promoter"
-                  value={donor.indicomp_promoter}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  id="select-corrpreffer"
-                  select
-                  label="Belongs To"
-                  SelectProps={{
-                    MenuProps: {},
-                  }}
-                  helperText="Please select your Belongs To"
-                  name="indicomp_belongs_to"
-                  value={donor.indicomp_belongs_to}
-                  onChange={(e) => onInputChange(e)}
-                  fullWidth
-                >
-                  {belongs_to.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  id="select-corrpreffer"
-                  select
-                  label="Source"
-                  SelectProps={{
-                    MenuProps: {},
-                  }}
-                  helperText="Please select your Source"
-                  name="indicomp_source"
-                  value={donor.indicomp_source}
-                  onChange={(e) => onInputChange(e)}
-                  fullWidth
-                >
-                  {source.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  id="select-corrpreffer"
-                  select
-                  label="Donor Type"
-                  SelectProps={{
-                    MenuProps: {},
-                  }}
-                  helperText="Please select your Donor Type"
-                  name="indicomp_donor_type"
-                  value={donor.indicomp_donor_type}
-                  onChange={(e) => onInputChange(e)}
-                  fullWidth
-                >
-                  {donor_type.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  required
-                  label="Type"
-                  autoComplete="Name"
-                  name="indicomp_type"
-                  value={donor.indicomp_type}
-                  onChange={(e) => onInputChange(e)}
-                  disabled
-                />
-              </div>
-            </div>
+            
+            
+            
           </div>
           <h1>Communication Details</h1>
           <hr style={hr} />
           <div className="row">
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            <div className="col-sm-6 col-md-6 col-xl-4">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -745,13 +531,13 @@ if(v){
                   
                   type="text"
                   autoComplete="Name"
-                  name="indicomp_mobile_phone"
-                  value={donor.indicomp_mobile_phone}
+                  name="donor_mobile"
+                  value={donor.donor_mobile}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            <div className="col-sm-6 col-md-6 col-xl-4">
               <div className="form-group">
                 <TextField
                   fullWidth
@@ -760,76 +546,42 @@ if(v){
                   
                   type="text"
                   autoComplete="Name"
-                  name="indicomp_mobile_whatsapp"
-                  value={donor.indicomp_mobile_whatsapp}
+                  name="donor_whatsapp"
+                  value={donor.donor_whatsapp}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
+            <div className="col-sm-6 col-md-6 col-xl-4">
               <div className="form-group">
                 <TextField
                   fullWidth
                   label="Email"
                   autoComplete="Name"
-                  name="indicomp_email"
+                  name="donor_email"
                   type="email"
-                  value={donor.indicomp_email}
+                  value={donor.donor_email}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Website"
-                  autoComplete="Name"
-                  name="indicomp_website"
-                  value={donor.indicomp_website}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
+            
           </div>
-          <h3>Residence Address</h3>
+          <h3>Address</h3>
           <div className="row">
-            <div className="col-sm-6 col-md-6 col-xl-4">
+            <div className="col-sm-6 col-md-6 col-xl-12">
               <div className="form-group">
                 <TextField
                   fullWidth
-                  label="House & Street Number"
+                  label="House & Street Number Address"
                   autoComplete="Name"
-                  name="indicomp_res_reg_address"
-                  value={donor.indicomp_res_reg_address}
+                  name="donor_address"
+                  value={donor.donor_address}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-4">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Area"
-                  autoComplete="Name"
-                  name="indicomp_res_reg_area"
-                  value={donor.indicomp_res_reg_area}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-4">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Landmark"
-                  autoComplete="Name"
-                  name="indicomp_res_reg_ladmark"
-                  value={donor.indicomp_res_reg_ladmark}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
+            
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
@@ -837,8 +589,8 @@ if(v){
                   required
                   label="City"
                   autoComplete="Name"
-                  name="indicomp_res_reg_city"
-                  value={donor.indicomp_res_reg_city}
+                  name="donor_city"
+                  value={donor.donor_city}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
@@ -854,14 +606,14 @@ if(v){
                     MenuProps: {},
                   }}
                   helperText="Please select your State"
-                  name="indicomp_res_reg_state"
-                  value={donor.indicomp_res_reg_state}
+                  name="donor_state"
+                  value={donor.donor_state}
                   onChange={(e) => onInputChange(e)}
                   fullWidth
                 >
-                  {states.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
+                  {states.map((state, key) => (
+                    <MenuItem key={state.id} value={state.state_name}>
+                      {state.state_name}
                     </MenuItem>
                   ))}
                 </TextField>
@@ -877,126 +629,14 @@ if(v){
                   
                   type="text"
                   autoComplete="Name"
-                  name="indicomp_res_reg_pin_code"
-                  value={donor.indicomp_res_reg_pin_code}
+                  name="donor_pin_code"
+                  value={donor.donor_pin_code}
                   onChange={(e) => onInputChange(e)}
                 />
               </div>
             </div>
           </div>
-          <h3>Office Address</h3>
-          <div className="row">
-            <div className="col-sm-6 col-md-6 col-xl-4">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Office & Street Number"
-                  autoComplete="Name"
-                  name="indicomp_off_branch_address"
-                  value={donor.indicomp_off_branch_address}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-4">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Area"
-                  autoComplete="Name"
-                  name="indicomp_off_branch_area"
-                  value={donor.indicomp_off_branch_area}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-4">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Landmark"
-                  autoComplete="Name"
-                  name="indicomp_off_branch_ladmark"
-                  value={donor.indicomp_off_branch_ladmark}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="City"
-                  autoComplete="Name"
-                  name="indicomp_off_branch_city"
-                  value={donor.indicomp_off_branch_city}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  id="select-corrpreffer"
-                  select
-                  label="State"
-                  SelectProps={{
-                    MenuProps: {},
-                  }}
-                  helperText="Please select your State"
-                  name="indicomp_off_branch_state"
-                  value={donor.indicomp_off_branch_state}
-                  onChange={(e) => onInputChange(e)}
-                  fullWidth
-                >
-                  {states.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  fullWidth
-                  label="Pincode"
-                  inputProps={{ maxLength: 6 }}
-                  
-                  type="text"
-                  autoComplete="Name"
-                  name="indicomp_off_branch_pin_code"
-                  value={donor.indicomp_off_branch_pin_code}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-            </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  id="select-corrpreffer"
-                  required
-                  select
-                  label="Correspondence Preference"
-                  SelectProps={{
-                    MenuProps: {},
-                  }}
-                  helperText="Please select your Correspondence Preference"
-                  name="indicomp_corr_preffer"
-                  value={donor.indicomp_corr_preffer}
-                  onChange={(e) => onInputChange(e)}
-                  fullWidth
-                >
-                  {corrpreffer.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </div>
-          </div>
+          
           <div className="receiptbuttons">
             <Button
               className="mr-10 mb-10"
@@ -1007,10 +647,8 @@ if(v){
             >
               Submit
             </Button>
-            {/* <Button className="mr-10 mb-10" color="danger">
-              Cancel
-            </Button> */}
-            {donor.indicomp_related_id == donor.indicomp_fts_id ? (
+            
+            {donor.donor_related_id == donor.indicomp_fts_id ? (
               <Button
                 onClick={() => openmodal()}
                 className="mr-10 mb-10"
@@ -1027,7 +665,7 @@ if(v){
                 Attach to Group
               </Button>
             )}
-            {donor.indicomp_related_id == donor.indicomp_fts_id ? (
+            {donor.donor_related_id == donor.indicomp_fts_id ? (
               <Button disabled className="mr-10 mb-10">
                 Leave Group
               </Button>

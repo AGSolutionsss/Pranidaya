@@ -138,56 +138,18 @@ class Header extends Component {
                     </Tooltip>
                   </li>
                 )}
-                {/* {!horizontalMenu && <QuickLinks />} */}
-                {/* <li className="list-inline-item search-icon d-inline-block">
-									<SearchForm />
-									<IconButton mini="true" className="search-icon-btn" onClick={() => this.openMobileSearchForm()}>
-										<i className="zmdi zmdi-search"></i>
-									</IconButton>
-									<MobileSearchForm
-										isOpen={isMobileSearchFormVisible}
-										onClose={() => this.setState({ isMobileSearchFormVisible: false })}
-									/>
-								</li> */}
+                
               </ul>
             )}
           </div>
           <div>
-							<Link to="/app/dashboard/news" className="logo-mini">
-								<img src={require('Assets/receipt/fts1.png')} className="mr-15" alt="site logo" width="120" height="45" />
+							<Link to="/app/dashboard" className="logo-mini">
+								<img src={require('Assets/receipt/fts1.jpg')} className="mr-15" alt="site logo" width="auto" height="auto" />
 							</Link>
 					
 					</div>
 
           <ul className="navbar-right list-inline mb-0">
-            {/* <li className="list-inline-item summary-icon">
-							<Tooltip title="Summary" placement="bottom">
-								<a href="#" className="header-icon tour-step-3" onClick={(e) => this.openDashboardOverlay(e)}>
-									<i className="zmdi zmdi-info-outline"></i>
-								</a>
-							</Tooltip>
-						</li> */}
-            {/* {!horizontalMenu &&
-							<li className="list-inline-item">
-								<Tooltip title="Upgrade" placement="bottom">
-									<Button component={Link} to={`/${getAppLayout(location)}/pages/pricing`} variant="contained" className="upgrade-btn tour-step-4 text-white" color="primary">
-										<IntlMessages id="widgets.upgrade" />
-									</Button>
-								</Tooltip>
-							</li>
-						} */}
-            {/* <LanguageProvider /> */}
-            {/* <Notifications /> */}
-            {/* <Cart /> */}
-            {/* <li className="list-inline-item setting-icon">
-							<Tooltip title="Chat" placement="bottom">
-								<IconButton aria-label="settings" onClick={() => this.setState({ customizer: true })}>
-									<i className="zmdi zmdi-comment"></i>
-								</IconButton>
-							</Tooltip>
-						</li> */}
-
-            
             <li className="list-inline-item">
               <Tooltip title="Full Screen" placement="bottom">
                 <IconButton

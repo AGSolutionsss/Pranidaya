@@ -1,19 +1,12 @@
-/**
- * News Dashboard
- */
-
- import React, { Component } from "react";
- import { Helmet } from "react-helmet";
- // intl messages
- import IntlMessages from 'Util/IntlMessages';
- import { Redirect, Route, Switch } from 'react-router-dom';
- import { Badge } from 'reactstrap';
- import List from '@material-ui/core/List';
- import ListItem from '@material-ui/core/ListItem';
- import IconButton from '@material-ui/core/IconButton';
- import ChartConfig from 'Constants/chart-config';
- 
- // rct collapsible card
+import React, { Component } from "react";
+import { Helmet } from "react-helmet";
+import IntlMessages from 'Util/IntlMessages';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { Badge } from 'reactstrap';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import IconButton from '@material-ui/core/IconButton';
+import ChartConfig from 'Constants/chart-config';
  import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
  import Card1 from "./cards/card1";
  import Card2 from "./cards/card2";
@@ -22,11 +15,11 @@
  import Bar from "./bar";
  import {baseURL} from '../../api';
  import NumberFormat from 'react-number-format';
- 
-
- //Widgets
+ import dateyear from '.././dateyear';
+ import Button from '@material-ui/core/Button';
+ import { makeStyles } from '@material-ui/core/styles';
  import {
-   //TrendingNews,
+  OverallTrafficStatusWidget,
    TopHeadlines,
    SupportRequest,
    Visitors,
@@ -39,78 +32,42 @@
    TopNews,
    TwitterFeedsV2,
    Notifications,
+   CampaignPerformance,
+   SalesDoughnutChart,
  } from "Components/Widgets";
- 
- // widgets data
  import { newsVisitorsData, newslaterCampaignData } from "./data";
  import axios from "axios";
-
- const data = {
-	labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-	datasets: [
-		{
-			label: 'Series A',
-			backgroundColor: ChartConfig.color.primary,
-			borderColor: ChartConfig.color.primary,
-			borderWidth: 1,
-			hoverBackgroundColor: ChartConfig.color.primary,
-			hoverBorderColor: ChartConfig.color.primary,
-			data: [65, 59, 80, 81, 56, 55, 40]
-		}
-	]
-}
-
-const options = {
-	legend: {
-		labels: {
-			fontColor: ChartConfig.legendFontColor
-		}
-	},
-	scales: {
-		xAxes: [{
-			gridLines: {
-				color: ChartConfig.chartGridColor
-			},
-			ticks: {
-				fontColor: ChartConfig.axesColor
-			}
-		}],
-		yAxes: [{
-			gridLines: {
-				color: ChartConfig.chartGridColor
-			},
-			ticks: {
-				fontColor: ChartConfig.axesColor
-			}
-		}]
-	}
-};
- 
+ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+ import Selectdonor from "./selectdonor";
+ import { Doughnut } from 'react-chartjs-2'
 
  export default class NewsDashboard extends Component {
    state = {
      results: [],
+     graph1: [],
+     graph2: [],
+     openModal : false,
+     
    };
-   
+
+   onClickButton = e =>{
+    e.preventDefault()
+    this.setState({openModal : true})
+  }
+
+  onCloseModal = ()=>{
+    this.setState({openModal : false})
+  }
 
    componentDidMount() {
 
-    var isLoggedIn = localStorage.getItem("id");
+    var isLoggedIn = localStorage.getItem("user_type_id");
     if(!isLoggedIn){
-
-      // alert('jaja')
-      // this.props.logoutUserFromFirebase();
       browserHistory.push("/logout");
-      
     }else{
-
-      // alert('mama')
     }
-     
-
-
      axios({
-       url: baseURL+"/fetch-dashboard-data",
+       url: baseURL+"/fetch-dashboard-data-by/"+dateyear,
        method: "GET",
        headers: {
          Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -118,10 +75,17 @@ const options = {
      })
        .then((res) => {
          this.setState({ results: res.data });
-         console.log(res.data);
+         let test1 = [];
+         let test2 = [];
+         for(let i=0; i<res.data.graph1.length; i++){
+          test1.push(res.data.graph1[i].receipt_donation_type);
+          test2.push(parseInt(res.data.graph1[i].total_amount));
+         }
+         this.setState({ graph1: test1 });
+         this.setState({ graph2: test2 });
        })
        .catch((res) => {
-         alert("Something Went Wrong!");
+         
          
        });
    }
@@ -135,16 +99,16 @@ const options = {
      return (
        <div className="news-dashboard-wrapper">
          <Helmet>
-           <title>FTS | Dashboard</title>
-           <meta name="description" content="FTS Dashboard" />
+           <title>Pranidaya</title>
+           <meta name="description" content="Pranidaya" />
          </Helmet>
          <div className="row">
          
          <div className="col-xs-6 col-sm-6 col-md-3 w-xs-half-block">
              {this.state.results.length != 0 && (
                <Card2
-                 totalCompaniesCount={this.state.results.total_companies_count}
-                 cardTitle="Total Companies Count"
+                 totalCompaniesCount={this.state.results.total_donor_count}
+                 cardTitle="Total Donor Count"
                ></Card2>
              )}
            </div>
@@ -152,8 +116,8 @@ const options = {
            <div className="col-sm-6 col-md-3 w-xs-half-block">
              {this.state.results.length != 0 && (
                <Card1
-                 individualCompanyCount={this.state.results.individual_company_count}
-                 cardTitle="Individual Company Count"
+                 individualCompanyCount={this.state.results.total_website_donation}
+                 cardTitle="Total Website Donation"
                ></Card1>
              )}
            </div>
@@ -161,8 +125,8 @@ const options = {
            <div className="col-sm-6 col-md-3 w-xs-half-block">
              {this.state.results.length != 0 && (
                <Card3
-                 otherCompaniesCount={this.state.results.other_companies_count}
-                 cardTitle="Other Companies Count"
+                 otherCompaniesCount={this.state.results.total_material_donation}
+                 cardTitle="Total Material Donation"
                ></Card3>
              )}
            </div>
@@ -180,201 +144,51 @@ const options = {
                   )}
                </div>
          </div>
-
-         {/* <TrendingNews /> */}
          <div className="row">
-           <RctCollapsibleCard
-             heading="Notices"
-             colClasses="col-sm-12 col-md-12 col-lg-8"
-             collapsible
-             
-             closeable
-             fullBlock
-           >
-             <TopHeadlines />
-           </RctCollapsibleCard>
-           
-           <div className="col-sm-12 col-md-12 col-lg-4">
-             <div className="row">
- 
-             <div className="col-sm-6 col-md-6 col-lg-12">
-                   <RctCollapsibleCard
-                     heading="Total Donation Details"
-                     collapsible
-                     
-                     closeable
-                     fullBlock
-                     customClasses="overflow-hidden" >
-                     
-                   
-                   <div class="collapse show">
-                   <div className="support-widget-wrap">
-             {/* <div className="text-center py-10">
-                <DoughnutChart />
-             </div> */}
-             <List className="list-unstyled p-0 ">
-                <ListItem className=" px-15 py-0 d-flex p-5 justify-content-between align-content-center">
-                   <p className="mb-0 content-title"><IntlMessages id="OTS" /></p>
-                   <Badge style={{ fontSize: '18px' }} color="primary" className="px-4">
-                   <NumberFormat 
-                   thousandSeparator={true} 
-                   thousandsGroupStyle="lakh"
-                   displayType={'text'}
-                   prefix={'₹ '} 
-                   value={this.state.results.total_ots_donation}
-                   
-                   />
-                     </Badge>
-                   <IconButton color="default">
-                      <p>{this.state.results.ots_receipts_count} </p>
-                   </IconButton>
-                </ListItem>
-                <ListItem className="px-15 py-0 d-flex p-5 justify-content-between align-content-center">
-                   <p className="mb-0 content-title"><IntlMessages id="Membership" /></p>
-                   <Badge style={{ fontSize: '18px' }} color="warning" className="px-4">
-                   
-                   <NumberFormat 
-                   thousandSeparator={true} 
-                   thousandsGroupStyle="lakh"
-                   displayType={'text'}
-                   prefix={'₹ '} 
-                   value={this.state.results.total_membership_donation}
-                   
-                   />
-
-                    </Badge>
-                   <IconButton color="default">
-                      <p>{this.state.results.mem_receipts_count}</p>
-                   </IconButton>
-                </ListItem>
-                <ListItem className=" px-15 py-0 d-flex p-5 justify-content-between align-content-center">
-                   <p className="mb-0 content-title"><IntlMessages id="General" /></p>
-                   <Badge style={{ fontSize: '18px' }} color="info" className="px-4">
-                   <NumberFormat 
-                   thousandSeparator={true} 
-                   thousandsGroupStyle="lakh"
-                   displayType={'text'}
-                   prefix={'₹ '} 
-                   value={this.state.results.total_general_donation}
-                     />
-                     </Badge>
-                   <IconButton color="default">
-                      <p>{this.state.results.gen_receipts_count}</p>
-                   </IconButton>
-                </ListItem>
-             </List>
-                   
-                </div>
-                  
-             </div>
-             </RctCollapsibleCard>
-             </div>
-             <div className="col-sm-6 col-md-6 col-lg-12">
-                   <RctCollapsibleCard
-                     heading="Last 30 Days Donation Details"
-                     collapsible
-                    
-                     closeable
-                     fullBlock
-                     customClasses="overflow-hidden" >
-                     
-                   
-                   <div class="collapse show">
-                   <div className="support-widget-wrap">
-             {/* <div className="text-center py-10">
-                <DoughnutChart />
-             </div> */}
-             <List className="list-unstyled p-0 " style={{ fontSize: '20px' }} >
-                <ListItem className=" px-15 py-0 d-flex p-5 justify-content-between align-content-center">
-                   <p className="mb-0 content-title"><IntlMessages id="OTS" /></p>
-                   <Badge color="primary" className="px-4">
-                   <NumberFormat 
-                   thousandSeparator={true} 
-                   thousandsGroupStyle="lakh"
-                   displayType={'text'}
-                   prefix={'₹ '} 
-                   value={this.state.results.thirty_ots}
-                     />
-                     </Badge>
-                   {/* <IconButton color="default">
-                      <i className="ti-eye"></i>
-                   </IconButton> */}
-                </ListItem>
-                <ListItem className="px-15 py-0 d-flex p-5 justify-content-between align-content-center">
-                   <p className="mb-0 content-title"><IntlMessages id="Membership" /></p>
-                   <Badge  color="warning" className="px-4">
-                   <NumberFormat 
-                   thousandSeparator={true} 
-                   thousandsGroupStyle="lakh"
-                   displayType={'text'}
-                   prefix={'₹ '} 
-                   value={this.state.results.mem}
-                     />
-                    </Badge>
-                   {/* <IconButton color="default">
-                      <p>{this.state.results.ots_receipts_count}</p>
-                   </IconButton> */}
-                </ListItem>
-                <ListItem className=" px-15 py-0 d-flex p-5 justify-content-between align-content-center">
-                   <p className="mb-0 content-title"><IntlMessages id="General" /></p>
-                   <Badge color="info" className="px-4">
-                   <NumberFormat 
-                   thousandSeparator={true} 
-                   thousandsGroupStyle="lakh"
-                   displayType={'text'}
-                   prefix={'₹ '} 
-                   value={this.state.results.thirty_gen}
-                     />
-                    </Badge>
-                   {/* <IconButton color="default">
-                      <i className="ti-eye"></i>
-                   </IconButton> */}
-                </ListItem>
-             </List>
-                   
-                </div>
-                  
-             </div>
-             </RctCollapsibleCard>
-             </div>
-
-
-
-
-
-               
- 
-               {/* <div className="col-sm-6 col-md-6 col-lg-12">
-                 {this.state.results.length != 0 && (
-                   <Card5
-                     totalMembershipDonation={this.state.results.total_membership_donation}
-                   ></Card5>
-                 )}
-               </div>
-               <div className="col-sm-6 col-md-6 col-lg-12">
-                 {this.state.results.length != 0 && (
-                   <Card6
-                     totalOtsDonation={this.state.results.total_ots_donation}
-                   ></Card6>
-                 )}
-               </div> */}
-               
- 
-               
-               
-               {/* <div className="col-sm-6 col-md-6 col-lg-12">
-                 <Card3></Card3>
-               </div>
-               <div className="col-sm-6 col-md-6 col-lg-12">
-                 <Card1></Card1>
-               </div>
-               <div className="col-sm-6 col-md-6 col-lg-12">
-                 <Card2></Card2>
-               </div> */}
-             </div>
-           </div>
-         </div>
-         {/* <Bar data={data} options={options} /> */}
+         <RctCollapsibleCard
+						colClasses="col-sm-12 col-md-8 col-lg-8 w-xs-half-block"
+						heading={<IntlMessages id="Cash Receipts" />}
+						collapsible
+						reloadable
+						closeable
+					>
+						<OverallTrafficStatusWidget
+							chartData={{
+                chartLabels:this.state.graph1,
+                chartDatasets: [
+                  {
+                    backgroundColor: ChartConfig.color.primary,
+                    borderColor: ChartConfig.color.primary,
+                    borderWidth: 1,
+                    hoverBackgroundColor: ChartConfig.color.primary,
+                    hoverBorderColor: ChartConfig.color.primary,
+                    data: this.state.graph2
+                  },
+               ],
+              }}
+						/>
+					</RctCollapsibleCard>       
+          <RctCollapsibleCard
+						colClasses="col-sm-12 col-md-4 col-lg-4 w-xs-half-block"
+						heading={<IntlMessages id="Cash Receipts" />}
+						collapsible
+						reloadable
+						closeable
+					>
+            <Doughnut 
+                width={1349}
+                height={1349}
+                data = {{
+                  labels: this.state.graph1,
+                  datasets: [{
+                    data: this.state.graph2,
+                    backgroundColor: ['red', 'green', 'blue','Orange','black']
+                  }]
+                }} 
+            />
+          </RctCollapsibleCard>
+         
+          </div>
        </div>
        
      );

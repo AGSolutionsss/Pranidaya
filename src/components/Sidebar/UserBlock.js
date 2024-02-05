@@ -1,20 +1,10 @@
-/**
- * User Block Component
- */
 import React, { Component } from 'react';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { Link,Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Badge } from 'reactstrap';
 import { NotificationManager } from 'react-notifications';
-
-// components
 import SupportPage from '../Support/Support';
-
-// redux action
 import { logoutUserFromFirebase } from 'Actions';
-
-// intl messages
 import IntlMessages from 'Util/IntlMessages';
 
 class UserBlock extends Component {
@@ -25,10 +15,6 @@ class UserBlock extends Component {
 		flag:false
 	}
 	 
-
-	/**
-	 * Logout User
-	 */
 	logoutUser(e) {
 		e.preventDefault();
 		this.setState({flag:true});
@@ -38,30 +24,22 @@ class UserBlock extends Component {
 
 	}
 
-	/**
-	 * Toggle User Dropdown Menu
-	 */
+	
 	toggleUserDropdownMenu() {
 		this.setState({ userDropdownMenu: !this.state.userDropdownMenu });
 	}
 
-	/**
-	 * Open Support Modal
-	 */
+	
 	openSupportModal() {
 		this.setState({ isSupportModal: true });
 	}
 
-	/**
-	 * On Close Support Page
-	 */
+	
 	onCloseSupportPage() {
 		this.setState({ isSupportModal: false });
 	}
 
-	/**
-	 * On Submit Support Page
-	 */
+	
 	onSubmitSupport() {
 		this.setState({ isSupportModal: false });
 		NotificationManager.success('Message has been sent successfully!');
@@ -93,13 +71,11 @@ class UserBlock extends Component {
 								/>
 							</div>
 							<div className="user-info">
-							<span className="user-name ml-4">{localStorage.getItem("name")}</span>
-							 {/* <span className="user-name ml-4">Lucile Beck</span> */}
+							<span className="user-name ml-4">{localStorage.getItem("full_name")}</span>
+							
 								<i className="zmdi zmdi-chevron-down dropdown-icon mx-4"></i>
 							</div>
-							{/* <div>
-						<span className="user-name ml-4">{localStorage.getItem("name")}</span>
-						</div> */}
+							
 
 
 						</DropdownToggle>
@@ -108,8 +84,7 @@ class UserBlock extends Component {
 						<DropdownMenu>
 							<ul className="list-unstyled mb-0">
 								<li className="p-15 border-bottom user-profile-top bg-primary rounded-top">
-									{/* <p className="text-white mb-0 fs-14">Lucile Beck</p> */}
-									{/* <span className="text-white fs-14">info@example.com</span> */}
+									
 								</li>
 								<li>
 									<Link to={{
@@ -120,23 +95,7 @@ class UserBlock extends Component {
 										<span><IntlMessages id="widgets.profile" /></span>
 									</Link>
 								</li>
-								 {/* <li>
-									<Link to={{
-										pathname: '/app/users/user-profile-1',
-										state: { activeTab: 2 }
-									}}>
-										<i className="zmdi zmdi-comment-text-alt text-success mr-3"></i>
-										<span><IntlMessages id="widgets.messages" /></span>
-										<Badge color="danger" className="pull-right">3</Badge>
-									</Link>
-								</li> */}
-								{/* <li>
-									<Link to="/app/pages/feedback">
-										<i className="zmdi zmdi-edit text-warning mr-3"></i>
-										<span><IntlMessages id="sidebar.feedback" /></span>
-										<Badge color="info" className="pull-right">1</Badge>
-									</Link>
-								</li> */}
+								 
 								<li className="border-top">
 									<a href="#" onClick={(e) => this.logoutUser(e)}>
 										<i className="zmdi zmdi-power text-danger mr-3"></i>

@@ -1,58 +1,9 @@
-// sidebar nav links
 export default {
+  //user
   category1: [
-    {
-      menu_title: "sidebar.dashboards",
-      menu_icon: "zmdi zmdi-view-dashboard",
-      path: "/app/dashboard",
-      child_routes: null,
-    },
-    {
-      menu_title: "sidebar.donor",
-      menu_icon: "zmdi zmdi-account",
-      path: "/app/donor",
-      child_routes: null,
-    },
-    {
-      menu_title: "sidebar.member",
-      menu_icon: "zmdi zmdi-accounts",
-      path: "/app/member",
-      child_routes: null,
-    },
-    {
-      menu_title: "sidebar.receipts",
-      menu_icon: "zmdi zmdi-receipt",
-      path: "/app/receipts",
-      child_routes: null,
-    },
-    {
-      menu_title: "sidebar.suspense",
-      menu_icon: "zmdi zmdi-edit",
-      path: "/app/suspense",
-      child_routes: null,
-
-    },
-    {
-      menu_title: "sidebar.schools",
-      menu_icon: "zmdi zmdi-file-text",
-      path: "/app/schools",
-      child_routes: null,
-
-    },
-    {
-      menu_title: "sidebar.faq",
-      menu_icon: "zmdi zmdi-star",
-      path: "/app/faqs",
-      child_routes: null,
-
-    },
-    {
-      path: "/app/advanced-component/notification",
-      new_item: false,
-      menu_icon: "zmdi zmdi-notifications-active",
-      menu_title: "Notices",
-    },
+    
   ],
+  //Admin
   category7: [
     {
       menu_title: "sidebar.dashboards",
@@ -61,51 +12,105 @@ export default {
       child_routes: null,
     },
     {
-      path: "/app/users/user-management",
-      new_item: false,
-      menu_icon: "zmdi zmdi-account-circle",
-      menu_title: "sidebar.chapter",
+      menu_title: "Master",
+      menu_icon: "zmdi zmdi-file-text",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Items",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/item",
+          child_routes: null,
+        },
+        {
+          menu_title: "Vendors",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/vendor",
+          child_routes: null,
+        },
+      ]
     },
-
+    {
+      menu_title: "Stock",
+      menu_icon: "zmdi zmdi-account-circle",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Purchase",
+          menu_icon: "zmdi zmdi-account-circle",
+          path: "/app/purchase",
+          child_routes: null,
+        },
+        {
+          menu_title: "Consumption",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/cons",
+          child_routes: null,
+        },
+        {
+          menu_title: "Stock",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/stock",
+          child_routes: null,
+        },
+      ]
+    },
     {
       menu_title: "sidebar.donor",
       menu_icon: "zmdi zmdi-account",
       path: "/app/donor",
       child_routes: null,
     },
+    
     {
-      menu_title: "sidebar.member",
-      menu_icon: "zmdi zmdi-accounts",
-      path: "/app/member",
-      child_routes: null,
-    },
-    {
-      menu_title: "sidebar.receipts",
+      menu_title: "Receipts",
       menu_icon: "zmdi zmdi-receipt",
-      path: "/app/receipts",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Cash Receipts",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/receipts",
+          child_routes: null,
+        },
+        {
+          menu_title: "Material Receipts",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/receiptsM",
+          child_routes: null,
+        },
+      ]
+    },
+    
+    {
+      menu_title: "Website Donation",
+      menu_icon: "zmdi zmdi-account-o",
+      path: "/app/payment",
       child_routes: null,
     },
+    
     {
-      menu_title: "sidebar.schools",
-      menu_icon: "zmdi zmdi-file-text",
-      path: "/app/schools",
-      child_routes: null,
+      menu_title: "Download",
+      menu_icon: "zmdi zmdi-download",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Donor",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/donor-download",
+        },
+        {
+          menu_title: "Cash Receipt",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/receipt-download",
+        },
+        
+      ],
 
-    },
-    {
-      menu_title: "sidebar.faq",
-      menu_icon: "zmdi zmdi-star",
-      path: "/app/faqs",
-      child_routes: null,
-
-    },
-    {
-      path: "/app/advanced-component/notification",
-      new_item: false,
-      menu_icon: "zmdi zmdi-notifications-active",
-      menu_title: "sidebar.notification",
-    },
+     },
   ],
+
+  //Manager
   category8: [
     {
       menu_title: "sidebar.dashboards",
@@ -114,12 +119,49 @@ export default {
       child_routes: null,
     },
     {
-      path: "/app/chapter",
-      new_item: false,
-      menu_icon: "zmdi zmdi-account-circle",
-      menu_title: "sidebar.chapter",
+      menu_title: "Master",
+      menu_icon: "zmdi zmdi-file-text",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Items",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/item",
+          child_routes: null,
+        },
+        {
+          menu_title: "Vendors",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/vendor",
+          child_routes: null,
+        },
+      ]
     },
-
+    {
+      menu_title: "Stock",
+      menu_icon: "zmdi zmdi-account-circle",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Purchase",
+          menu_icon: "zmdi zmdi-account-circle",
+          path: "/app/purchase",
+          child_routes: null,
+        },
+        {
+          menu_title: "Consumption",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/cons",
+          child_routes: null,
+        },
+        {
+          menu_title: "Stock",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/stock",
+          child_routes: null,
+        },
+      ]
+    },
     {
       menu_title: "sidebar.donor",
       menu_icon: "zmdi zmdi-account",
@@ -127,43 +169,50 @@ export default {
       child_routes: null,
     },
     {
-      menu_title: "sidebar.member",
-      menu_icon: "zmdi zmdi-accounts",
-      path: "/app/member",
-      child_routes: null,
-    },
-    {
-      menu_title: "sidebar.receipts",
+      menu_title: "Receipts",
       menu_icon: "zmdi zmdi-receipt",
-      path: "/app/receipts",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Cash Receipts",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/receipts",
+          child_routes: null,
+        },
+        {
+          menu_title: "Material Receipts",
+          menu_icon: "zmdi zmdi-account",
+          path: "/app/receiptsM",
+          child_routes: null,
+        },
+      ]
+    },
+    
+    {
+      menu_title: "Website Donation",
+      menu_icon: "zmdi zmdi-account-o",
+      path: "/app/payment",
       child_routes: null,
     },
     {
-      menu_title: "sidebar.viewer",
-      menu_icon: "zmdi zmdi-account",
-      path: "/app/viewer",
-      child_routes: null,
-    },
-    {
-      menu_title: "sidebar.schools",
-      menu_icon: "zmdi zmdi-file-text",
-      path: "/app/schools",
-      child_routes: null,
+      menu_title: "Download",
+      menu_icon: "zmdi zmdi-download",
+      path: "",
+      child_routes: [
+        {
+          menu_title: "Donor",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/donor-download",
+        },
+        {
+          menu_title: "Cash Receipt",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/receipt-download",
+        },
+        
+      ],
 
-    },
-    {
-      menu_title: "sidebar.faq",
-      menu_icon: "zmdi zmdi-star",
-      path: "/app/faqs",
-      child_routes: null,
-
-    },
-    {
-      path: "/app/advanced-component/notification",
-      new_item: false,
-      menu_icon: "zmdi zmdi-notifications-active",
-      menu_title: "sidebar.notification",
-    },
+     },
   ],
   category3: [
    

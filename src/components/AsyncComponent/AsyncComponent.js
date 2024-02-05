@@ -8,11 +8,7 @@ import Loadable from "react-loadable";
 // rct page loader
 import RctPageLoader from "Components/RctPageLoader/RctPageLoader";
 
-// ecommerce dashboard
-const AsyncEcommerceDashboardComponent = Loadable({
-  loader: () => import("Routes/dashboard/ecommerce"),
-  loading: () => <RctPageLoader />,
-});
+
 
 // agency dashboard
 const AsyncSaasDashboardComponent = Loadable({
@@ -58,119 +54,19 @@ const AsyncAboutUsComponent = Loadable({
   loading: () => <RctPageLoader />,
 });
 
-// chat app
-const AsyncChatComponent = Loadable({
-  loader: () => import("Routes/chat"),
-  loading: () => <RctPageLoader />,
-});
 
-// mail app
-const AsyncMailComponent = Loadable({
-  loader: () => import("Routes/mail"),
-  loading: () => <RctPageLoader />,
-});
 
-// todo app
-const AsyncTodoComponent = Loadable({
-  loader: () => import("Routes/todo"),
-  loading: () => <RctPageLoader />,
-});
 
-// gallery
-const AsyncGalleryComponent = Loadable({
-  loader: () => import("Routes/pages/gallery"),
-  loading: () => <RctPageLoader />,
-});
 
-// feedback
-const AsyncFeedbackComponent = Loadable({
-  loader: () => import("Routes/pages/feedback"),
-  loading: () => <RctPageLoader />,
-});
 
-// report
-const AsyncReportComponent = Loadable({
-  loader: () => import("Routes/pages/report"),
-  loading: () => <RctPageLoader />,
-});
 
-// faq
-const AsyncFaqComponent = Loadable({
-  loader: () => import("Routes/pages/faq"),
-  loading: () => <RctPageLoader />,
-});
 
-// pricing
-const AsyncPricingComponent = Loadable({
-  loader: () => import("Routes/pages/pricing"),
-  loading: () => <RctPageLoader />,
-});
 
-// blank
-const AsyncBlankComponent = Loadable({
-  loader: () => import("Routes/pages/blank"),
-  loading: () => <RctPageLoader />,
-});
 
-// google maps
-const AsyncGooleMapsComponent = Loadable({
-  loader: () => import("Routes/maps/google-map"),
-  loading: () => <RctPageLoader />,
-});
 
-// google maps
-const AsyncLeafletMapComponent = Loadable({
-  loader: () => import("Routes/maps/leaflet-map"),
-  loading: () => <RctPageLoader />,
-});
 
-// shop list
-const AsyncShoplistComponent = Loadable({
-  loader: () => import("Routes/ecommerce/shop-list"),
-  loading: () => <RctPageLoader />,
-});
 
-// shop grid
-const AsyncShopGridComponent = Loadable({
-  loader: () => import("Routes/ecommerce/shop-grid"),
-  loading: () => <RctPageLoader />,
-});
 
-// shop
-const AsyncShopComponent = Loadable({
-  loader: () => import("Routes/ecommerce/shop"),
-  loading: () => <RctPageLoader />,
-});
-
-// cart
-const AsyncCartComponent = Loadable({
-  loader: () => import("Routes/ecommerce/cart"),
-  loading: () => <RctPageLoader />,
-});
-
-// checkout
-const AsyncCheckoutComponent = Loadable({
-  loader: () => import("Routes/ecommerce/checkout"),
-  loading: () => <RctPageLoader />,
-});
-
-// invoice
-const AsyncInvoiceComponent = Loadable({
-  loader: () => import("Routes/ecommerce/invoice"),
-  loading: () => <RctPageLoader />,
-});
-
-// react dragula
-const AsyncReactDragulaComponent = Loadable({
-  loader: () => import("Routes/drag-drop/react-dragula"),
-  loading: () => <RctPageLoader />,
-});
-
-// react dnd
-const AsyncReactDndComponent = Loadable({
-  loader: () => import("Routes/drag-drop/react-dnd"),
-  loading: () => <RctPageLoader />,
-});
 
 // themify icons
 const AsyncThemifyIconsComponent = Loadable({
@@ -190,23 +86,7 @@ const AsyncMaterialIconsComponent = Loadable({
   loading: () => <RctPageLoader />,
 });
 
-// Basic Table
-const AsyncBasicTableComponent = Loadable({
-  loader: () => import("Routes/tables/basic"),
-  loading: () => <RctPageLoader />,
-});
 
-// Basic Table
-const AsyncDataTableComponent = Loadable({
-  loader: () => import("Routes/tables/data-table"),
-  loading: () => <RctPageLoader />,
-});
-
-// Responsive Table
-const AsyncResponsiveTableComponent = Loadable({
-  loader: () => import("Routes/tables/responsive"),
-  loading: () => <RctPageLoader />,
-});
 
 // Users List
 const AsyncUsersListComponent = Loadable({
@@ -226,11 +106,7 @@ const AsyncUserProfile1Component = Loadable({
   loading: () => <RctPageLoader />,
 });
 
-// Users Management
-const AsyncUserManagementComponent = Loadable({
-  loader: () => import("Routes/users/user-management"),
-  loading: () => <RctPageLoader />,
-});
+
 
 /*--------------- Charts ----------------*/
 
@@ -246,31 +122,7 @@ const AsyncReactChartsjs2Component = Loadable({
   loading: () => <RctPageLoader />,
 });
 
-/*---------------------- Calendar -----------*/
 
-// Basic Calendar
-const AsyncBasicCalendarComponent = Loadable({
-  loader: () => import("Routes/calendar/BasicCalendar"),
-  loading: () => <RctPageLoader />,
-});
-
-// Cultures Calendar
-const AsyncCulturesComponent = Loadable({
-  loader: () => import("Routes/calendar/Cultures"),
-  loading: () => <RctPageLoader />,
-});
-
-// Selectable Calendar
-const AsyncSelectableComponent = Loadable({
-  loader: () => import("Routes/calendar/Selectable"),
-  loading: () => <RctPageLoader />,
-});
-
-// Custom Calendar
-const AsyncCustomComponent = Loadable({
-  loader: () => import("Routes/calendar/Custom"),
-  loading: () => <RctPageLoader />,
-});
 
 /*---------------- Session ------------------*/
 
@@ -310,45 +162,11 @@ const AsyncSessionPage500Component = Loadable({
   loading: () => <RctPageLoader />,
 });
 
-// terms and condition
-const AsyncTermsConditionComponent = Loadable({
-  loader: () => import("Routes/pages/terms-condition"),
-  loading: () => <RctPageLoader />,
-});
 
-/*---------------- Editor -------------------*/
 
-// editor quill
-const AsyncQuillEditorComponent = Loadable({
-  loader: () => import("Routes/editor/quill-editor"),
-  loading: () => <RctPageLoader />,
-});
 
-// editor Wysiwyg
-const AsyncWysiwygEditorComponent = Loadable({
-  loader: () => import("Routes/editor/wysiwyg-editor"),
-  loading: () => <RctPageLoader />,
-});
 
-/*------------- Form Elemets -------------*/
 
-// forms elements
-const AsyncFormElementsComponent = Loadable({
-  loader: () => import("Routes/forms/form-elements"),
-  loading: () => <RctPageLoader />,
-});
-
-// forms TextField
-const AsyncTextFieldComponent = Loadable({
-  loader: () => import("Routes/forms/material-text-field"),
-  loading: () => <RctPageLoader />,
-});
-
-// forms TextField
-const AsyncSelectListComponent = Loadable({
-  loader: () => import("Routes/forms/select-list"),
-  loading: () => <RctPageLoader />,
-});
 
 /*------------------ UI Components ---------------*/
 
@@ -535,10 +353,7 @@ const AsyncReportsComponent = Loadable({
   loader: () => import("Routes/crm/reports"),
   loading: () => <RctPageLoader />,
 });
-const AsyncChapterComponent = Loadable({
-  loader: () => import("Routes/chapter"),
-  loading: () => <RctPageLoader />,
-});
+
 const AsyncDonorComponent = Loadable({
   loader: () => import("Routes/donor"),
   loading: () => <RctPageLoader />,
@@ -547,19 +362,10 @@ const AsyncReceiptsComponent = Loadable({
   loader: () => import("Routes/receipts"),
   loading: () => <RctPageLoader />,
 });
-const AsyncViewerComponent = Loadable({
-  loader: () => import("Routes/viewer"),
-  loading: () => <RctPageLoader />,
-});
-const AsyncMemberComponent = Loadable({
-  loader: () => import("Routes/member"),
-  loading: () => <RctPageLoader />,
-});
+
 
 export {
-  AsyncMemberComponent,
-  AsyncViewerComponent,
-  AsyncChapterComponent,
+  
   AsyncReceiptsComponent,
   AsyncDonorComponent,
   AsyncUserWidgetComponent,
@@ -567,50 +373,25 @@ export {
   AsyncGeneralWidgetsComponent,
   AsyncPromoWidgetsComponent,
   AsyncAboutUsComponent,
-  AsyncChatComponent,
-  AsyncMailComponent,
-  AsyncTodoComponent,
-  AsyncGalleryComponent,
-  AsyncFeedbackComponent,
-  AsyncReportComponent,
-  AsyncFaqComponent,
-  AsyncPricingComponent,
-  AsyncBlankComponent,
-  AsyncGooleMapsComponent,
-  AsyncLeafletMapComponent,
-  AsyncShoplistComponent,
-  AsyncShopGridComponent,
-  AsyncInvoiceComponent,
-  AsyncReactDragulaComponent,
-  AsyncReactDndComponent,
   AsyncThemifyIconsComponent,
   AsyncSimpleLineIconsComponent,
   AsyncMaterialIconsComponent,
-  AsyncBasicTableComponent,
-  AsyncDataTableComponent,
-  AsyncResponsiveTableComponent,
+ 
   AsyncUsersListComponent,
   AsyncUserProfileComponent,
   AsyncUserProfile1Component,
-  AsyncUserManagementComponent,
   AsyncRechartsComponent,
   AsyncReactChartsjs2Component,
-  AsyncBasicCalendarComponent,
-  AsyncCulturesComponent,
-  AsyncSelectableComponent,
-  AsyncCustomComponent,
+  
   AsyncSessionLoginComponent,
   AsyncSessionRegisterComponent,
   AsyncSessionLockScreenComponent,
   AsyncSessionForgotPasswordComponent,
   AsyncSessionPage404Component,
   AsyncSessionPage500Component,
-  AsyncTermsConditionComponent,
-  AsyncQuillEditorComponent,
-  AsyncWysiwygEditorComponent,
-  AsyncFormElementsComponent,
-  AsyncTextFieldComponent,
-  AsyncSelectListComponent,
+ 
+ 
+  
   AsyncUIAlertsComponent,
   AsyncUIAppbarComponent,
   AsyncUIBottomNavigationComponent,
@@ -637,10 +418,8 @@ export {
   AsyncAdvanceUINotificationComponent,
   AsyncAdvanceUISweetAlertComponent,
   AsyncAdvanceUIAutoCompleteComponent,
-  AsyncShopComponent,
-  AsyncCartComponent,
-  AsyncCheckoutComponent,
-  AsyncEcommerceDashboardComponent,
+  
+  
   AsyncSaasDashboardComponent,
   AsyncAgencyDashboardComponent,
   AsyncNewsDashboardComponent,

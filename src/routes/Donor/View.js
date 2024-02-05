@@ -6,13 +6,12 @@ import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard
 import { Button } from "reactstrap";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import Moment from 'moment';
+import "./DonorView.css";
 import {baseURL} from '../../api';
 
 export default function View() {
   const [donor, setDonor] = useState([]);
   const [donorfam, setDonorfam] = useState([]);
-  const [donation, setDonation] = useState([]);
-  const [membership, setMembership] = useState([]);
   const [company, setCompany] = useState([]);
   const [famgroup, setFamgroup] = useState([]);
   const [loader, setLoader] = useState(true);
@@ -21,16 +20,14 @@ export default function View() {
     var url = new URL(window.location.href);
     var id = url.searchParams.get("id");
     axios({
-      url: baseURL+"/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-view-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      setDonor(res.data.individualCompany);
+      setDonor(res.data.donor);
       setDonorfam(res.data.family_details);
-      setDonation(res.data.donor_receipts);
-      setMembership(res.data.membership_details);
       setCompany(res.data.company_details);
       setFamgroup(res.data.related_group);
       setLoader(false);
@@ -41,14 +38,15 @@ export default function View() {
     marginTop: "0rem",
   };
 
-  const relId = donor.indicomp_related_id;
+  const relId = donor.donor_related_id;
+  const indid = donor.id;
   const label1 = {
     fontSize: "0.875rem",
     fontWeight: "400",
   };
 
   const label2 = {
-    fontSize: "1rem",
+    fontSize: "12px",
     fontWeight: "600",
     marginTop: "-10px",
     fontFamily: "Roboto,Helvetica,Arial,Heebo,sans-serif",
@@ -62,7 +60,7 @@ export default function View() {
   };
 
   const label4 = {
-    fontSize: "1rem",
+    fontSize: "12px",
     fontWeight: "600",
     marginTop: "-10px",
     paddingLeft: "10px",
@@ -94,305 +92,211 @@ export default function View() {
               <PageTitleBar title="Donor Details" />
               <div className="donorbtns">
                 {famgroup.map((fam, key) => (
-                  <h1 style={{paddingTop: '10px', paddingRight: '40px'}}>Family Group of : {fam.indicomp_full_name}</h1>
+                  <h1 style={{paddingTop: '10px', paddingRight: '40px'}}>Family Group of : {fam.donor_full_name}</h1>
                 ))}
               </div>
               <div className="row">
-                <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-8">
+                <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-12">
                   <RctCollapsibleCard>
                     <div className="flexbox">
-                      <h1 style={color}>{donor.title} {donor.indicomp_full_name}</h1>
-                      <h3 style={color}>Fts Id : {donor.indicomp_fts_id}</h3>
+                      <h1 style={color}>
+                          {donor.donor_type == "Individual" && (
+                                  <>
+                                  {donor.donor_title} {donor.donor_full_name}
+                                  </>
+                          )}
+                          {donor.donor_type != "Individual" && (
+                                  <>
+                                  M/s {donor.donor_full_name}
+                                  </>
+                          )}
+                        
+                        </h1>
+                      <h3 style={color}>Pds Id : {donor.donor_fts_id}</h3>
+                      <Link to={"donorview?id=" + indid}>
+                        <Button 
+                          className="mr-10 mb-10 btn-get-start" color="danger">
+                           Receipts Details 
+                        </Button>
+                      </Link>
                     </div>
                     <hr style={hr} />
                     <div className="row">
-                      {donor.indicomp_type == "Individual" && (
-                        <div className="row">
-                          <div className="col-sm-6 col-md-6 col-xl-3">
-                            <div className="form-group">
-                              <p style={label3}>Father Name</p>{" "}
-                              <p style={label4}>{donor.indicomp_father_name}</p>
-                            </div>
+                      <div className="col-sm-6 col-md-6 col-xl-2" >
+                          <div className="form-group">
+                            <p style={label3}>Father Name</p>{" "}
+                            <p style={label4}>{donor.donor_father_name}</p>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
+                        </div>
+                          <div className="col-sm-6 col-md-6 col-xl-2" >
                             <div className="form-group">
                               <p style={label3}>Mother Name</p>{" "}
-                              <p style={label4}>{donor.indicomp_mother_name}</p>
+                              <p style={label4}>{donor.donor_mother_name}</p>
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
+                      {donor.donor_type == "Individual" && (
+                        <>
+                          <div className="col-sm-6 col-md-6 col-xl-2">
                             <div className="form-group">
                               <p style={label3}>Spouse Name</p>{" "}
-                              <p style={label4}>{donor.indicomp_spouse_name}</p>
+                              <p style={label4}>{donor.donor_spouse_name}</p>
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
+                          <div className="col-sm-6 col-md-6 col-xl-2">
                             <div className="form-group">
                               <p style={label3}>DOA</p>{" "}
-                              {donor.indicomp_doa != null && (
-                              <p style={label4}>{Moment(donor.indicomp_doa).format('DD-MM-YYYY')}</p>
+                              {donor.donor_doa != null && (
+                              <p style={label4}>{Moment(donor.donor_doa).format('DD-MM-YYYY')}</p>
                               )}
-                              {donor.indicomp_doa == null && (
-                              <p style={label4}>{donor.indicomp_doa}</p>
+                              {donor.donor_doa == null && (
+                              <p style={label4}>{donor.donor_doa}</p>
                               )}
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
+                          <div className="col-sm-6 col-md-6 col-xl-2" >
                             <div className="form-group">
                               <p style={label3}>DOB</p>{" "}
-                              {donor.indicomp_dob_annualday != null && (
+                              {donor.donor_dob_annualday != null && (
                               <p style={label4}>
-                                {Moment(donor.indicomp_dob_annualday).format('DD-MM-YYYY')}
+                                {Moment(donor.donor_dob_annualday).format('DD-MM-YYYY')}
                               </p>
                               )}
-                              {donor.indicomp_dob_annualday == null && (
+                              {donor.donor_dob_annualday == null && (
                               <p style={label4}>
-                                {donor.indicomp_dob_annualday}
+                                {donor.donor_dob_annualday}
                               </p>
                               )}
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label3}>Gender</p>{" "}
-                          <p style={label4}>{donor.indicomp_gender}</p>
-                        </div>
-                      </div>
+                          <div className="col-sm-6 col-md-6 col-xl-2" >
+                            <div className="form-group">
+                              <p style={label3}>Gender</p>{" "}
+                              <p style={label4}>{donor.donor_gender}</p>
+                            </div>
+                          </div>
 
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label3}>PAN Number</p>{" "}
-                          <p style={label4}>{donor.indicomp_pan_no}</p>
-                        </div>
-                      </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label3}>Promoter</p>{" "}
-                          <p style={label4}>{donor.indicomp_promoter}</p>
-                        </div>
-                      </div>
-                        </div>
+                      
+                        </>
                       )}
-                      {donor.indicomp_type != "Individual" && (
-                        <div className="row">
-                          <div className="col-sm-6 col-md-6 col-xl-3">
+                      {donor.donor_type != "Individual" && (
+                        <>
+                          <div className="col-sm-6 col-md-6 col-xl-2">
                             <div className="form-group">
                               <p style={label3}>Contact Name</p>{" "}
                               <p style={label4}>
-                                {donor.indicomp_com_contact_name}
+                                {donor.donor_contact_name}
                               </p>
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
+                          
+                          <div className="col-sm-6 col-md-6 col-xl-2">
                             <div className="form-group">
-                              <p style={label3}>Designation</p>{" "}
-                              <p style={label4}>
-                                {donor.indicomp_com_contact_designation}
-                              </p>
+                              <p style={label3}>Gender</p>{" "}
+                              <p style={label4}>{donor.donor_gender}</p>
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label3}>Gender</p>{" "}
-                          <p style={label4}>{donor.indicomp_gender}</p>
-                        </div>
-                      </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
+                          <div className="col-sm-6 col-md-6 col-xl-2">
                             <div className="form-group">
                               <p style={label3}>Annual Day</p>{" "}
-                              {donor.indicomp_dob_annualday != null && (
+                              {donor.donor_dob_annualday != null && (
                               <p style={label4}>
-                                {Moment(donor.indicomp_dob_annualday).format('DD-MM-YYYY')}
+                                {Moment(donor.donor_dob_annualday).format('DD-MM-YYYY')}
                               </p>
                               )}
-                              {donor.indicomp_dob_annualday == null && (
+                              {donor.donor_dob_annualday == null && (
                               <p style={label4}>
-                                {donor.indicomp_dob_annualday}
+                                {donor.donor_dob_annualday}
                               </p>
                               )}
                             </div>
                           </div>
-                          <div className="col-sm-6 col-md-6 col-xl-3">
-                            <div className="form-group">
-                              <p style={label3}>CSR</p>{" "}
-                              <p style={label4}>{donor.indicomp_csr}</p>
-                            </div>
-                          </div>
-                          
-                          
-
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label3}>PAN Number</p>{" "}
-                          <p style={label4}>{donor.indicomp_pan_no}</p>
-                        </div>
-                      </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label3}>Promoter</p>{" "}
-                          <p style={label4}>{donor.indicomp_promoter}</p>
-                        </div>
-                      </div>
-                        </div>
+                        </>
                       )}
 
+                      <div className="col-sm-6 col-md-6 col-xl-2" >
+                        <div className="form-group">
+                          <p style={label3}>PAN Number</p>{" "}
+                          <p style={label4}>{donor.donor_pan_no}</p>
+                        </div>
+                      </div>
                       
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label1}>Belongs To</p>{" "}
-                          <p style={label2}>{donor.indicomp_belongs_to}</p>
-                        </div>
-                      </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label1}>Source</p>{" "}
-                          <p style={label2}>{donor.indicomp_source}</p>
-                        </div>
-                      </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
+                      <div className="col-sm-6 col-md-6 col-xl-2" >
                         <div className="form-group">
                           <p style={label1}>Donor Type</p>{" "}
-                          <p style={label2}>{donor.indicomp_donor_type}</p>
+                          <p style={label2}>{donor.donor_type}</p>
                         </div>
                       </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label1}>Type</p>{" "}
-                          <p style={label2}>{donor.indicomp_type}</p>
-                        </div>
-                      </div>
-                      <div className="col-sm-6 col-md-6 col-xl-9">
+                     
+                      <div className="col-sm-6 col-md-6 col-xl-9" >
                         <div className="form-group">
                           <p style={label1}>Remarks</p>{" "}
-                          <p style={label2}>{donor.indicomp_remarks}</p>
+                          <p style={label2}>{donor.donor_remarks}</p>
                         </div>
                       </div>
                     </div>
-                    <h1>Communication Details</h1>
+                    <h3>Communication Details</h3>
                     <hr style={hr} />
                     <div className="row">
-                      <div className="col-sm-6 col-md-6 col-xl-3">
+                      <div className="col-sm-6 col-md-6 col-xl-2">
                         <div className="form-group">
                           <p style={label1}>Mobile</p>{" "}
-                          <p style={label2}>{donor.indicomp_mobile_phone}</p>
+                          <p style={label2}>{donor.donor_mobile}</p>
                         </div>
                       </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
+                      <div className="col-sm-6 col-md-6 col-xl-2">
                         <div className="form-group">
                           <p style={label1}>Whats App</p>{" "}
-                          <p style={label2}>{donor.indicomp_mobile_whatsapp}</p>
+                          <p style={label2}>{donor.donor_whatsapp}</p>
                         </div>
                       </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
+                      <div className="col-sm-6 col-md-6 col-xl-2">
                         <div className="form-group">
                           <p style={label1}>Email</p>{" "}
-                          <p style={label2}>{donor.indicomp_email}</p>
+                          <p style={label2}>{donor.donor_email}</p>
                         </div>
                       </div>
-                      <div className="col-sm-6 col-md-6 col-xl-3">
-                        <div className="form-group">
-                          <p style={label1}>Website</p>{" "}
-                          <p style={label2}>{donor.indicomp_website}</p>
-                        </div>
-                      </div>
+                      
                     </div>
-                    <h1>Correspondence Details</h1>
+                    <h3>Correspondence Details</h3>
                     <hr style={hr} />
                     <div className="row">
-                      <div className="col-sm-6 col-md-6 col-xl-12">
+                      <div className="col-sm-6 col-md-6 col-xl-5">
                         <div className="form-group">
-                          <p style={label1}>Residence Address</p>{" "}
-                          {donor.indicomp_res_reg_address != null && ( 
+                          <p style={label1}>Address</p>{" "}
+                          {donor.donor_address != null && ( 
                           <p style={label2}>
-                            {donor.indicomp_res_reg_address},{" "}
-                            {donor.indicomp_res_reg_area},{" "}
-                            {donor.indicomp_res_reg_ladmark},
-                            {donor.indicomp_res_reg_city},{" "}
-                            {donor.indicomp_res_reg_state} -{" "}
-                            {donor.indicomp_res_reg_pin_code}
+                            {donor.donor_address},{" "}
+                            {donor.donor_area},{" "}
+                            {donor.donor_ladmark},
+                            {donor.donor_city},{" "}
+                            {donor.donor_state} -{" "}
+                            {donor.donor_pin_code}
                           </p>
                           )}
-                          {donor.indicomp_res_reg_address == null && ( 
+                          {donor.donor_address == null && ( 
                             <p style={label2}>N.A</p> )}
 
                         </div>
                       </div>
-                      <div className="col-sm-6 col-md-6 col-xl-12">
-                        <div className="form-group">
-                          <p style={label1}>Office Address</p>
-                          {donor.indicomp_off_branch_address != null && (
-                          <p style={label2}>
-                            {donor.indicomp_off_branch_address},{" "}
-                            {donor.indicomp_off_branch_area},{" "}
-                            {donor.indicomp_off_branch_ladmark},
-                            {donor.indicomp_off_branch_city},{" "}
-                            {donor.indicomp_off_branch_state} -{" "}
-                            {donor.indicomp_off_branch_pin_code}
-                          </p>
-                          )}
-                          {donor.indicomp_off_branch_address == null && ( 
-                            <p style={label2}>N.A</p> )}
-                        </div>
-                      </div>
-                      <div className="col-sm-6 col-md-6 col-xl-12">
-                        <div className="form-group">
-                          <p style={label1}>Correspondence Preference</p>{" "}
-                          <p style={label2}>{donor.indicomp_corr_preffer}</p>
-                        </div>
-                      </div>
                     </div>
                   </RctCollapsibleCard>
                 </div>
-                <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-4">
-                  <RctCollapsibleCard>
-                    <h1>Donation Details</h1>
-                    <hr style={hr} />
-                    <table className="donortable">
-                      <tr>
-                        <th>
-                          <p>R.No</p>
-                        </th>
-                        <th>
-                          <p>Name</p>
-                        </th>
-                        <th>
-                          <p>Date</p>
-                        </th>
-                        <th>
-                          <p>Amount</p>
-                        </th>
-                      </tr>
-                      {donation.map((fam, key) => (
-                        <tr>
-                          <td style={color}>{fam.receipt_no}</td>
-                          <td style={color}>{fam.individual_company.indicomp_full_name}</td>
-                          <td style={color}>{Moment(fam.receipt_date).format('DD-MM-YYYY')}</td>
-                          <td style={color}>{fam.receipt_total_amount}</td>
-                        </tr>
-                      ))}
-                    </table>
-                  </RctCollapsibleCard>
-                </div>
+                
               </div>
             </div>
           )}
         </>
       )}
+      {!loader && (
+        <>
       <div className="row">
-        <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-8">
+        <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-12">
           <RctCollapsibleCard>
             <div className="flexbox">
               <h1>Family Details</h1>
               <Link to={"/app/donor/addindiv?id=" + relId}>
                 <Button 
-                  style={{
-                    display:
-                      localStorage.getItem("user_type_id") == 2 ||
-                      localStorage.getItem("user_type_id") == 3 ||
-                      localStorage.getItem("user_type_id") == 4
-                      ? "none" : "",
-                  }}
-                className="mr-10 mb-10 btn-get-start" color="danger">
+                  className="mr-10 mb-10 btn-get-start" color="danger">
                   + Add Family Member
                 </Button>
               </Link>
@@ -401,7 +305,7 @@ export default function View() {
             <table className="donortable">
               <tr>
                 <th>
-                  <p>FTS</p>
+                  <p>PDS</p>
                 </th>
                 <th>
                   <p>Name</p>
@@ -414,61 +318,39 @@ export default function View() {
                 </th>
               </tr>
               {donorfam.map((fam, key) => (
-                <tr>
-                  <td style={color}>{fam.indicomp_fts_id}</td>
-                  <td style={color}>{fam.indicomp_full_name}</td>
-                  <td style={color}>{fam.indicomp_dob_annualday}</td>
-                  <td style={color}>{fam.indicomp_mobile_phone}</td>
-                </tr>
-              ))}
-            </table>
-          </RctCollapsibleCard>
-        </div>
-        <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-4">
-          <RctCollapsibleCard>
-            <h1>Membership Details</h1>
-            <hr style={hr} />
-            <table className="donortable">
-              <tr>
-                <th>
-                  <p>R.No</p>
-                </th>
-                <th>
-                  <p>Name</p>
-                </th>
-                <th>
-                  <p>Date</p>
-                </th>
-                <th>
-                  <p>Amount</p>
-                </th>
-              </tr>
-              {membership.map((fam, key) => (
-                <tr>
-                  <td style={color}>{fam.receipt_no}</td>
-                  <td style={color}>{fam.individual_company.indicomp_full_name}</td>
-                  <td style={color}>{Moment(fam.receipt_date).format('DD-MM-YYYY')}</td>
-                  <td style={color}>{fam.receipt_total_amount}</td>
+                <tr key={key}>
+                  <td style={color}>{fam.donor_fts_id}</td>
+                  <td style={color}>{fam.donor_full_name}</td>
+                  <td style={color}>
+                    {fam.donor_dob_annualday != null && (
+                      <>
+                        {Moment(fam.donor_dob_annualday).format('DD-MM-YYYY')}
+                      </>
+                    )}
+                    {fam.donor_dob_annualday == null && (
+                      <>
+                        
+                      </>
+                    )}
+                  </td>
+                  <td style={color}>{fam.donor_mobile}</td>
                 </tr>
               ))}
             </table>
           </RctCollapsibleCard>
         </div>
       </div>
+      </>
+       )}
+       {!loader && (
+        <>
       <div className="row">
-        <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-8">
+        <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-12">
           <RctCollapsibleCard>
             <div className="flexbox">
               <h1>Company Details</h1>
-              <Link to={"/app/donor/addcomp?id=" + relId}>
+              <Link to={"/app/donor/addindiv?id=" + relId}>
                 <Button
-                style={{
-                  display:
-                    localStorage.getItem("user_type_id") == 2 ||
-                    localStorage.getItem("user_type_id") == 3 ||
-                    localStorage.getItem("user_type_id") == 4
-                    ? "none" : "",
-                }}
                 className="mr-10 mb-10 btn-get-start" color="danger">
                   + Add Company
                 </Button>
@@ -478,7 +360,7 @@ export default function View() {
             <table className="donortable">
               <tr>
                 <th>
-                  <p>FTS</p>
+                  <p>PDS</p>
                 </th>
                 <th>
                   <p>Name</p>
@@ -491,17 +373,30 @@ export default function View() {
                 </th>
               </tr>
               {company.map((fam, key) => (
-                <tr>
-                  <td style={color}>{fam.indicomp_fts_id}</td>
-                  <td style={color}>{fam.indicomp_full_name}</td>
-                  <td style={color}>{fam.indicomp_dob_annualday}</td>
-                  <td style={color}>{fam.indicomp_mobile_phone}</td>
+                <tr key={key}>
+                  <td style={color}>{fam.donor_fts_id}</td>
+                  <td style={color}>{fam.donor_full_name}</td>
+                  <td style={color}>
+                    {fam.donor_dob_annualday != null && (
+                      <>
+                        {Moment(fam.donor_dob_annualday).format('DD-MM-YYYY')}
+                      </>
+                    )}
+                    {fam.donor_dob_annualday == null && (
+                      <>
+                        
+                      </>
+                    )}  
+                  </td>
+                  <td style={color}>{fam.donor_mobile}</td>
                 </tr>
               ))}
             </table>
           </RctCollapsibleCard>
         </div>
       </div>
+      </>
+       )}
     </div>
   );
 }

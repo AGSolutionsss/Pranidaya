@@ -6,25 +6,18 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
 import Moment from 'moment';
 import {baseURL} from '../../api';
-
 import { Link } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-// page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
-
-// rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 import { getAppLayout } from "../../helpers/helpers";
-
-// intl messages
 import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
 import { Helmet } from "react-helmet";
-import "./index.css";
+import "./receipt.css";
 
 const option = {
-  filterType: "textField",
+  filterType: "dropdown",
   selectableRows: false,
 };
 export default class NewListReceipts extends React.Component {
@@ -34,25 +27,61 @@ export default class NewListReceipts extends React.Component {
     user: [],
     receiptData: [],
     columnData: [
-      "SlNo",
-      "Receipt No",
-      "Name",
-      "Date",
-      "Exemption Type",
-      "Amount",
       {
-        name: "Actions",
+        name:'SlNo',
+        options: {
+          filter: false,
+          print:true,
+          download:true
+        },
+      },
+      {
+        name:'Receipt No',
+        options: {
+          filter: false,
+          print:true,
+          download:true
+        },
+      },
+      {
+        name:'Name',
+        options: {
+          filter: false,
+          print:true,
+          download:true
+        },
+      },
+      {
+        name:'Date',
+        options: {
+          filter: false,
+          print:true,
+          download:true
+        },
+      },
+      "Exemption Type",
+      "Donation Type",
+      {
+        name:'Amount',
+        options: {
+          filter: false,
+          print:true,
+          download:true
+        },
+      },
+      {
+        name:localStorage.getItem("id") == 4 ? "" : "Action" ,
         options: {
           filter: false,
           print:false,
           download:false,
-          // display: 'excluded',
+          
           customBodyRender: (value) => {
             return (
               <div>
                 <Helmet>
-                  <title>FTS | Receipts</title>
-                  <meta name="description" content="FTS Receipts" />
+                  <title>Receipts</title>
+                  <meta name="description" content="Receipts" />
                 </Helmet>
                 <Tooltip title="View" placement="top">
                   <IconButton aria-label="View">
@@ -78,12 +107,6 @@ export default class NewListReceipts extends React.Component {
                     </Link>
                   </IconButton>
                 </Tooltip>
-                {/* <Tooltip title="down" placement="top">
-                  <IconButton aria-label="view">
-                    <a target="_blank" href={"https://legacy.testags.com/public/generate-pdf?id="+value}>D</a>
-                    
-                  </IconButton>
-                </Tooltip> */}
               </div>
             );
           },
@@ -93,28 +116,28 @@ export default class NewListReceipts extends React.Component {
   };
 
   getData = () => {
-    let result = [];
+    
     axios({
-      url: baseURL+"/fetch-receipts",
+      url: baseURL+"/fetch-receipt-list",
       method: "GET",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("login")}`, //access_token=login
+        Authorization: `Bearer ${localStorage.getItem("login")}`, 
       },
     })
       .then((res) => {
-        //console.log("recept",res.data)
+        
         let response = res.data.receipts;
-        console.log("recept2", res.data.receipts);
+        
         let tempRows = [];
         for (let i = 0; i < response.length; i++) {
           
           tempRows.push([
             i + 1,
             response[i]["receipt_no"],
-            // response[i]["receipt_created_by"],
-            response[i]["individual_company"]["indicomp_full_name"],
+            response[i]["donor"]["donor_full_name"],
             Moment(response[i]["receipt_date"]).format('DD-MM-YYYY'),
             response[i]["receipt_exemption_type"],
+            response[i]["receipt_donation_type"],
             response[i]["receipt_total_amount"],
             response[i]["id"],
           ]);
@@ -127,7 +150,7 @@ export default class NewListReceipts extends React.Component {
   };
 
   componentDidMount() {
-    var isLoggedIn = localStorage.getItem("id");
+    var isLoggedIn = localStorage.getItem("user_type_id");
     if(!isLoggedIn){
 
       window.location = "/signin";
@@ -135,15 +158,11 @@ export default class NewListReceipts extends React.Component {
     }else{
 
     }
-    this.setState({ usertype: localStorage.getItem("id") });
+    this.setState({ usertype: localStorage.getItem("user_type_id") });
     this.getData();
   }
 
   render() {
-    console.log("printR", this.props.match);
-
-    console.log(this.state.usertype);
-    console.log(this.state.receiptData);
 
     const { loader } = this.state;
     return (
@@ -161,21 +180,23 @@ export default class NewListReceipts extends React.Component {
         {!loader && (
           <>
             <PageTitleBar
-              title="Receipts List"
+              title="Cash Receipts List"
               match={this.props.match}
             />
-            {/* <div className="alert alert-info">
-					<p>MUI-Datatables is a data tables component built on Material-UI V1.
-            It comes with features like filtering, view/hide columns, search, export to CSV download, printing, pagination, and sorting.
-            On top of the ability to customize styling on most views, there are two responsive modes "stacked" and "scroll" for mobile/tablet
-            devices. If you want more customize option please <a href="https://github.com/gregnb/mui-datatables" className="btn btn-danger btn-small mx-10">Click </a> here</p>
-				</div> */}
+            
         
             <RctCollapsibleCard fullBlock>
               {this.state.receiptData.length > 0 && (
                 <MUIDataTable
-                  title={"Receipts List"}
+                  title={"Cash Receipts List"}
                   data={this.state.receiptData}
+                  columns={this.state.columnData}
+                  options={option}
+                />
+              )}
+              {this.state.receiptData.length <= 0 && (
+                <MUIDataTable
+                  title={"Cash Receipts List"}
                   columns={this.state.columnData}
                   options={option}
                 />

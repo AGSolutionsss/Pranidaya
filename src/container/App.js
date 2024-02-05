@@ -27,6 +27,7 @@
  // app signin
  import AppSignIn from './SigninFirebase';
  import AppSignUp from './SignupFirebase';
+ import AppMaintenance from './Maintenance';
  
  
  // async components
@@ -37,7 +38,7 @@
     AsyncSessionForgotPasswordComponent,
     AsyncSessionPage404Component,
     AsyncSessionPage500Component,
-    AsyncTermsConditionComponent
+    
  } from 'Components/AsyncComponent/AsyncComponent';
  
  //Auth0
@@ -122,6 +123,7 @@
                <Route path="/dashboard" component={CRMLayout} />
                <Route path="/signin" component={AppSignIn} />
                <Route path="/signup" component={AppSignUp} />
+               <Route path="/maintenance" component={AppMaintenance} />
                <Route path="/session/login" component={AsyncSessionLoginComponent} />
                <Route path="/session/register" component={AsyncSessionRegisterComponent} />
                <Route path="/session/lock-screen" component={AsyncSessionLockScreenComponent} />
@@ -132,7 +134,7 @@
                />
                <Route path="/session/404" component={AsyncSessionPage404Component} />
                <Route path="/session/500" component={AsyncSessionPage500Component} />
-               <Route path="/terms-condition" component={AsyncTermsConditionComponent} />
+               
                <Route path="/callback" render={(props) => {
                   handleAuthentication(props);
                   return <Callback {...props} />

@@ -9,7 +9,6 @@ import Collapse from '@material-ui/core/Collapse';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import Chip from '@material-ui/core/Chip';
-import "../../routes/Chapter/index.css"
 
 // intl messages
 import IntlMessages from 'Util/IntlMessages';
@@ -48,7 +47,7 @@ class NavMenuItem extends Component {
                   <ListItemIcon className="menu-icon">
                      <i className={menu.menu_icon}></i>
                   </ListItemIcon>
-                  <span className="menu text-capitalize">
+                  <span className="menu text-capitalize" style={{fontSize: '1rem'}}>
                      <IntlMessages id={menu.menu_title} />
 
                   </span>

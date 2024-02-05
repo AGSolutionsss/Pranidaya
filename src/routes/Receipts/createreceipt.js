@@ -3,15 +3,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "reactstrap";
 import axios from "axios";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Moment from 'moment';
-import { NotificationContainer, NotificationManager,} from "react-notifications";
+import { NotificationManager,} from "react-notifications";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import {baseURL} from '../../api';
-
-// rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
+
 const exemption = [
   {
     value: "80G",
@@ -60,28 +59,66 @@ const pay_mode_2 = [
     label: "Others",
   },
 ];
+
 const donation_type = [
   {
-    value: "One Teacher School",
-    label: "One Teacher School",
+    value: "Gopalak",
+    label: "Gopalak",
   },
   {
-    value: "General",
-    label: "General",
+    value: "Wet/Dry-Grass",
+    label: "Wet/Dry-Grass",
   },
   {
-    value: "Membership",
-    label: "Membership",
+    value: "FIne/Rough Bran",
+    label: "FIne/Rough Bran",
+  },
+  {
+    value: "Gou-Daan",
+    label: "Gou-Daan",
+  },
+  {
+    value: "Building Fund",
+    label: "Building Fund",
+  },
+  {
+    value: "Pigeon Feeds",
+    label: "Pigeon Feeds",
+  },
+  {
+    value: "General Fund/Others",
+    label: "General Fund/Others",
   },
 ];
+
 const donation_type_2 = [
   {
-    value: "One Teacher School",
-    label: "One Teacher School",
+    value: "Gopalak",
+    label: "Gopalak",
   },
   {
-    value: "General",
-    label: "General",
+    value: "Wet/Dry-Grass",
+    label: "Wet/Dry-Grass",
+  },
+  {
+    value: "FIne/Rough Bran",
+    label: "FIne/Rough Bran",
+  },
+  {
+    value: "Gou-Daan",
+    label: "Gou-Daan",
+  },
+  {
+    value: "Building Fund",
+    label: "Building Fund",
+  },
+  {
+    value: "Pigeon Feeds",
+    label: "Pigeon Feeds",
+  },
+  {
+    value: "General Fund/Others",
+    label: "General Fund/Others",
   },
 ];
 
@@ -93,15 +130,16 @@ export default function Createreceipt() {
 
   const [loader, setLoader]= useState(true);
 
-
+  
 
   let history = useHistory();
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, "0");
-  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var mm = String(today.getMonth() + 1).padStart(2, "0");
   var yyyy = today.getFullYear();
 
   today = mm + "/" + dd + "/" + yyyy;
+  var midate = "04/04/2022"
   var todayback = yyyy + "-" + mm + "-" + dd;
   var d = document.getElementById("datefield");
   if (d) {
@@ -110,41 +148,36 @@ export default function Createreceipt() {
 
   var todayyear = new Date().getFullYear();
   var twoDigitYear = todayyear.toString().substr(-2);
-  var preyear = todayyear-1;
-  var finalyear = preyear+'-'+twoDigitYear;
+  var preyear = todayyear;
+  var finyear = (+twoDigitYear) + 1;
+  var finalyear = preyear+'-'+finyear;
 
   const [donor, setDonor] = React.useState({
-    receipt_no: "",
-    receipt_date: today,
-    receipt_old_no: "",
-    receipt_exemption_type: "",
+    donor_fts_id: "",
     receipt_financial_year: "",
+    receipt_date: todayback,
+    receipt_exemption_type: "",
     receipt_total_amount: "",
-    receipt_realization_date: "",
     receipt_donation_type: "",
     receipt_tran_pay_mode: "",
     receipt_tran_pay_details: "",
+    receipt_occasional: "",
+    receipt_email_count: "",
     receipt_remarks: "",
     receipt_reason: "",
-    receipt_email_count: "",
-    receipt_created_at: "",
-    receipt_created_by: "",
-    receipt_update_at: "",
-    receipt_update_by: "",
   });
 
-  // const { personName, userName, mobile, email } = user;
+
   const validateOnlyDigits = (inputtxt) => {
 
-    // function phonenumber(inputtxt)
-   //{
+    
      var phoneno = /^\d+$/;
      if(inputtxt.match(phoneno) || inputtxt.length==0){
          return true;
            }
          else
            {
-           //alert("message");
+           
            return false;
            }
    }
@@ -152,19 +185,14 @@ export default function Createreceipt() {
 
     if(e.target.name=="receipt_total_amount"){
 
-
-      // alert('aaya')
-
       if(validateOnlyDigits(e.target.value)){
         setDonor({
           ...donor,
           [e.target.name]: e.target.value,
         });
       }
-        
-      
-       
-    } else{
+   }
+    else{
 
     setDonor({
       ...donor,
@@ -177,33 +205,22 @@ export default function Createreceipt() {
     e.preventDefault();
 
     let data = {
-      indicomp_fts_id: userdata.indicomp_fts_id,
-      receipt_no: donor.receipt_no,
+      donor_fts_id: userdata.donor_fts_id,
+      receipt_financial_year:'2023-24',
       receipt_date: todayback,
-      receipt_old_no: donor.receipt_old_no,
       receipt_exemption_type: donor.receipt_exemption_type,
-      receipt_financial_year:finalyear,
       receipt_total_amount: donor.receipt_total_amount,
-      receipt_realization_date: donor.receipt_realization_date,
       receipt_donation_type: donor.receipt_donation_type,
       receipt_tran_pay_mode: donor.receipt_tran_pay_mode,
       receipt_tran_pay_details: donor.receipt_tran_pay_details,
+      receipt_occasional: donor.receipt_occasional,
       receipt_remarks: donor.receipt_remarks,
       receipt_reason: donor.receipt_reason,
       receipt_email_count: donor.receipt_email_count,
-      receipt_created_at: donor.receipt_created_at,
-      receipt_created_by: donor.receipt_created_by,
-      receipt_update_at: donor.receipt_update_at,
-      receipt_update_by: donor.receipt_update_by,
     };
     var v = document.getElementById("createrec").checkValidity();
     var v = document.getElementById("createrec").reportValidity();
     e.preventDefault();
-    // const val = validate();
-    // const dateval = datevalidate();
-
-    
-    
     if (v) {
 
       setIsButtonDisabled(true)
@@ -216,15 +233,15 @@ export default function Createreceipt() {
           Authorization: `Bearer ${localStorage.getItem("login")}`,
         } ,
       }).then((res) => {
-        console.log("receipt", res.data);
         NotificationManager.success("Receipt Created Sucessfully");
         history.push("/app/receipts");
       });
     }
   };
 
+
   useEffect(() => {
-    var isLoggedIn = localStorage.getItem("id");
+    var isLoggedIn = localStorage.getItem("user_type_id");
     if(!isLoggedIn){
 
       window.location = "/signin";
@@ -239,21 +256,23 @@ export default function Createreceipt() {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      setUserdata(res.data.individualCompany);
+      setUserdata(res.data.donor);
       setLoader(false)
     });
   }, []);
-  console.log(userdata.indicomp_pan_no);
-  const pan = userdata.indicomp_pan_no == "" ? "NA" : userdata.indicomp_pan_no;
+
+  const pan = userdata.donor_pan_no == "" ? "NA" : userdata.donor_pan_no;
   return (
     <div>
       { loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
       {!loader && 
       <>
-      <RctCollapsibleCard heading="Receipt">
+      
+      <RctCollapsibleCard heading="Cash Receipt">
+     
         <div className="receiptDetails">
-          <h4>Name : {userdata.indicomp_full_name}</h4>
-          <h4>FTS Id : {userdata.indicomp_fts_id}</h4>
+          <h4>Name : {userdata.donor_full_name}</h4>
+          <h4>PDS Id : {userdata.donor_fts_id}</h4>
           <h4>Pan No : {pan}</h4>
           <h4>Receipt Date : {Moment(donor.receipt_date).format('DD-MM-YYYY')}</h4>
           <h4>Year : {finalyear}</h4>
@@ -269,13 +288,14 @@ export default function Createreceipt() {
         )}
         <form id="createrec" autoComplete="off">
           <div className="row">
+          
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   id="select-exemption"
                   select
                   label="Category"
-                  // onChange={this.handleChange('exemption')}
+                 
                   name="receipt_exemption_type"
                   value={donor.receipt_exemption_type}
                   onChange={(e) => onInputChange(e)}
@@ -311,22 +331,14 @@ export default function Createreceipt() {
                 />
               </div>
             </div>
-            {/* <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField id="text" fullWidth label="Receipt Reference" name="receipt_reference"
-                  // value={donor.receipt_total_amount}
-                  required
-                  // onChange={(e) => onInputChange(e)} 
-                  autoComplete="Total Amount" />
-              </div>
-            </div> */}
+            
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
                 <TextField
                   id="select-pay_mode"
                   select
                   label="Transaction Type"
-                  // onChange={this.handleChange('pay_mode')}
+               
                   name="receipt_tran_pay_mode"
                   required
                   value={donor.receipt_tran_pay_mode}
@@ -358,7 +370,7 @@ export default function Createreceipt() {
                   id="select-donation_type"
                   select
                   label="Purpose"
-                  // onChange={this.handleChange('donation_type')}
+                  
                   name="receipt_donation_type"
                   required
                   value={donor.receipt_donation_type}
@@ -383,24 +395,7 @@ export default function Createreceipt() {
                 </TextField>
               </div>
             </div>
-            <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
-                <TextField
-                  id="datefield"
-                  label="Realization Date"
-                  type="date"
-                  max={today}
-                  name="receipt_realization_date"
-                  value={donor.receipt_realization_date}
-                  onChange={(e) => onInputChange(e)}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  placeholder="Realization Date"
-                  fullWidth
-                />
-              </div>
-            </div>
+            
             <div className="col-sm-6 col-md-6 col-xl-6">
               <div className="form-group">
                 <TextField
@@ -412,6 +407,19 @@ export default function Createreceipt() {
                   value={donor.receipt_tran_pay_details}
                   onChange={(e) => onInputChange(e)}
                   autoComplete="Transaction Pay Details"
+                />
+              </div>
+            </div>
+            <div className="col-sm-6 col-md-6 col-xl-6">
+              <div className="form-group">
+                <TextField
+                  id="text"
+                  name="receipt_occasional"
+                  value={donor.receipt_occasional}
+                  onChange={(e) => onInputChange(e)}
+                  fullWidth
+                  label="On Occasion"
+                  autoComplete="On Occasion"
                 />
               </div>
             </div>

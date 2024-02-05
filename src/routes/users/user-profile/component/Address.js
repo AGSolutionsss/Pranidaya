@@ -1,6 +1,3 @@
-/**
- * Profile Page
- */
 import React, { Component, useState, useEffect } from "react";
 import {
   FormGroup,
@@ -15,14 +12,11 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import { NotificationManager } from "react-notifications";
 import axios from "axios";
-// intlmessages
 import IntlMessages from "Util/IntlMessages";
 import {baseURL} from '../../../../api';
 
 export default class Profile extends Component {
-  /**
-   * On Update Profile
-   */
+
   state = {
     old_password: "",
     password: "",
@@ -30,7 +24,7 @@ export default class Profile extends Component {
   };
 
   componentDidMount() {
-    var isLoggedIn = localStorage.getItem("id");
+    var isLoggedIn = localStorage.getItem("user_type_id");
     if(!isLoggedIn){
 
       window.location = "/signin";
@@ -47,6 +41,11 @@ export default class Profile extends Component {
     e.preventDefault();
     if (this.state.password != this.state.confirm_password) {
       NotificationManager.error("Passwords don't match");
+      return false;
+    }
+
+    if (this.state.old_password == this.state.password) {
+      NotificationManager.error("Same Old Password is not allowed");
       return false;
     }
 
@@ -81,7 +80,7 @@ export default class Profile extends Component {
     return (
       <div className="profile-wrapper w-50">
         <h2 className="heading">
-          <IntlMessages id="widgets.personalDetails" />
+          <IntlMessages id="Change Password" />
         </h2>
         <Form onSubmit={(e) => this.onUpdateProfile(e)}>
           <FormGroup row>
@@ -90,7 +89,6 @@ export default class Profile extends Component {
             </Label>
             <Col sm={9}>
               <Input
-                type="text"
                 name="oldpassword"
                 id="oldpassword"
                 className="input-lg"
@@ -109,7 +107,6 @@ export default class Profile extends Component {
             </Label>
             <Col sm={9}>
               <Input
-                type="text"
                 name="newpassword"
                 id="newpassword"
                 className="input-lg"
@@ -128,7 +125,6 @@ export default class Profile extends Component {
             </Label>
             <Col sm={9}>
               <Input
-                type="text"
                 name="confirmpassword"
                 id="confirmpassword"
                 value={this.state.confirm_password}
@@ -147,7 +143,7 @@ export default class Profile extends Component {
             className="text-white"
             type="submit"
           >
-            <IntlMessages id="widgets.updateProfile" />
+            <IntlMessages id="Update Password" />
           </Button>
         </Form>
         <hr />

@@ -27,8 +27,7 @@ class SidebarContent extends Component {
 	}
 
 	render() {
-		console.log(localStorage.getItem("id"));
-		console.log(localStorage.getItem("name"));
+		
 
 		const { sidebarMenus } = this.props.sidebar;
 		return (
@@ -42,7 +41,7 @@ class SidebarContent extends Component {
 							</ListSubheader>}
 					>
 
-						{localStorage.getItem("id") == 1 ? sidebarMenus.category1.map((menu, key) => (
+						{localStorage.getItem("user_type_id") == 1 ? sidebarMenus.category1.map((menu, key) => (
 							<NavMenuItem
 								style={{ color: "gray!important" }}
 								menu={menu}
@@ -59,7 +58,7 @@ class SidebarContent extends Component {
 							/>
 						))
 						}
-						{localStorage.getItem("id") == 2 ? sidebarMenus.category7.map((menu, key) => (
+						{localStorage.getItem("user_type_id") == 2 ? sidebarMenus.category7.map((menu, key) => (
 							<NavMenuItem
 								style={{ color: "gray!important" }}
 								menu={menu}
@@ -76,12 +75,12 @@ class SidebarContent extends Component {
 							/>
 						))
 						}
-						{localStorage.getItem("id") == 3 ? sidebarMenus.category8.map((menu, key) => (
+						{localStorage.getItem("user_type_id") == 3 ? sidebarMenus.category8.map((menu, key) => (
 							<NavMenuItem
 								style={{ color: "gray!important" }}
 								menu={menu}
 								key={key}
-								onToggleMenu={() => this.toggleMenu(menu, 'category1')}
+								onToggleMenu={() => this.toggleMenu(menu, 'category8')}
 							/>
 						)) :
 						 sidebarMenus.category3.map((menu, key) => (
@@ -93,7 +92,7 @@ class SidebarContent extends Component {
 							/>
 						))
 						}
-{localStorage.getItem("id") == 4 ? sidebarMenus.category1.map((menu, key) => (
+						{localStorage.getItem("user_type_id") == 4 ? sidebarMenus.category1.map((menu, key) => (
 							<NavMenuItem
 								style={{ color: "gray!important" }}
 								menu={menu}

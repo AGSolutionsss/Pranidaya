@@ -10,28 +10,14 @@ import IntlMessages from 'Util/IntlMessages';
 
 // app config
 import AppConfig from 'Constants/AppConfig';
+import dateyear from "../../routes/dateyear";
 
 const Footer = () => (
-	<div className="rct-footer d-flex justify-content-end ">
-		{/* <ul className="list-inline footer-menus mb-0">
-			<li className="list-inline-item">
-				<Button component={Link} to="/app/dashboard"><IntlMessages id="sidebar.gettingStarted" /></Button>
-			</li>
-			<li className="list-inline-item">
-				<Button component={Link} to="/app/about-us"><IntlMessages id="sidebar.aboutUs" /></Button>
-			</li>
-			<li className="list-inline-item">
-				<Button component={Link} to="/app/pages/faq"><IntlMessages id="sidebar.faq(s)" /></Button>
-			</li>
-			<li className="list-inline-item">
-				<Button component={Link} to="/terms-condition"><IntlMessages id="sidebar.terms&Conditions" /></Button>
-			</li>
-			<li className="list-inline-item">
-				<Button component={Link} to="/app/pages/feedback"><IntlMessages id="sidebar.feedback" /></Button>
-			</li>
-		</ul> */}
+	<div className="rct-footer d-flex" style={{justifyContent: "space-between"}}>
+		
+		<h5  className="mb-0 ">Current Year - {dateyear} </h5> 
+		
 		<h5  className="mb-0 ">{AppConfig.copyRightText}</h5> 
 	</div>
 );
-
 export default Footer;
