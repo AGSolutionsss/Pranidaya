@@ -22,6 +22,9 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import InputMask from "react-input-mask";
 import states from "../states";
 import AddToGroup from "./addToGroup";
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {baseURL} from '../../api';
 
 const honorific = [
   {
@@ -225,17 +228,96 @@ const EditIndiv = (props) => {
 
   const [donors, setDonors] = useState([]);
   const [family_related_id, setFamilyRelatedId] = useState("");
-
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+  const [loader, setLoader]= useState(true);
   // var url = new URL(window.location.href);
   // var id = url.searchParams.get("id");
   var id = props.id;
 
   // const { personName, userName, mobile, email } = user;
+  const validateOnlyDigits = (inputtxt) => {
+
+    // function phonenumber(inputtxt)
+   //{
+     var phoneno = /^\d+$/;
+     if(inputtxt.match(phoneno) || inputtxt.length==0){
+         return true;
+           }
+         else
+           {
+           //alert("message");
+           return false;
+           }
+   }
+
+
+
+  // const { personName, userName, mobile, email } = user;
   const onInputChange = (e) => {
+
+    if(e.target.name=="indicomp_mobile_phone"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    } else if(e.target.name=="indicomp_mobile_whatsapp"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_res_reg_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_off_branch_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else{
+
     setDonor({
       ...donor,
       [e.target.name]: e.target.value,
     });
+  }
   };
 
   const onChangePanNumber = (e) => {
@@ -244,20 +326,29 @@ const EditIndiv = (props) => {
 
   const fetchDonors = () => {
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
+      url: baseURL+"/fetch-donors",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
       setDonors(res.data.individualCompanies);
+      setLoader(false)
       console.log(donor);
     });
   };
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -268,7 +359,9 @@ const EditIndiv = (props) => {
     });
   }, []);
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
       title: donor.title,
@@ -304,8 +397,16 @@ const EditIndiv = (props) => {
       indicomp_belongs_to: donor.indicomp_belongs_to,
       indicomp_donor_type: donor.indicomp_donor_type,
     };
+    var v = document.getElementById("editIndiv").checkValidity();
+    var v = document.getElementById("editIndiv").reportValidity();
+
+    // const val = validate();
+    // const dateval = datevalidate();
+    e.preventDefault();
+if(v){
+  setIsButtonDisabled(true)
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
+      url: baseURL+"/update-donor/" + id,
       method: "PUT",
       data,
       headers: {
@@ -314,9 +415,10 @@ const EditIndiv = (props) => {
     }).then((res) => {
       console.log("editdonor", res.data);
       setDonor(res.data.individualCompany);
-      //alert("success");
+      NotificationManager.success("Data Updated Sucessfully");
       history.push("listing");
     });
+  }
   };
 
   const hr = {
@@ -344,14 +446,14 @@ const EditIndiv = (props) => {
     }
 
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
+      url: baseURL+"/update-donor/" + id,
       method: "PUT",
       data,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      alert("success");
+      NotificationManager.success("Data Sucessfully Removed From the Group");
       setDonor(res.data.individualCompany);
       //alert("success");
       setShowmodal(false);
@@ -359,9 +461,12 @@ const EditIndiv = (props) => {
   };
   return (
     <div className="textfields-wrapper">
-      <PageTitleBar title="Update Individual Donor" />
+      { loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
+      {!loader && 
+      <>
+      <PageTitleBar title="Edit Individual Donor" />
       <RctCollapsibleCard>
-        <form noValidate autoComplete="off">
+        <form id="editIndiv" autoComplete="off">
           <h1>Personal Details</h1>
           <hr style={hr} />
           <div className="row">
@@ -490,7 +595,7 @@ const EditIndiv = (props) => {
               </div>
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
-              <div className="form-group">
+              
                 <InputMask
                   mask="aaaaa 9999 a"
                   formatChars={{
@@ -502,7 +607,7 @@ const EditIndiv = (props) => {
                 >
                   {() => <TextField label="PAN Number" />}
                 </InputMask>
-              </div>
+              
             </div>
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
@@ -512,6 +617,8 @@ const EditIndiv = (props) => {
                   autoComplete="Name"
                   name="indicomp_image_logo"
                   type="file"
+                  disabled
+                  helperText="Upload Donor Image"
                   value={donor.indicomp_image_logo}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -635,12 +742,8 @@ const EditIndiv = (props) => {
                   required
                   label="Mobile Phone"
                   inputProps={{ maxLength: 10 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
-                  type="number"
+                  
+                  type="text"
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
                   value={donor.indicomp_mobile_phone}
@@ -654,12 +757,8 @@ const EditIndiv = (props) => {
                   fullWidth
                   label="Whatsapp"
                   inputProps={{ maxLength: 10 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
-                  type="number"
+                  
+                  type="text"
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
                   value={donor.indicomp_mobile_whatsapp}
@@ -775,12 +874,8 @@ const EditIndiv = (props) => {
                   required
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 6);
-                  }}
-                  type="number"
+                  
+                  type="text"
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
                   value={donor.indicomp_res_reg_pin_code}
@@ -868,12 +963,8 @@ const EditIndiv = (props) => {
                   fullWidth
                   label="Pincode"
                   inputProps={{ maxLength: 6 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 6);
-                  }}
-                  type="number"
+                  
+                  type="text"
                   autoComplete="Name"
                   name="indicomp_off_branch_pin_code"
                   value={donor.indicomp_off_branch_pin_code}
@@ -909,8 +1000,10 @@ const EditIndiv = (props) => {
           <div className="receiptbuttons">
             <Button
               className="mr-10 mb-10"
+              type="submit"
               color="primary"
-              onClick={() => onSubmit()}
+              onClick={(e) => onSubmit(e)}
+              disabled={isButtonDisabled}
             >
               Submit
             </Button>
@@ -958,6 +1051,7 @@ const EditIndiv = (props) => {
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>
+      </>}
     </div>
   );
 };

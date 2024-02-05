@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "reactstrap";
@@ -6,6 +6,9 @@ import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Moment from 'moment';
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {baseURL} from '../../api';
 
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
@@ -86,6 +89,11 @@ export default function Createreceipt() {
   var url = new URL(window.location.href);
   var id = url.searchParams.get("id");
   const [userdata, setUserdata] = React.useState("");
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+
+  const [loader, setLoader]= useState(true);
+
+
 
   let history = useHistory();
   var today = new Date();
@@ -126,11 +134,43 @@ export default function Createreceipt() {
   });
 
   // const { personName, userName, mobile, email } = user;
-  const onInputChange = (e) => {
+  const validateOnlyDigits = (inputtxt) => {
+
+    // function phonenumber(inputtxt)
+   //{
+     var phoneno = /^\d+$/;
+     if(inputtxt.match(phoneno) || inputtxt.length==0){
+         return true;
+           }
+         else
+           {
+           //alert("message");
+           return false;
+           }
+   }
+   const onInputChange = (e) => {
+
+    if(e.target.name=="receipt_total_amount"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    } else{
+
     setDonor({
       ...donor,
       [e.target.name]: e.target.value,
     });
+  }
   };
 
   const onSubmit = (e) => {
@@ -161,37 +201,55 @@ export default function Createreceipt() {
     e.preventDefault();
     // const val = validate();
     // const dateval = datevalidate();
+
+    
+    
     if (v) {
+
+      setIsButtonDisabled(true)
+      
       axios({
-        url: "https://ftschamp.trikaradev.xyz/api/create-receipt",
+        url: baseURL+"/create-receipt",
         method: "POST",
         data,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("login")}`,
-        },
+        } ,
       }).then((res) => {
         console.log("receipt", res.data);
-        alert("success");
+        NotificationManager.success("Receipt Created Sucessfully");
         history.push("/app/receipts");
       });
     }
   };
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
       setUserdata(res.data.individualCompany);
+      setLoader(false)
     });
   }, []);
   console.log(userdata.indicomp_pan_no);
   const pan = userdata.indicomp_pan_no == "" ? "NA" : userdata.indicomp_pan_no;
   return (
     <div>
+      { loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
+      {!loader && 
+      <>
       <RctCollapsibleCard heading="Receipt">
         <div className="receiptDetails">
           <h4>Name : {userdata.indicomp_full_name}</h4>
@@ -241,12 +299,15 @@ export default function Createreceipt() {
                 <TextField
                   id="text"
                   fullWidth
+                  type="text"
                   label="Total Amount"
                   name="receipt_total_amount"
+                  inputProps={{ maxLength: 8 }}
                   value={donor.receipt_total_amount}
                   required
                   onChange={(e) => onInputChange(e)}
                   autoComplete="Total Amount"
+                  
                 />
               </div>
             </div>
@@ -372,11 +433,14 @@ export default function Createreceipt() {
             <Button
               type="submit"
               onClick={(e) => onSubmit(e)}
+              disabled={isButtonDisabled}
               className="mr-10 mb-10"
               color="primary"
             >
               Submit
             </Button>
+
+            
             <Link to="listing">
               <Button className="mr-10 mb-10" color="danger">
                 Back
@@ -386,6 +450,7 @@ export default function Createreceipt() {
           <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
+      </>}
     </div>
   );
 }

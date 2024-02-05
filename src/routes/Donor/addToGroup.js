@@ -10,6 +10,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { NotificationContainer, NotificationManager,} from "react-notifications";
 
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
@@ -21,14 +22,15 @@ import axios from "axios";
 
 // intl messages
 import IntlMessages from "Util/IntlMessages";
-// import {columns} from './data'
-// import {table} from './data';
-// import {options} from './data'
-
-// const columnData=["Name","Gender","Phone","Email","Address"]
+import {baseURL} from '../../api';
 
 const option = {
   filterType: "textField",
+  print: false,
+  viewColumns: false,
+  filter: false,
+  searchOpen:true,
+  download:false,
   selectableRows: false,
 };
 export default class AddToGroup extends React.Component {
@@ -65,14 +67,15 @@ export default class AddToGroup extends React.Component {
     };
 
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + this.props.id,
+      url: baseURL+"/update-donor/" + this.props.id,
       method: "PUT",
       data,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      alert("success");
+      NotificationManager.success("Data is Sucessfully Added to Groups");
+      window.location = '/app/donor/listing';
       //alert("success");
     });
   }
@@ -80,7 +83,7 @@ export default class AddToGroup extends React.Component {
   getData = () => {
     let result = [];
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
+      url: baseURL+"/fetch-donors",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -106,6 +109,15 @@ export default class AddToGroup extends React.Component {
       });
   };
   componentDidMount() {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
+    
     this.getData();
   }
 

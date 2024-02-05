@@ -19,7 +19,7 @@ const Forms = ({ match }) => (
             <Redirect exact from={`${match.url}/`} to={`${match.url}/user-profile`} />
             <Route path={`${match.url}/user-profile`} component={AsyncUserProfileComponent} />
             <Route path={`${match.url}/user-list`} component={AsyncUsersListComponent} />
-            <Route path={`${match.url}/user-profile-1`} component={AsyncUserProfile1Component} />
+            <Route path={`${match.url}/user-profile`} component={AsyncUserProfileComponent} />
             <Route path={`${match.url}/user-management`} component={AsyncUserManagementComponent} />
         </Switch>
     </div>

@@ -6,6 +6,7 @@ import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard
 import { Button } from "reactstrap";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import Moment from 'moment';
+import {baseURL} from '../../api';
 
 export default function View() {
   const [donor, setDonor] = useState([]);
@@ -13,14 +14,14 @@ export default function View() {
   const [donation, setDonation] = useState([]);
   const [membership, setMembership] = useState([]);
   const [company, setCompany] = useState([]);
-
+  const [famgroup, setFamgroup] = useState([]);
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     var url = new URL(window.location.href);
     var id = url.searchParams.get("id");
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -31,6 +32,7 @@ export default function View() {
       setDonation(res.data.donor_receipts);
       setMembership(res.data.membership_details);
       setCompany(res.data.company_details);
+      setFamgroup(res.data.related_group);
       setLoader(false);
       console.log(res.data);
     });
@@ -50,6 +52,7 @@ export default function View() {
     fontWeight: "600",
     marginTop: "-10px",
     fontFamily: "Roboto,Helvetica,Arial,Heebo,sans-serif",
+    color: "#3e7dc4",
   };
 
   const label3 = {
@@ -64,6 +67,11 @@ export default function View() {
     marginTop: "-10px",
     paddingLeft: "10px",
     fontFamily: "Roboto,Helvetica,Arial,Heebo,sans-serif",
+    color: "#3e7dc4",
+  };
+
+  const color ={
+    color: "#3e7dc4",
   };
 
   return (
@@ -84,13 +92,17 @@ export default function View() {
           {donor && (
             <div>
               <PageTitleBar title="Donor Details" />
-
+              <div className="donorbtns">
+                {famgroup.map((fam, key) => (
+                  <h1 style={{paddingTop: '10px', paddingRight: '40px'}}>Family Group of : {fam.indicomp_full_name}</h1>
+                ))}
+              </div>
               <div className="row">
                 <div className="textfields-wrapper col-sm-12 col-md-12 col-lg-8">
                   <RctCollapsibleCard>
                     <div className="flexbox">
-                      <h1>{donor.title}.{donor.indicomp_full_name}</h1>
-                      <h3>Fts Id : {donor.indicomp_fts_id}</h3>
+                      <h1 style={color}>{donor.title} {donor.indicomp_full_name}</h1>
+                      <h3 style={color}>Fts Id : {donor.indicomp_fts_id}</h3>
                     </div>
                     <hr style={hr} />
                     <div className="row">
@@ -117,15 +129,27 @@ export default function View() {
                           <div className="col-sm-6 col-md-6 col-xl-3">
                             <div className="form-group">
                               <p style={label3}>DOA</p>{" "}
+                              {donor.indicomp_doa != null && (
+                              <p style={label4}>{Moment(donor.indicomp_doa).format('DD-MM-YYYY')}</p>
+                              )}
+                              {donor.indicomp_doa == null && (
                               <p style={label4}>{donor.indicomp_doa}</p>
+                              )}
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-6 col-xl-3">
                             <div className="form-group">
                               <p style={label3}>DOB</p>{" "}
+                              {donor.indicomp_dob_annualday != null && (
+                              <p style={label4}>
+                                {Moment(donor.indicomp_dob_annualday).format('DD-MM-YYYY')}
+                              </p>
+                              )}
+                              {donor.indicomp_dob_annualday == null && (
                               <p style={label4}>
                                 {donor.indicomp_dob_annualday}
                               </p>
+                              )}
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-6 col-xl-3">
@@ -176,9 +200,16 @@ export default function View() {
                       <div className="col-sm-6 col-md-6 col-xl-3">
                             <div className="form-group">
                               <p style={label3}>Annual Day</p>{" "}
+                              {donor.indicomp_dob_annualday != null && (
+                              <p style={label4}>
+                                {Moment(donor.indicomp_dob_annualday).format('DD-MM-YYYY')}
+                              </p>
+                              )}
+                              {donor.indicomp_dob_annualday == null && (
                               <p style={label4}>
                                 {donor.indicomp_dob_annualday}
                               </p>
+                              )}
                             </div>
                           </div>
                           <div className="col-sm-6 col-md-6 col-xl-3">
@@ -271,6 +302,7 @@ export default function View() {
                       <div className="col-sm-6 col-md-6 col-xl-12">
                         <div className="form-group">
                           <p style={label1}>Residence Address</p>{" "}
+                          {donor.indicomp_res_reg_address != null && ( 
                           <p style={label2}>
                             {donor.indicomp_res_reg_address},{" "}
                             {donor.indicomp_res_reg_area},{" "}
@@ -279,11 +311,16 @@ export default function View() {
                             {donor.indicomp_res_reg_state} -{" "}
                             {donor.indicomp_res_reg_pin_code}
                           </p>
+                          )}
+                          {donor.indicomp_res_reg_address == null && ( 
+                            <p style={label2}>N.A</p> )}
+
                         </div>
                       </div>
                       <div className="col-sm-6 col-md-6 col-xl-12">
                         <div className="form-group">
-                          <p style={label1}>Office Address</p>{" "}
+                          <p style={label1}>Office Address</p>
+                          {donor.indicomp_off_branch_address != null && (
                           <p style={label2}>
                             {donor.indicomp_off_branch_address},{" "}
                             {donor.indicomp_off_branch_area},{" "}
@@ -292,6 +329,9 @@ export default function View() {
                             {donor.indicomp_off_branch_state} -{" "}
                             {donor.indicomp_off_branch_pin_code}
                           </p>
+                          )}
+                          {donor.indicomp_off_branch_address == null && ( 
+                            <p style={label2}>N.A</p> )}
                         </div>
                       </div>
                       <div className="col-sm-6 col-md-6 col-xl-12">
@@ -324,10 +364,10 @@ export default function View() {
                       </tr>
                       {donation.map((fam, key) => (
                         <tr>
-                          <td>{fam.receipt_no}</td>
-                          <td>{fam.individual_company.indicomp_full_name}</td>
-                          <td>{Moment(fam.receipt_date).format('DD-MM-YYYY')}</td>
-                          <td>{fam.receipt_total_amount}</td>
+                          <td style={color}>{fam.receipt_no}</td>
+                          <td style={color}>{fam.individual_company.indicomp_full_name}</td>
+                          <td style={color}>{Moment(fam.receipt_date).format('DD-MM-YYYY')}</td>
+                          <td style={color}>{fam.receipt_total_amount}</td>
                         </tr>
                       ))}
                     </table>
@@ -344,7 +384,15 @@ export default function View() {
             <div className="flexbox">
               <h1>Family Details</h1>
               <Link to={"/app/donor/addindiv?id=" + relId}>
-                <Button className="mr-10 mb-10 btn-get-start" color="danger">
+                <Button 
+                  style={{
+                    display:
+                      localStorage.getItem("user_type_id") == 2 ||
+                      localStorage.getItem("user_type_id") == 3 ||
+                      localStorage.getItem("user_type_id") == 4
+                      ? "none" : "",
+                  }}
+                className="mr-10 mb-10 btn-get-start" color="danger">
                   + Add Family Member
                 </Button>
               </Link>
@@ -367,10 +415,10 @@ export default function View() {
               </tr>
               {donorfam.map((fam, key) => (
                 <tr>
-                  <td>{fam.indicomp_fts_id}</td>
-                  <td>{fam.indicomp_full_name}</td>
-                  <td>{fam.indicomp_dob_annualday}</td>
-                  <td>{fam.indicomp_mobile_phone}</td>
+                  <td style={color}>{fam.indicomp_fts_id}</td>
+                  <td style={color}>{fam.indicomp_full_name}</td>
+                  <td style={color}>{fam.indicomp_dob_annualday}</td>
+                  <td style={color}>{fam.indicomp_mobile_phone}</td>
                 </tr>
               ))}
             </table>
@@ -397,10 +445,10 @@ export default function View() {
               </tr>
               {membership.map((fam, key) => (
                 <tr>
-                  <td>{fam.receipt_no}</td>
-                  <td>{fam.individual_company.indicomp_full_name}</td>
-                  <td>{Moment(fam.receipt_date).format('DD-MM-YYYY')}</td>
-                  <td>{fam.receipt_total_amount}</td>
+                  <td style={color}>{fam.receipt_no}</td>
+                  <td style={color}>{fam.individual_company.indicomp_full_name}</td>
+                  <td style={color}>{Moment(fam.receipt_date).format('DD-MM-YYYY')}</td>
+                  <td style={color}>{fam.receipt_total_amount}</td>
                 </tr>
               ))}
             </table>
@@ -413,7 +461,15 @@ export default function View() {
             <div className="flexbox">
               <h1>Company Details</h1>
               <Link to={"/app/donor/addcomp?id=" + relId}>
-                <Button className="mr-10 mb-10 btn-get-start" color="danger">
+                <Button
+                style={{
+                  display:
+                    localStorage.getItem("user_type_id") == 2 ||
+                    localStorage.getItem("user_type_id") == 3 ||
+                    localStorage.getItem("user_type_id") == 4
+                    ? "none" : "",
+                }}
+                className="mr-10 mb-10 btn-get-start" color="danger">
                   + Add Company
                 </Button>
               </Link>
@@ -436,10 +492,10 @@ export default function View() {
               </tr>
               {company.map((fam, key) => (
                 <tr>
-                  <td>{fam.indicomp_fts_id}</td>
-                  <td>{fam.indicomp_full_name}</td>
-                  <td>{fam.indicomp_dob_annualday}</td>
-                  <td>{fam.indicomp_mobile_phone}</td>
+                  <td style={color}>{fam.indicomp_fts_id}</td>
+                  <td style={color}>{fam.indicomp_full_name}</td>
+                  <td style={color}>{fam.indicomp_dob_annualday}</td>
+                  <td style={color}>{fam.indicomp_mobile_phone}</td>
                 </tr>
               ))}
             </table>

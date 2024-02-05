@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet";
 
 import Listing from "./listing";
 import Edit from "./editReceipt";
+import View from "./receiptview";
 
 // import Edit from "./Edit"
 import {
@@ -21,12 +22,14 @@ import {
 const NewListDonor = ({ match }) => (
   <div className="dashboard-wrapper">
     <Helmet>
-      <title>FTS | Donor</title>
-      <meta name="description" content="FTS Donor" />
+      <title>FTS | Receipts</title>
+      <meta name="description" content="FTS Receipts" />
     </Helmet>
     <Switch>
       <Redirect exact from={`${match.url}/`} to={`${match.url}/listing`} />
       <Route path={`${match.url}/listing`} component={Listing} />
+      <Route path={`${match.url}/receiptview`} component={View} />
+
       <Route path={`${match.url}/editreceipt`} component={Edit} />
     </Switch>
   </div>

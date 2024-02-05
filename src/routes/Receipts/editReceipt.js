@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "reactstrap";
@@ -6,6 +6,9 @@ import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Moment from 'moment';
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {baseURL} from '../../api';
 
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
@@ -59,8 +62,8 @@ const pay_mode_2 = [
 ];
 const donation_type = [
   {
-    value: "OTS",
-    label: "OTS",
+    value: "One Teacher School",
+    label: "One Teacher School",
   },
   {
     value: "General",
@@ -73,8 +76,8 @@ const donation_type = [
 ];
 const donation_type_2 = [
   {
-    value: "OTS",
-    label: "OTS",
+    value: "One Teacher School",
+    label: "One Teacher School",
   },
   {
     value: "General",
@@ -86,6 +89,8 @@ export default function EditReceipt() {
   var url = new URL(window.location.href);
   var id = url.searchParams.get("id");
   const [userdata, setUserdata] = React.useState("");
+  const [loader, setLoader]= useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
 
   let history = useHistory();
   // var today = new Date();
@@ -113,14 +118,50 @@ export default function EditReceipt() {
     receipt_created_by: "",
     receipt_update_at: "",
     receipt_update_by: "",
+    individual_company: {
+			indicomp_full_name:"",
+      indicomp_pan_no: "",
+      indicomp_fts_id:"",
+    }
   });
 
-  // const { personName, userName, mobile, email } = user;
-  const onInputChange = (e) => {
+  const validateOnlyDigits = (inputtxt) => {
+
+    // function phonenumber(inputtxt)
+   //{
+     var phoneno = /^\d+$/;
+     if(inputtxt.match(phoneno) || inputtxt.length==0){
+         return true;
+           }
+         else
+           {
+           //alert("message");
+           return false;
+           }
+   }
+   const onInputChange = (e) => {
+
+    if(e.target.name=="receipt_total_amount"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    } else{
+
     setDonor({
       ...donor,
       [e.target.name]: e.target.value,
     });
+  }
   };
 
   const onSubmit = (e) => {
@@ -144,14 +185,15 @@ export default function EditReceipt() {
       receipt_update_at: donor.receipt_update_at,
       receipt_update_by: donor.receipt_update_by,
     };
-    // var v = document.getElementById("createrec").checkValidity();
-    // var v = document.getElementById("addIndiv").reportValidity();
-
+    var v = document.getElementById("createrec").checkValidity();
+     var v = document.getElementById("createrec").reportValidity();
+     e.preventDefault();
     // const val = validate();
     // const dateval = datevalidate();
-    if (true) {
+    if (v) {
+      setIsButtonDisabled(true)
       axios({
-        url: "https://ftschamp.trikaradev.xyz/api/update-receipt/" + id,
+        url: baseURL+"/update-receipt/" + id,
         method: "PUT",
         data,
         headers: {
@@ -159,16 +201,24 @@ export default function EditReceipt() {
         },
       }).then((res) => {
         console.log("receipt", res.data);
-        alert("success");
+        NotificationManager.success("Receipt Updated Sucessfully");
         history.push("listing");
       });
-      console.log("hell");
+      
     }
   };
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -177,24 +227,28 @@ export default function EditReceipt() {
       setUserdata(res.data.individualCompany);
     });
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-receipt-by-id/" + id,
+      url: baseURL+"/fetch-receipt-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
       setDonor(res.data.receipt);
+      setLoader(false)
       console.log("receiptdata", res.data);
     });
   }, []);
-  console.log(userdata.indicomp_pan_no);
-  const pan = userdata.indicomp_pan_no == "" ? "NA" : userdata.indicomp_pan_no;
+  console.log(donor.individual_company.indicomp_pan_no);
+  const pan = donor.individual_company.indicomp_pan_no == "" ? "NA" : donor.individual_company.indicomp_pan_no;
   return (
     <div>
-      <RctCollapsibleCard heading="Receipt">
+      { loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
+      {!loader && 
+      <>
+      <RctCollapsibleCard>
         <div className="receiptDetails">
-          <h4>Name : {userdata.indicomp_full_name}</h4>
-          <h4>FTS Id : {userdata.indicomp_fts_id}</h4>
+          <h4>Name : {donor.individual_company.indicomp_full_name}</h4>
+          <h4>FTS Id : {donor.individual_company.indicomp_fts_id}</h4>
           <h4>Pan No : {pan}</h4>
           <h4>Receipt Date : {Moment(donor.receipt_date).format('DD-MM-YYYY')}</h4>
           <h4>Year : {donor.receipt_financial_year}</h4>
@@ -251,8 +305,10 @@ export default function EditReceipt() {
                   name="receipt_total_amount"
                   value={donor.receipt_total_amount}
                   required
+                  type="text"
                   onChange={(e) => onInputChange(e)}
                   autoComplete="Total Amount"
+                  inputProps={{ maxLength: 8 }}
                 />
               </div>
             </div>
@@ -394,6 +450,7 @@ export default function EditReceipt() {
             <Button
               type="submit"
               onClick={(e) => onSubmit(e)}
+              disabled={isButtonDisabled}
               className="mr-10 mb-10"
               color="primary"
             >
@@ -408,6 +465,7 @@ export default function EditReceipt() {
           <div className="antifloat"></div>
         </form>
       </RctCollapsibleCard>
+      </>}
     </div>
   );
 }

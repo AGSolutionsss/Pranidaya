@@ -16,6 +16,8 @@ import IntlMessages from "Util/IntlMessages";
 import { RctCard } from "Components/RctCard/index";
 import numWords from "num-words";
 
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+
 const td1 = {
   border: "1px solid Black",
   padding: "5px",
@@ -91,16 +93,28 @@ const p_text = {
 
 export default function Invoice(props) {
   const componentRef = useRef();
+  const [donor, setDonor] = useState([]);
   const [receipts, setReceipts] = useState({});
   const [chapter, setChapter] = useState({});
+  const [theId, setTheId] = useState(0);
+
 
   const amountInWords = numWords(receipts.receipt_total_amount);
 
+  sendEmail
+
+  
+
   useEffect(() => {
+
+
     var url = new URL(window.location.href);
     var id = url.searchParams.get("id");
+
+    setTheId(id);
+
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-receipt-by-id/" + id,
+      url: "https://api.testags.com/api/fetch-receipt-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -108,8 +122,31 @@ export default function Invoice(props) {
     }).then((res) => {
       setReceipts(res.data.receipt);
       setChapter(res.data.chapter);
+      
+      // alert(res.data.individualCompany.indicomp_email);
     });
   }, []);
+  // alert(donor.indicomp_fts_id);
+
+
+  const sendEmail = (link) => {
+     // Call this link, without changing window
+
+     fetch(link)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          NotificationManager.success("Mail Sent Sucessfully");
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          NotificationManager.success("Mail Sent Sucessfully");
+        }
+      )
+  };
+  
   return (
     <div>
       <div className="invoice-wrapper">
@@ -120,14 +157,27 @@ export default function Invoice(props) {
               <div className="invoice-head text-right">
                 <ul className="list-inline">
                   <li>
-                    <a href= "https://legacy.testags.com/public/generate-pdf?id=id">
+                    <a href={"https://legacy.testags.com/public/generate-pdf?id=" + theId}>
                       <i className="mr-10 ti-download"></i> Download
                     </a>
                   </li>
                   <li>
-                    <a href="mailto: tongra1@gmail.com">
+
+
+                  {receipts!==null && (typeof (receipts.individual_company) !== 'undefined') && receipts.individual_company.indicomp_email!==null &&   
+                  <a onClick={() => sendEmail("https://legacy.testags.com/public/sendMail?id=" + theId + "&indicomp_id="+ receipts.indicomp_fts_id)} >
+                    {/* <a href="mailto: tongra1@gmail.com"> */}
                       <i className="mr-10 ti-email"></i> Email
                     </a>
+
+                 }
+                  {receipts!==null && (typeof (receipts.individual_company) !== 'undefined') && receipts.individual_company.indicomp_email == null &&   
+                  
+                      <p style={{color:'red'}}><i className="mr-10 ti-email"></i> Email not found</p>
+                  
+                 }
+				 
+                 
                   </li>
                   <li>
                     <ReactToPrint
@@ -224,6 +274,7 @@ export default function Invoice(props) {
                         </td>
                       </tr>
                       <tr>
+                        
                         <td style={td_top1} rowspan="2">
                           <label style={label}>
                             {Object.keys(receipts).length != 0 && (
@@ -269,6 +320,11 @@ export default function Invoice(props) {
                                       ,
                                       {
                                         receipts.individual_company
+                                          .indicomp_email
+                                      }
+                                      ,
+                                      {
+                                        receipts.individual_company
                                           .indicomp_off_branch_state
                                       }
                                     </p>
@@ -305,6 +361,11 @@ export default function Invoice(props) {
                                       {
                                         receipts.individual_company
                                           .indicomp_res_reg_pin_code
+                                      }
+                                      ,
+                                      {
+                                        receipts.individual_company
+                                          .indicomp_email
                                       }
                                       ,
                                       {

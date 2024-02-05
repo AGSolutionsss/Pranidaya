@@ -82,7 +82,7 @@ export default class NewListChapter extends React.Component {
 
   getData = () => {
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-chapters",
+      url: "https://api.testags.com/api/fetch-chapters",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,

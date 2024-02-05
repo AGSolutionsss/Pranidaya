@@ -61,15 +61,15 @@ class Sidebar extends Component {
 					style={{ backgroundImage: enableSidebarBackgroundImage ? `url(${selectedSidebarImage})` : 'none' }}
 				>
 					<div className={classNames("rct-sidebar-content", { "sidebar-overlay-dark": isDarkSidenav, 'sidebar-overlay-light': !isDarkSidenav })}>
-						<div className="site-logo">
+						{/* <div className="site-logo">
 							<Link to="/" className="logo-mini">
 								<img src={require('Assets/receipt/fts.png')} className="mr-15" alt="site logo" width="35" height="35" />
 							</Link>
 							<Link to="/app/dashboard/news" className="logo-normal">
-								 {/* <img src={require('Assets/img/appLogoText.png')} className="img-fluid" alt="site-logo" width="67" height="17" />  */}
+							
 								 <h1>FTS</h1>
 							</Link>
-						</div>
+						</div> */}
 						<div className="rct-sidebar-wrap">
 							<Scrollbars
 								className="rct-scroll"
@@ -84,6 +84,11 @@ class Sidebar extends Component {
 									<AgencySidebar />
 								}
 							</Scrollbars>
+						</div>
+						<div className="site-logo">
+						<Link to="/app/dashboard/news" className="logo-mini">
+								<img src={require('Assets/receipt/fts1.png')} className="mr-15" alt="site logo" width="80" height="35" />
+							</Link>
 						</div>
 					</div>
 				</div>

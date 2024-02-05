@@ -5,7 +5,8 @@ import { Badge } from 'reactstrap';
 import Button from '@material-ui/core/Button';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Modal from 'react-modal';
-
+import Moment from 'moment';
+import {baseURL} from '../../api';
 
 // intl messages
 import IntlMessages from 'Util/IntlMessages';
@@ -118,7 +119,7 @@ export default class TopHeadlines extends Component {
         
        
   	     
-  	   fetch('https://ftschamp.trikaradev.xyz/api/superadmin-add-notice?notice_name='+this.state.noticeName+'&notice_detail='+this.state.noticeDetail+'&to_be_sent_to='+this.state.toBeSentTo, requestOptions)
+  	   fetch(baseURL+'/superadmin-add-notice?notice_name='+this.state.noticeName+'&notice_detail='+this.state.noticeDetail+'&to_be_sent_to='+this.state.toBeSentTo, requestOptions)
          .then(response => response.json())
          .then(data => this.setAddNoticeResult(data));      
    
@@ -146,6 +147,14 @@ export default class TopHeadlines extends Component {
    
    componentDidMount() {
   	
+      var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
   	
   	     var theLoginToken = localStorage.getItem('login');   	     
   	     var userTypeId = localStorage.getItem('id');    	     
@@ -165,12 +174,12 @@ export default class TopHeadlines extends Component {
         	
         	  this.setState({ isSuperAdmin: true })   
   	     
-  	        fetch('https://ftschamp.trikaradev.xyz/api/superadmin-fetch-notices', requestOptions)
+  	        fetch(baseURL+'/superadmin-fetch-notices', requestOptions)
             .then(response => response.json())
             .then(data => this.setTheData(data));         
   	     }else{
   	     
-  	        fetch('https://ftschamp.trikaradev.xyz/api/user-fetch-notices', requestOptions)
+  	        fetch(baseURL+'/user-fetch-notices', requestOptions)
             .then(response => response.json())
             .then(data => this.setTheData(data));         
   	     }        
@@ -205,7 +214,7 @@ export default class TopHeadlines extends Component {
          };        
        
   	     
-  	      fetch('https://ftschamp.trikaradev.xyz/api/user-mark-a-notice-as-read?notice_id='+noticeId, requestOptions)
+  	      fetch(baseURL+'/user-mark-a-notice-as-read?notice_id='+noticeId, requestOptions)
            .then(response => response.json())
            .then(data => this.setTheData(data));         
   	      
@@ -215,7 +224,7 @@ export default class TopHeadlines extends Component {
    render() {
       return (
          <Fragment>
-            <Scrollbars className="rct-scroll" autoHeight autoHeightMin={100} autoHeightMax={571} autoHide>
+            <Scrollbars className="rct-scroll" autoHeight autoHeightMin={100} autoHeightMax={350} autoHide>
                <ul className="top-headlines-widget list-unstyled mb-0">
                   {this.state.notices.map((notice, key) =>
                      <li className="d-flex align-items-center justify-content-between p-20 border-bottom" key={notice.id}>
@@ -229,7 +238,7 @@ export default class TopHeadlines extends Component {
                               </div>
                               
                               <div className="d-flex font-xs fw-light text-muted" style={{marginTop:20}}>
-                                 <span className="text-muted font-xs"><b>Notice Posted On:</b> {(notice.created_at).substring(0,10)}</span>
+                                 <span className="text-muted font-xs"><b>Notice Posted On:</b> {Moment((notice.created_at).substring(0,10)).format('DD-MM-YYYY')}</span>
                               </div>
                               
                               <div className="d-flex font-xs fw-light text-muted" style={{marginTop:5}}>

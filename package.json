@@ -1,9 +1,9 @@
 {
-	"name": "reactify",
-	"version": "5.7.0",
-	"description": "A Material Design Reactjs + Redux Admin Template",
-	"author": "The Iron Network",
-	"license": "ISC",
+	"name": "FTSChamp",
+	"version": "2.0.0",
+	"description": "Chapter & Headoffice Activities Management Program",
+	"author": "AG Solutions",
+	"license": "AGS",
 	"scripts": {
 		"start": "webpack-dev-server --mode development --inline --progress",
 		"build": "webpack --mode production"
@@ -119,7 +119,7 @@
 		"react-loadable": "^5.5.0",
 		"react-modal": "^3.12.1",
 		"react-notifications": "^1.6.0",
-		"react-number-format": "^4.4.1",
+		"react-number-format": "^4.5.0",
 		"react-quill": "^1.3.5",
 		"react-redux": "^7.2.0",
 		"react-router-dom": "^5.1.2",
@@ -130,6 +130,7 @@
 		"react-swipeable-views": "^0.13.9",
 		"react-table": "^7.6.2",
 		"react-text-mask": "^5.4.3",
+		"react-to-pdf": "0.0.13",
 		"react-to-print": "^2.12.3",
 		"react-toggle-switch": "^3.0.4",
 		"react-tooltip": "^4.2.6",

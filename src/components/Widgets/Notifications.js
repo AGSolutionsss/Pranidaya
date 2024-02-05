@@ -34,6 +34,14 @@ class Notifications extends Component {
    };
 
    componentDidMount() {
+      var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
       this.getMessages();
       this.getNotificationTypes();
       this.getNotifications();

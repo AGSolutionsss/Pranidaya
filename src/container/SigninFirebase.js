@@ -26,7 +26,7 @@ import { SessionSlider } from "Components/Widgets";
 // app config
 import AppConfig from "Constants/AppConfig";
 // import {fts_logo} from "../assets/receipt/fts_logo.png"
-
+import {baseURL} from '../api';
 // redux action
 import {
   signinUserInFirebase,
@@ -48,6 +48,7 @@ class Signin extends Component {
     password: "",
     login: false,
     token: null,
+    errorShown:false,
   };
 
   /**
@@ -56,11 +57,22 @@ class Signin extends Component {
   onUserLogin() {
     if (this.state.email !== "" && this.state.password !== "") {
       //console.warn("form data", this.state)
+
+
+      //username=${this.state.email}&password=${this.state.password}`
+
+
+      let formData = new FormData();    //formdata object
+
+      formData.append('username', this.state.email);   //append the values with key, value pair
+      formData.append('password', this.state.password);
+
+
       fetch(
-        `https://ftschamp.trikaradev.xyz/api/login?username=${this.state.email}&password=${this.state.password}`,
+        encodeURI(baseURL+'/login'),
         {
           method: "POST",
-          //body:JSON.stringify(this.state)
+          body:formData
         }
       )
         .then((response) => response.json())
@@ -70,23 +82,47 @@ class Signin extends Component {
           // signinUser(data.UserInfo.user.user_type_id);
           localStorage.setItem("id", data.UserInfo.user.user_type_id);
           localStorage.setItem("name", data.UserInfo.user.first_name);
+          localStorage.setItem("username", data.UserInfo.user.name);
           localStorage.setItem("chapter_id", data.UserInfo.user.chapter_id);
           localStorage.setItem("user_type_id", data.UserInfo.user.user_type_id);
 
           if (data.UserInfo.token) {
             localStorage.setItem("login", data.UserInfo.token);
-            this.props.history.push("/app/dashboard/news");
+            this.props.history.push("/app/dashboard");
             this.setState({
               login: true,
               token: data.UserInfo.token,
             });
           }
+          
+          if(JSON.stringify(data).includes("Unauthorised")) {
+          //  if(!this.state.errorShown){
+              NotificationManager.error("Username or password incorrect");
+              this.setState({
+                errorShown: true,
+              });
+         // }
+          }
+
+
         })
         .catch((err) => {
-          NotificationManager.error("Username or password incorrect");
+
+         
+          if(!this.state.errorShown){
+              NotificationManager.error("Username or password incorrect");
+              this.setState({
+                errorShown: true,
+              });
+          }
         });
     } else {
-      NotificationManager.warning("Username or password required");
+      if(!this.state.errorShown){
+        NotificationManager.error("Please enter Username or Password");
+        this.setState({
+          errorShown: true,
+        });
+    }
     }
   }
 
@@ -135,7 +171,7 @@ class Signin extends Component {
         }
       });
     }
-    if (this.state.login) <Redirect to="/app/dashboard/news" />;
+    if (this.state.login) <Redirect to="/app/dashboard" />;
     const { email, password } = this.state;
 
     const { loading } = this.props;
@@ -143,50 +179,41 @@ class Signin extends Component {
       <QueueAnim type="bottom" duration={2000}>
         <div className="rct-session-wrapper">
           {loading && <LinearProgress />}
-          <AppBar position="static" className="session-header">
-            <Toolbar>
-              <div className="container">
-                <div className="d-flex justify-content-between">
-                  <div className="session-logo">
-                    <Link to="/">
-                      <img
-                        src={AppConfig.appLogo}
-                        alt="session-logo"
-                        className="img-fluid"
-                        width="45"
-                        height="45"
-                      />
-                      <span>
-                        <h1
-                          style={{
-                            color: "#fff",
-                            marginTop: "-33px",
-                            marginLeft: "50px",
-                          }}
-                        >
-                          FTS Champ
-                        </h1>
-                      </span>
-                    </Link>
-                  </div>
-                  {/* <div>
-                              <a className="mr-15" onClick={() => this.onUserSignUp()}>Create New account?</a>
-                              <Button variant="contained" className="btn-light" onClick={() => this.onUserSignUp()}>Sign Up</Button>
-                           </div> */}
-                </div>
-              </div>
-            </Toolbar>
-          </AppBar>
           <div className="session-inner-wrapper">
             <div className="container">
               <div className="row row-eq-height">
-                <div className="col-sm-7 col-md-7 col-lg-8">
+              <div className="col-sm-5 col-md-5 col-lg-4">
+                  <SessionSlider />
+                </div>
+              {/* <div className="col-sm-5 col-md-5 col-lg-4">
+                  <img
+                        src={require("Assets/img/bg4-l.jpg")}
+                        alt="Image"
+                        className="img-fluid"
+                        width="377"
+                        height="588"
+                        style={{borderRadius:'10px'}}
+                      />
+                      <div className="rct-img-overlay">
+                        <h5 className="client-name" style={{position:'absolute',color:'#24205a', top:'20px', left:'30px',fontSize:'35px', fontFamily:'Material-Design-Iconic-Font'}}>Welcome to CHAMP</h5>
+                        <span style={{position:'absolute',color:'#24205a', top:'65px', left:'18px',fontFamily:'Material-Design-Iconic-Font'}}>(Chapter & Headoffice Activities Management Program)</span>
+                        <p className="mb-0 fs-14" style={{position:'absolute',color:'#24205a', top:'480px', left:'26px',fontSize:'18px', fontFamily:'Material-Design-Iconic-Font', fontWeight:'600'}}>JOIN HANDS TO SPREAD EDUCATION</p>
+                     </div>
+                </div> */}
+                <div className="col-sm-8 col-md-8 col-lg-8">
                   <div className="session-body text-center">
                     <div className="session-head mb-30">
-                      {/* <h2 className="font-weight-bold">Get started with {AppConfig.brandName}</h2> */}
-                      {/* <p className="mb-0">Most powerful ReactJS admin panel</p> */}
+                    <img
+                        src={AppConfig.appLogo}
+                        alt="session-logo"
+                        className="img-fluid"
+                        width="90"
+                        height="90"
+                      />
+                      {/*<h2 className="font-weight-bold">Login to {AppConfig.brandName}</h2>*/}
+                      
                     </div>
-                    <Form>
+                    <Form >
                       <FormGroup className="has-wrapper">
                         <Input
                           type="text"
@@ -208,7 +235,7 @@ class Signin extends Component {
                           value={password}
                           type="Password"
                           name="user-pwd"
-                          id="pwd"
+                          // id="pwd"
                           className="has-input input-lg"
                           placeholder="Password"
                           onChange={(event) =>
@@ -216,15 +243,13 @@ class Signin extends Component {
                           }
                           required
                         />
-                        {/* <span className="has-icon"><i className="ti-lock"></i></span> */}
-                        <span className="has-icon">
+                        <span className="has-icon"><i className="ti-lock"></i></span>
+                        {/* <span className="has-icon">
                           <VisibilityOffOutlinedIcon />
-                        </span>
+                        </span> */}
                       </FormGroup>
                       <FormGroup className="mb-15">
-                        <Button
-                          color="primary"
-                          className="btn-block text-white w-100"
+                        <Button color="primary" className="btn-block text-white w-100"
                           variant="contained"
                           size="large"
                           id="signin"
@@ -245,7 +270,7 @@ class Signin extends Component {
                                  </FormGroup> */}
                     </Form>
                     <Link to="session/forgot-password">Forget Password</Link>
-                    <p className="mb-20">Visit us @ </p>
+                    <p className="mb-20 mt-30">click to follow us</p>
 
                     <Fab
                       size="small"
@@ -300,15 +325,14 @@ class Signin extends Component {
                     >
                       <i class="zmdi zmdi-pinterest"></i>
                     </Fab>
-                    <p className="text-muted">
+                    {/* <p className="text-muted">
                       By signing up you agree to {AppConfig.brandName}
-                    </p>
+                    </p> */}
                     {/* <p className="mb-0"><a target="_blank" href="#/terms-condition" className="text-muted">Terms of Service</a></p> */}
                   </div>
                 </div>
-                <div className="col-sm-5 col-md-5 col-lg-4">
-                  <SessionSlider />
-                </div>
+                
+                
               </div>
             </div>
           </div>

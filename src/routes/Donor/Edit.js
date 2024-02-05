@@ -10,7 +10,7 @@ import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
-
+import {baseURL} from '../../api';
 // intl messages
 import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
@@ -25,8 +25,16 @@ export default function Edit (props) {
  const [usertype,setUsertype]=useState('')
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,

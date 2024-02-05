@@ -32,7 +32,7 @@ export default class Profile extends Component {
 
   getData = () => {
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-profile",
+      url: "https://api.testags.com/api/fetch-profile",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -40,6 +40,7 @@ export default class Profile extends Component {
     })
       .then((res) => {
         this.setState({ userdata: res.data.user });
+        
       })
       .catch((res) => {
         this.setState({ loader: false });
@@ -98,6 +99,7 @@ export default class Profile extends Component {
                 id="email"
                 className="input-lg"
                 defaultValue={this.state.userdata.email}
+                disabled
               />
             </Col>
           </FormGroup>

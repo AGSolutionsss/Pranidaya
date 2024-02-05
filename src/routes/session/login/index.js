@@ -44,7 +44,7 @@ class Signin extends Component {
    onUserLogin() {
       if (this.state.email !== '' && this.state.password !== '') {
          //console.warn("form data", this.state)
-         fetch(`https://ftschamp.trikaradev.xyz/api/login?username=${this.state.email}&password=${this.state.password}`,{
+         fetch(`https://api.testags.com/api/login?username=${this.state.email}&password=${this.state.password}`,{
             method:"POST",
             body:JSON.stringify(this.state)
          }).then((resp)=>{

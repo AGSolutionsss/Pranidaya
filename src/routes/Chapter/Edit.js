@@ -18,6 +18,9 @@ import { useHistory, useParams } from "react-router-dom";
 import { SelectionState } from "draft-js";
 import states from "../states";
 import MenuItem from "@material-ui/core/MenuItem";
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {baseURL} from '../../api';
 
 const Edit = (props) => {
   let history = useHistory();
@@ -36,20 +39,85 @@ const Edit = (props) => {
     chapter_region_code: "",
   });
 
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+  const [loader, setLoader]= useState(true);
+  
   var url = new URL(window.location.href);
   var id = url.searchParams.get("id");
 
-  // const { personName, userName, mobile, email } = user;
-  const onInputChange = (e) => {
+  const validateOnlyDigits = (inputtxt) => {
+    var phoneno = /^\d+$/;
+    if(inputtxt.match(phoneno) || inputtxt.length==0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+const onInputChange = (e) => {
+
+  if(e.target.name=="chapter_pin"){
+
+
+    // alert('aaya')
+
+    if(validateOnlyDigits(e.target.value)){
+      setChapter({
+        ...chapter,
+        [e.target.name]: e.target.value,
+      });
+    }
+      
+    
+     
+  } else if(e.target.name=="chapter_phone"){
+
+
+    // alert('aaya')
+
+    if(validateOnlyDigits(e.target.value)){
+      setChapter({
+        ...chapter,
+        [e.target.name]: e.target.value,
+      });
+    }
+      
+    
+     
+  }else if(e.target.name=="chapter_whatsapp"){
+
+
+    // alert('aaya')
+
+    if(validateOnlyDigits(e.target.value)){
+      setChapter({
+        ...chapter,
+        [e.target.name]: e.target.value,
+      });
+    }
+      
+    
+     
+  }else{
+
     setChapter({
-      ...chapter,
-      [e.target.name]: e.target.value,
-    });
-  };
+    ...chapter,
+    [e.target.name]: e.target.value,
+  });
+}
+};
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-chapter-by-id/" + id,
+      url: baseURL+"/fetch-chapter-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -57,6 +125,7 @@ const Edit = (props) => {
     }).then((res) => {
       console.log("edit", res.data);
       setChapter(res.data.chapter);
+      setLoader(false)
     });
   }, []);
 
@@ -81,8 +150,9 @@ const Edit = (props) => {
     var v = document.getElementById("editChap").reportValidity();
     e.preventDefault();
     if (v) {
+      setIsButtonDisabled(true)
       axios({
-        url: "https://ftschamp.trikaradev.xyz/api/update-chapter/" + id,
+        url: baseURL+"/update-chapter/" + id,
         method: "PUT",
         data,
         headers: {
@@ -90,7 +160,8 @@ const Edit = (props) => {
         },
       }).then((res) => {
         //console.log("edit1", res.data);
-        alert("success");
+        NotificationManager.success("Chapter is Updated Successfully");
+        setIsButtonDisabled(false)
         history.push("listing");
       });
     }
@@ -98,62 +169,12 @@ const Edit = (props) => {
 
   return (
     <div className="textfields-wrapper">
+      { loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
+      {!loader && 
+      <>
       <PageTitleBar title="Update Chapter" match={props.match} />
       <RctCollapsibleCard>
-        {/* <form noValidate autoComplete="off">
-            <div className="row">
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="text" fullWidth label="Person Name" autoComplete="Person Name"
-                value={chapter_created_by}
-                 onChange={(e) => onInputChange(e)}
-                 />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="text" fullWidth type="text" label="User Name ( Login Name ) " autoComplete="User Name ( Login Name ) " 
-                 value={chapter_state}
-                 onChange={(e) => onInputChange(e)}
-
-                />
-                </div>
-              </div>
-               <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                <TextField id="text" fullWidth type="text" label="User Type" autoComplete="User Type" 
-                />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="number" type="number" fullWidth label="Mobile" autoComplete="Mobile"
-                  value={chapter_whatsapp}
-                 onChange={(e) => onInputChange(e)}
-                   />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="number" type="email" fullWidth label="Email" autoComplete="Email"
-                  value={chapter_whatsapp}
-                 onChange={(e) => onInputChange(e)}
-                   />
-                </div>
-              </div>
-              <div className="col-sm-6 col-md-6 col-xl-3">
-                <div className="form-group">
-                  <TextField id="number" type="file" fullWidth label="Image" autoComplete="Image" />
-                  value={chapter_email}
-                 onChange={(e) => onInputChange(e)}
-                </div>
-              </div>
-            </div>
-            <Button className="mr-10 mb-10" color="primary"
-            onClick={(e)=>{onSubmit(e)}}
-            >Submit</Button>
-            <Button className="mr-10 mb-10" color="danger">Cancel</Button>
-          </form>  */}
+        
         <form id="editChap" autoComplete="off">
           <div className="row">
             <div className="col-sm-6 col-md-6 col-xl-3">
@@ -201,14 +222,9 @@ const Edit = (props) => {
                 <TextField
                   fullWidth
                   label="Pin"
-                  type="number"
+                  type="text"
                   required
                   inputProps={{ maxLength: 6 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 6);
-                  }}
                   autoComplete="Name"
                   name="chapter_pin"
                   value={chapter.chapter_pin}
@@ -244,14 +260,9 @@ const Edit = (props) => {
                 <TextField
                   fullWidth
                   label="Phone"
-                  type="number"
+                  type="text"
                   required
                   inputProps={{ maxLength: 10 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
                   autoComplete="Name"
                   name="chapter_phone"
                   value={chapter.chapter_phone}
@@ -264,13 +275,8 @@ const Edit = (props) => {
                 <TextField
                   fullWidth
                   label="Whatsapp"
-                  type="number"
+                  type="text"
                   inputProps={{ maxLength: 10 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
                   autoComplete="Name"
                   name="chapter_whatsapp"
                   value={chapter.chapter_whatsapp}
@@ -285,6 +291,7 @@ const Edit = (props) => {
                   label="Email"
                   autoComplete="Name"
                   required
+                  type="email"
                   name="chapter_email"
                   value={chapter.chapter_email}
                   onChange={(e) => onInputChange(e)}
@@ -335,12 +342,14 @@ const Edit = (props) => {
               type="submit"
               style={{ width: "100%" }}
               onClick={(e) => onSubmit(e)}
+              disabled={isButtonDisabled}
             >
               Submit
             </Button>
           </div>
         </form>
       </RctCollapsibleCard>
+      </>}
     </div>
   );
 };

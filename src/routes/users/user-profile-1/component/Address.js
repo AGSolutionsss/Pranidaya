@@ -38,10 +38,10 @@ export default class Profile extends Component {
     let data = {
       old_password: this.state.old_password,
       password: this.state.password,
-      username: localStorage.getItem("name"),
+      username: localStorage.getItem("username"),
     };
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/change-password",
+      url: "https://api.testags.com/api/change-password",
       method: "POST",
       data,
       headers: {
@@ -50,9 +50,15 @@ export default class Profile extends Component {
     })
       .then((res) => {
         NotificationManager.success("Password Updated Successfully!");
+        this.setState({ old_password: "" })
+        this.setState({ password: "" })
+        this.setState({ confirm_password: "" })
       })
       .catch((res) => {
         NotificationManager.error("Please enter valid old password");
+        this.setState({ old_password: "" })
+        this.setState({ password: "" })
+        this.setState({ confirm_password: "" })
       });
   };
 
@@ -74,6 +80,7 @@ export default class Profile extends Component {
                 id="oldpassword"
                 className="input-lg"
                 type="password"
+                value={this.state.old_password}
                 onChange={(e) =>
                   this.setState({ old_password: e.target.value })
                 }
@@ -92,6 +99,7 @@ export default class Profile extends Component {
                 id="newpassword"
                 className="input-lg"
                 type="password"
+                value={this.state.password}
                 onChange={(e) => {
                   this.setState({ password: e.target.value });
                 }}
@@ -108,6 +116,7 @@ export default class Profile extends Component {
                 type="text"
                 name="confirmpassword"
                 id="confirmpassword"
+                value={this.state.confirm_password}
                 className="input-lg"
                 type="password"
                 onChange={(e) =>

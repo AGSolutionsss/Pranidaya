@@ -22,6 +22,7 @@ const MainApp = () => (
 	<Provider store={configureStore()}>
 		<MuiPickersUtilsProvider utils={MomentUtils}>
 			<Router>
+			{/* <Router basename={'/live'}> */}
 				<Switch>
 					<Route path="/" component={App} />
 				</Switch>

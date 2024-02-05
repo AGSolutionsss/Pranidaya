@@ -21,6 +21,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import InputMask from "react-input-mask";
 import states from "../states";
 import AddToGroup from "./addToGroup";
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import {baseURL} from '../../api';
+
 const honorific = [
   {
     value: "Shri",
@@ -163,16 +167,7 @@ const corrpreffer = [
   },
 ];
 
-// const state = [
-//   {
-//     value: "Karnataka",
-//     label: "Karnataka",
-//   },
-//   {
-//     value: "Kerala",
-//     label: "Kerala",
-//   },
-// ];
+
 
 const EditComp = (props) => {
   let history = useHistory();
@@ -210,16 +205,96 @@ const EditComp = (props) => {
     indicomp_corr_preffer: "",
   });
 
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+  const [loader, setLoader]= useState(true);
   // var url = new URL(window.location.href);
   // var id = url.searchParams.get("id");
   var id = props.id;
 
   // const { personName, userName, mobile, email } = user;
+  const validateOnlyDigits = (inputtxt) => {
+
+    // function phonenumber(inputtxt)
+   //{
+     var phoneno = /^\d+$/;
+     if(inputtxt.match(phoneno) || inputtxt.length==0){
+         return true;
+           }
+         else
+           {
+           //alert("message");
+           return false;
+           }
+   }
+
+
+
+  // const { personName, userName, mobile, email } = user;
   const onInputChange = (e) => {
+
+    if(e.target.name=="indicomp_mobile_phone"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    } else if(e.target.name=="indicomp_mobile_whatsapp"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_res_reg_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_off_branch_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else{
+
     setDonor({
       ...donor,
       [e.target.name]: e.target.value,
     });
+  }
   };
 
   const onChangePanNumber = (e) => {
@@ -227,19 +302,29 @@ const EditComp = (props) => {
   };
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
       console.log("editdon", res.data);
+      setLoader(false)
       setDonor(res.data.individualCompany);
     });
   }, []);
 
-  const onSubmit = () => {
+  const onSubmit = (e) => {
+    e.preventDefault();
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
       indicomp_type: donor.indicomp_type,
@@ -273,18 +358,25 @@ const EditComp = (props) => {
       indicomp_belongs_to: donor.indicomp_belongs_to,
       indicomp_donor_type: donor.indicomp_donor_type,
     };
-    axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
-      method: "PUT",
-      data,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("login")}`,
-      },
-    }).then((res) => {
-      console.log("editdonor", res.data);
-      //alert("success");
-      history.push("listing");
-    });
+    
+    var v = document.getElementById("editComp").reportValidity();
+    e.preventDefault();
+    if(v){
+      setIsButtonDisabled(true)
+      axios({
+        url: baseURL+"/update-donor/" + id,
+        method: "PUT",
+        data,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("login")}`,
+        },
+      }).then((res) => {
+        console.log("editdonor", res.data);
+        NotificationManager.success("Data Updated Sucessfully");
+        history.push("listing");
+      });
+    }
+    
   };
 
   const hr = {
@@ -312,14 +404,14 @@ const EditComp = (props) => {
     }
 
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
+      url: baseURL+"/update-donor/" + id,
       method: "PUT",
       data,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
       },
     }).then((res) => {
-      alert("success");
+      NotificationManager.success("Data Sucessfully Removed From the Group");
       setDonor(res.data.individualCompany);
       //alert("success");
       setShowmodal(false);
@@ -328,9 +420,12 @@ const EditComp = (props) => {
 
   return (
     <div className="textfields-wrapper">
-      <PageTitleBar title="Update Company Donor" match={props.match} />
+      { loader && <CircularProgress disableShrink style={{marginLeft:"600px", marginTop:"300px", marginBottom:"300px"}} color="secondary" />}
+      {!loader && 
+      <>
+      <PageTitleBar title="Edit Company Donor" match={props.match} />
       <RctCollapsibleCard>
-        <form noValidate autoComplete="off">
+        <form id="editComp" autoComplete="off">
           <h1>Personal Details</h1>
           <hr style={hr} />
           <div className="row">
@@ -459,6 +554,8 @@ const EditComp = (props) => {
                   autoComplete="Name"
                   name="indicomp_image_logo"
                   type="file"
+                  disabled
+                  helperText="Upload Company Logo"
                   value={donor.indicomp_image_logo}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -866,7 +963,9 @@ const EditComp = (props) => {
             <Button
               className="mr-10 mb-10"
               color="primary"
-              onClick={() => onSubmit()}
+              type="submit"
+              onClick={(e) => onSubmit(e)}
+              disabled={isButtonDisabled}
             >
               Submit
             </Button>
@@ -914,6 +1013,7 @@ const EditComp = (props) => {
         </ModalBody>
         <ModalFooter></ModalFooter>
       </Modal>
+      </>}
     </div>
   );
 };

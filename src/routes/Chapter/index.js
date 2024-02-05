@@ -22,7 +22,7 @@ import {
 const NewListChapter = ({ match }) => (
   <div className="dashboard-wrapper">
   <Helmet>
-			<title>FTS | Chapter</title>
+			<title>FTS | Chapters</title>
 			<meta name="description" content="FTS Chapter" />
 		</Helmet>
     <Switch>

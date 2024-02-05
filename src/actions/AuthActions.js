@@ -53,7 +53,9 @@ export const logoutUserFromFirebase = () => (dispatch) => {
    firebase.auth().signOut()
       .then(() => {
          dispatch({ type: LOGOUT_USER });
-         localStorage.removeItem('user_id');
+         localStorage.removeItem('id');
+         localStorage.clear();
+		   sessionStorage.clear();
          NotificationManager.success('User Logout Successfully');
       })
       .catch((error) => {

@@ -23,6 +23,9 @@ import NewListDonor from "Routes/Donor";
 import NewListReceipts from "Routes/Receipts";
 import NewListViewer from "Routes/Viewer";
 import NewListMember from "Routes/Member";
+import NewListSuspense from "Routes/Suspense";
+import NewListSchools from "Routes/Schools";
+import NewListFaqs from "Routes/Faqs";
 
 // async component
 import {
@@ -146,4 +149,20 @@ export default [
     path: "Member",
     component: NewListMember,
   },
+  {
+    path: "Suspense",
+    component: NewListSuspense,
+
+  },
+  {
+    path: "Schools",
+    component: NewListSchools,
+
+  },
+  {
+    path: "Faqs",
+    component: NewListFaqs,
+
+  },
+
 ];

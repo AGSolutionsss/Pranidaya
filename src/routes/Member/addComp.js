@@ -9,7 +9,7 @@ import { Button } from "reactstrap";
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import InputMask from "react-input-mask";
-
+import {baseURL} from '../../api';
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 import states from "../states";
@@ -219,18 +219,7 @@ const Add = (props) => {
       return false;
     }
   };
-  // useEffect(() => {
-  //   axios({
-  //     url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("login")}`,
-  //     },
-  //   }).then((res) => {
-  //     //console.log("edit",res.data)
-  //     setdonor(res.data.donor);
-  //   });
-  // }, []);
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -273,6 +262,18 @@ const Add = (props) => {
     var url = new URL(window.location.href);
     var id = url.searchParams.get("id");
 
+    useEffect(() => {
+      var isLoggedIn = localStorage.getItem("id");
+      if(!isLoggedIn){
+  
+        window.location = "/signin";
+        
+      }else{
+  
+      }
+      
+    });
+
     if (id) {
       data.donor_related_id = id;
     }
@@ -284,7 +285,7 @@ const Add = (props) => {
 
     if (v) {
       axios({
-        url: "https://ftschamp.trikaradev.xyz/api/create-donor",
+        url: baseURL+"/create-donor",
         method: "POST",
         data,
         headers: {

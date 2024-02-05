@@ -24,7 +24,7 @@ import {
 const NewListMember = ({ match }) => (
   <div className="dashboard-wrapper">
     <Helmet>
-      <title>FTS | Donor</title>
+      <title>FTS | Members</title>
       <meta name="description" content="FTS Donor" />
     </Helmet>
     <Switch>

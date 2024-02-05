@@ -14,6 +14,8 @@ import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard
 import InputMask from "react-input-mask";
 import MaterialInput from "@material-ui/core/Input";
 import states from "../states";
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+
 const currencies = [
   {
     value: "USD",
@@ -175,18 +177,7 @@ const corrpreffer = [
   },
 ];
 
-// const state = [
-//   {
-//     value: "Karnataka",
-//     label: "Karnataka",
-//   },
-//   {
-//     value: "Kerala",
-//     label: "Kerala",
-//   },
-// ];
 
-// intl messages
 import IntlMessages from "Util/IntlMessages";
 import axios from "axios";
 import { useHistory, useParams } from "react-router-dom";
@@ -194,14 +185,10 @@ import { withStyles } from "@material-ui/core/styles";
 import { SelectionState } from "draft-js";
 import { ImportantDevices } from "@material-ui/icons";
 import { validate } from "@material-ui/pickers";
-// const styles = {
-//   input: {
-//     "&:invalid": {
-//       border: "red solid 2px "
-//     }
-//   }
-// };
+import {baseURL} from '../../api';
+
 const Add = (props) => {
+
   let history = useHistory();
   const [donor, setDonor] = useState({
     indicomp_full_name: "",
@@ -239,29 +226,95 @@ const Add = (props) => {
     indicomp_corr_preffer: "Residence",
   });
 
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+
   var url = new URL(window.location.href);
   var id = url.searchParams.get("id");
 
+
+  const validateOnlyDigits = (inputtxt) => {
+
+ // function phonenumber(inputtxt)
+//{
+  var phoneno = /^\d+$/;
+  if(inputtxt.match(phoneno) || inputtxt.length==0){
+      return true;
+        }
+      else
+        {
+        //alert("message");
+        return false;
+        }
+}
+
   // const { personName, userName, mobile, email } = user;
   const onInputChange = (e) => {
+
+    if(e.target.name=="indicomp_mobile_phone"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    } else if(e.target.name=="indicomp_mobile_whatsapp"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_res_reg_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_off_branch_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else{
+
     setDonor({
       ...donor,
       [e.target.name]: e.target.value,
     });
+  }
   };
 
-  // useEffect(() => {
-  //   axios({
-  //     url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("login")}`,
-  //     },
-  //   }).then((res) => {
-  //     //console.log("edit",res.data)
-  //     setdonor(res.data.donor);
-  //   });
-  // }, []);
   const validate = () => {
     var txtPANCard = document.getElementById("txtPANCard");
     var lblPANCard = document.getElementById("lblPANCard");
@@ -278,18 +331,23 @@ const Add = (props) => {
   const onChangePanNumber = (e) => {
     setDonor({ ...donor, indicomp_pan_no: e.target.value });
   };
-  // const datevalidate = () => {
-  //   var dateEntered = document.getElementById("dateEntered");
-  //   var lblDateCard = document.getElementById("lblDateCard")
-  //   var regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
-  //   if (regex.test(dateEntered.value)) {
-  //     lblDateCard.style.visibility = "hidden";
-  //     return true;
-  //   } else {
-  //     lblDateCard.style.visibility = "visible";
-  //     return false;
-  //   }
-  // }
+
+  useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
+    
+  });
+
+
+   
+  
+
   const onSubmit = (e) => {
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
@@ -342,8 +400,9 @@ const Add = (props) => {
     e.preventDefault();
 
     if (v) {
+      setIsButtonDisabled(true)
       axios({
-        url: "https://ftschamp.trikaradev.xyz/api/create-donor",
+        url: baseURL+"/create-donor",
         method: "POST",
         data,
         headers: {
@@ -351,7 +410,7 @@ const Add = (props) => {
         },
       }).then((res) => {
         console.log("edit1", res.data);
-        alert("success");
+        NotificationManager.success("Data Inserted Sucessfully");
         history.push("listing");
       });
     }
@@ -360,6 +419,8 @@ const Add = (props) => {
   const hr = {
     marginTop: "0rem",
   };
+
+  
 
   return (
     <div className="textfields-wrapper">
@@ -533,6 +594,8 @@ const Add = (props) => {
                   autoComplete="Name"
                   name="indicomp_image_logo"
                   type="file"
+                  disabled
+                  helperText="Upload Donor Image"
                   value={donor.indicomp_image_logo}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -656,13 +719,14 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Mobile Phone"
-                  type="number"
+                  type="text"
                   required
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
+                  style={{ MozAppearance:'textfield'}}
+                  // onInput={(e) => {
+                  //   e.target.value = Math.max(0, parseInt(e.target.value))
+                  //     .toString()
+                  //     .slice(0, 10);
+                  // }}
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
                   inputProps={{ maxLength: 10 }}
@@ -676,12 +740,8 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Whatsapp"
-                  type="number"
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
+                  type="text"
+                  
                   inputProps={{ maxLength: 10 }}
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
@@ -797,12 +857,8 @@ const Add = (props) => {
                   fullWidth
                   required
                   label="Pincode"
-                  type="number"
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 6);
-                  }}
+                  type="text"
+                  
                   inputProps={{ maxLength: 6 }}
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
@@ -935,6 +991,7 @@ const Add = (props) => {
               className="mr-10 mb-10"
               color="primary"
               onClick={(e) => onSubmit(e)}
+              disabled={isButtonDisabled}
             >
               Submit
             </Button>

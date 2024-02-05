@@ -10,6 +10,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import "./index.css";
+import {baseURL} from '../../api';
 
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
@@ -53,6 +54,8 @@ export default class NewListChapter extends React.Component {
         name: "Actions",
         options: {
           filter: true,
+          print:false,
+          download:false,
           customBodyRender: (value) => {
             return (
               <div>
@@ -80,7 +83,7 @@ export default class NewListChapter extends React.Component {
 
   getData = () => {
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-chapters",
+      url: baseURL+"/fetch-chapters",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -109,6 +112,14 @@ export default class NewListChapter extends React.Component {
   };
 
   componentDidMount() {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     this.getData();
   }
 
@@ -129,7 +140,7 @@ export default class NewListChapter extends React.Component {
         {!loader && (
           <>
             <PageTitleBar
-              title={<IntlMessages id="sidebar.dataTable" />}
+              title="Chapters List"
               match={this.props.match}
             />
             {/* <div className="alert alert-info">
@@ -154,7 +165,7 @@ export default class NewListChapter extends React.Component {
             <RctCollapsibleCard fullBlock>
               {this.state.chaptersData.length > 0 && (
                 <MUIDataTable
-                  title={"Chapter list"}
+                  title={"Chapters list"}
                   data={this.state.chaptersData}
                   columns={this.state.columnData}
                   options={option}

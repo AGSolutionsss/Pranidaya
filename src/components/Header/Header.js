@@ -138,7 +138,7 @@ class Header extends Component {
                     </Tooltip>
                   </li>
                 )}
-                {!horizontalMenu && <QuickLinks />}
+                {/* {!horizontalMenu && <QuickLinks />} */}
                 {/* <li className="list-inline-item search-icon d-inline-block">
 									<SearchForm />
 									<IconButton mini="true" className="search-icon-btn" onClick={() => this.openMobileSearchForm()}>
@@ -152,6 +152,13 @@ class Header extends Component {
               </ul>
             )}
           </div>
+          <div>
+							<Link to="/app/dashboard/news" className="logo-mini">
+								<img src={require('Assets/receipt/fts1.png')} className="mr-15" alt="site logo" width="120" height="45" />
+							</Link>
+					
+					</div>
+
           <ul className="navbar-right list-inline mb-0">
             {/* <li className="list-inline-item summary-icon">
 							<Tooltip title="Summary" placement="bottom">
@@ -170,7 +177,7 @@ class Header extends Component {
 							</li>
 						} */}
             {/* <LanguageProvider /> */}
-            <Notifications />
+            {/* <Notifications /> */}
             {/* <Cart /> */}
             {/* <li className="list-inline-item setting-icon">
 							<Tooltip title="Chat" placement="bottom">
@@ -179,6 +186,8 @@ class Header extends Component {
 								</IconButton>
 							</Tooltip>
 						</li> */}
+
+            
             <li className="list-inline-item">
               <Tooltip title="Full Screen" placement="bottom">
                 <IconButton

@@ -9,6 +9,7 @@ import { Button } from "reactstrap";
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import MUIDataTable from "mui-datatables";
+import {baseURL} from '../../api';
 
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
@@ -244,7 +245,7 @@ const EditIndiv = (props) => {
 
   const fetchDonors = () => {
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
+      url: baseURL+"/fetch-donors",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -256,8 +257,16 @@ const EditIndiv = (props) => {
   };
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+      if(!isLoggedIn){
+  
+        window.location = "/signin";
+        
+      }else{
+  
+      }
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -305,7 +314,7 @@ const EditIndiv = (props) => {
       indicomp_donor_type: donor.indicomp_donor_type,
     };
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
+      url: baseURL+"/update-donor/" + id,
       method: "PUT",
       data,
       headers: {
@@ -344,7 +353,7 @@ const EditIndiv = (props) => {
     }
 
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + id,
+      url: baseURL+"/update-donor/" + id,
       method: "PUT",
       data,
       headers: {

@@ -3,7 +3,7 @@
  */
 const AppConfig = {
    appLogo: require('Assets/receipt/fts.png'),          // App Logo
-   brandName: 'FTS ',                                    // Brand Name
+   brandName: 'FTS Champ ',                                    // Brand Name
    navCollapsed: false,                                      // Sidebar collapse
    darkMode: false,                                          // Dark Mode
    boxLayout: false,                                         // Box Layout

@@ -1,0 +1,149 @@
+/**
+ * Material Text Field
+ */
+ import React from 'react';
+ import TextField from '@material-ui/core/TextField';
+ import {Link} from 'react-router-dom'
+ import { Button } from 'reactstrap';
+ // page title bar
+ import PageTitleBar from 'Components/PageTitleBar/PageTitleBar';
+ 
+ // rct card box
+ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
+ 
+ // intl messages
+ import IntlMessages from 'Util/IntlMessages';
+ 
+export default class Addviewer extends React.Component {
+
+    componentDidMount () {
+		this.setState({usertype:localStorage.getItem("id")})
+		this.getData();
+		var theLoginToken = localStorage.getItem('login');       
+        
+        const requestOptions = {
+            method: 'GET', 
+            headers: {
+               'Authorization': 'Bearer '+theLoginToken
+            }         
+        };     
+        
+        fetch('https://api.testags.com/api/fetch-chapters', requestOptions)
+            .then(response => response.json())
+            .then(data => this.setChapters(data));      
+	}
+
+    setChapters(data){
+   	    this.setState({chapters: data.chapters});
+    }
+
+
+    render() {
+        return (
+            <div>
+                <Helmet>
+                    <title>FTS | Viewers</title>
+                    
+		        </Helmet>
+                <PageTitleBar title={<IntlMessages id="sidebar.textField" />} match={this.props.match} />
+                <RctCollapsibleCard heading="User">
+                    <form noValidate autoComplete="off">
+                        <div className="row">
+                            <div className="col-sm-6 col-md-6 col-xl-4">
+                                <div className="form-group">
+                                    <TextField
+                                    fullWidth
+                                    label="Person Name"
+                                    autoComplete="Name"
+                                    name="user_name"
+                                    required
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-sm-6 col-md-6 col-xl-4">
+                                <div className="form-group">
+                                    <TextField
+                                    fullWidth
+                                    label="User Name ( Login Name )"
+                                    autoComplete="Name"
+                                    name="user_username"
+                                    required
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-sm-6 col-md-6 col-xl-4">
+                                <div className="form-group">
+                                    <TextField
+                                    fullWidth
+                                    label="Mobile"
+                                    autoComplete="Name"
+                                    name="user_contact"
+                                    type="number"
+                                    required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-sm-6 col-md-6 col-xl-4">
+                                <div className="form-group">
+                                    <TextField
+                                    fullWidth
+                                    label="Email"
+                                    autoComplete="Name"
+                                    name="user_email"
+                                    type="email"
+                                    required
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-sm-6 col-md-6 col-xl-4">
+                                <div className="form-group">
+                                    <TextField
+                                    fullWidth
+                                    label="Email"
+                                    autoComplete="Name"
+                                    name="Viewer Start Date"
+                                    type="date"
+                                    required
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-sm-6 col-md-6 col-xl-4">
+                                <div className="form-group">
+                                    <TextField
+                                    fullWidth
+                                    label="Viewer End Date"
+                                    autoComplete="Name"
+                                    name="viewer_end_date"
+                                    type="date"
+                                    required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <h3 style={{marginLeft:0}}>Chapters Associated</h3><br/> 
+                        <div className="row" style={{flexDirection:'row'}}>                    
+                            {this.state.chapters.map((chapter, key) =>
+                                <div style={{flexDirection:'row', width:'30%'}}>                      
+                                    <input type="checkbox" name={chapter.id} id={chapter.id}/>
+                                    <label for={chapter.id} style={{marginLeft:5}}>{chapter.chapter_name}</label>
+                                </div>    
+                            )}        
+                        </div>	
+                        <Button variant="contained" type="submit" onClick={this.addTheViewer} className="text-white bg-success px-3 btn-xs">
+                            Submit
+                        </Button>
+                   
+                        <Link to="">
+                            <Button variant="contained" className="text-white bg-success px-3 btn-xs" >
+                                Cancel
+                            </Button>
+                        </Link>
+                    </form>
+                </RctCollapsibleCard>
+            </div>
+        );
+    };
+}
+ 

@@ -32,7 +32,9 @@ class UserBlock extends Component {
 	logoutUser(e) {
 		e.preventDefault();
 		this.setState({flag:true});
+		this.setState({login:false});
 		this.props.logoutUserFromFirebase();
+		
 
 	}
 
@@ -92,10 +94,17 @@ class UserBlock extends Component {
 							</div>
 							<div className="user-info">
 							<span className="user-name ml-4">{localStorage.getItem("name")}</span>
-								{/* <span className="user-name ml-4">Lucile Beck</span> */}
+							 {/* <span className="user-name ml-4">Lucile Beck</span> */}
 								<i className="zmdi zmdi-chevron-down dropdown-icon mx-4"></i>
 							</div>
+							{/* <div>
+						<span className="user-name ml-4">{localStorage.getItem("name")}</span>
+						</div> */}
+
+
 						</DropdownToggle>
+
+						
 						<DropdownMenu>
 							<ul className="list-unstyled mb-0">
 								<li className="p-15 border-bottom user-profile-top bg-primary rounded-top">
@@ -104,7 +113,7 @@ class UserBlock extends Component {
 								</li>
 								<li>
 									<Link to={{
-										pathname: '/app/users/user-profile-1',
+										pathname: '/app/users/user-profile',
 										state: { activeTab: 0 }
 									}}>
 										<i className="zmdi zmdi-account text-primary mr-3"></i>
@@ -137,7 +146,9 @@ class UserBlock extends Component {
 							</ul>
 						</DropdownMenu>
 					</Dropdown>
+					
 				</div>
+				
 				<SupportPage
 					isOpen={this.state.isSupportModal}
 					onCloseSupportPage={() => this.onCloseSupportPage()}

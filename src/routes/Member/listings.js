@@ -10,7 +10,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import {baseURL} from '../../api';
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import "./index.css";
@@ -21,11 +21,7 @@ import axios from "axios";
 
 // intl messages
 import IntlMessages from "Util/IntlMessages";
-// import {columns} from './data'
-// import {table} from './data';
-// import {options} from './data'
 
-// const columnData=["Name","Gender","Phone","Email","Address"]
 
 const option = {
   filterType: "textField",
@@ -41,7 +37,7 @@ export default class NewListDonor extends React.Component {
   getData = () => {
     let result = [];
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
+      url: baseURL+"/fetch-donors",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -87,6 +83,15 @@ export default class NewListDonor extends React.Component {
       });
   };
   componentDidMount() {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
+    
     this.getData();
   }
 

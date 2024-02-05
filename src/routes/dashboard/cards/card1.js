@@ -15,7 +15,7 @@ const TotalOrderStats = (props) => (
     <RctCardContent>
       <div className="d-flex justify-content-between">
         <div className="align-items-start">
-          <h3 className="cardHead">Individual Companies</h3>
+          <h3 className="cardHead">Individual Donors</h3>
           <h2 className="mb-0">
             <CountUp start={0} end={props.individualCompanyCount} />
           </h2>

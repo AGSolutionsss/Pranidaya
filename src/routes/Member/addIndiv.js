@@ -8,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { Button } from "reactstrap";
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
-
+import {baseURL} from '../../api';
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 import InputMask from "react-input-mask";
@@ -250,18 +250,7 @@ const Add = (props) => {
     });
   };
 
-  // useEffect(() => {
-  //   axios({
-  //     url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("login")}`,
-  //     },
-  //   }).then((res) => {
-  //     //console.log("edit",res.data)
-  //     setdonor(res.data.donor);
-  //   });
-  // }, []);
+  
   const validate = () => {
     var txtPANCard = document.getElementById("txtPANCard");
     var lblPANCard = document.getElementById("lblPANCard");
@@ -278,18 +267,7 @@ const Add = (props) => {
   const onChangePanNumber = (e) => {
     setDonor({ ...donor, indicomp_pan_no: e.target.value });
   };
-  // const datevalidate = () => {
-  //   var dateEntered = document.getElementById("dateEntered");
-  //   var lblDateCard = document.getElementById("lblDateCard")
-  //   var regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
-  //   if (regex.test(dateEntered.value)) {
-  //     lblDateCard.style.visibility = "hidden";
-  //     return true;
-  //   } else {
-  //     lblDateCard.style.visibility = "visible";
-  //     return false;
-  //   }
-  // }
+  
   const onSubmit = (e) => {
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
@@ -334,6 +312,18 @@ const Add = (props) => {
       data.donor_related_id = id;
     }
 
+    useEffect(() => {
+      var isLoggedIn = localStorage.getItem("id");
+      if(!isLoggedIn){
+  
+        window.location = "/signin";
+        
+      }else{
+  
+      }
+      
+    });
+
     var v = document.getElementById("addIndiv").checkValidity();
     var v = document.getElementById("addIndiv").reportValidity();
 
@@ -343,7 +333,7 @@ const Add = (props) => {
 
     if (v) {
       axios({
-        url: "https://ftschamp.trikaradev.xyz/api/create-donor",
+        url: baseURL+"/create-donor",
         method: "POST",
         data,
         headers: {

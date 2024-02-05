@@ -10,7 +10,7 @@ import EditIcon from "@material-ui/icons/Edit";
 import ConfirmationNumberIcon from "@material-ui/icons/ConfirmationNumber";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import {baseURL} from '../../api';
 // page title bar
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import "./index.css";
@@ -47,9 +47,11 @@ export default class NewListDonor extends React.Component {
         name: "Actions",
         options: {
           filter: true,
+          print:false,
+          download:false,
           customBodyRender: (value) => {
             return (
-              <div style={{ minWidth: "150px" }}>
+              <div style={{ minWidth: "150px" , fontWeight: 800}}>
                 {/* {alert(value)} */}
                 <Tooltip title="View" placement="top">
                   <IconButton aria-label="View">
@@ -63,7 +65,9 @@ export default class NewListDonor extends React.Component {
                     aria-label="Edit"
                     style={{
                       display:
-                        localStorage.getItem("user_type_id") == 3 ? "none" : "",
+                        localStorage.getItem("user_type_id") == 3 ||
+                        localStorage.getItem("user_type_id") == 4
+                        ? "none" : "",
                     }}
                   >
                     <Link to={"edit?id=" + value}>
@@ -77,7 +81,8 @@ export default class NewListDonor extends React.Component {
                     style={{
                       display:
                         localStorage.getItem("user_type_id") == 2 ||
-                        localStorage.getItem("user_type_id") == 3
+                        localStorage.getItem("user_type_id") == 3 ||
+                        localStorage.getItem("user_type_id") == 4
                           ? "none"
                           : "",
                     }}
@@ -97,7 +102,7 @@ export default class NewListDonor extends React.Component {
   getData = () => {
     let result = [];
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
+      url: baseURL+"/fetch-donors",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -139,9 +144,18 @@ export default class NewListDonor extends React.Component {
       });
   };
   componentDidMount() {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
+    
     this.getData();
   }
-
+  
   render() {
     const { loader } = this.state;
     let usertype = localStorage.getItem("id");
@@ -170,6 +184,7 @@ export default class NewListDonor extends React.Component {
             On top of the ability to customize styling on most views, there are two responsive modes "stacked" and "scroll" for mobile/tablet
             devices. If you want more customize option please <a href="https://github.com/gregnb/mui-datatables" className="btn btn-danger btn-small mx-10">Click </a> here</p>
 				</div> */}
+        
             <div className="donorbtns">
               <Link className="btn btn-outline-light" to="addindiv">
                 <Button

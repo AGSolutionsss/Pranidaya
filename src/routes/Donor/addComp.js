@@ -13,6 +13,8 @@ import InputMask from "react-input-mask";
 // rct card box
 import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard";
 import states from "../states";
+import { NotificationContainer, NotificationManager,} from "react-notifications";
+import {baseURL} from '../../api';
 
 const company_type = [
   {
@@ -192,15 +194,104 @@ const Add = (props) => {
     indicomp_csr: "",
   });
 
+  const [isButtonDisabled, setIsButtonDisabled] = React.useState(false);
+
   var url = new URL(window.location.href);
   var id = url.searchParams.get("id");
 
+  const validateOnlyDigits = (inputtxt) => {
+
+    // function phonenumber(inputtxt)
+   //{
+     var phoneno = /^\d+$/;
+     if(inputtxt.match(phoneno) || inputtxt.length==0){
+         return true;
+           }
+         else
+           {
+           //alert("message");
+           return false;
+           }
+   }
+
+   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
+    
+  });
+
   // const { personName, userName, mobile, email } = user;
   const onInputChange = (e) => {
+
+    if(e.target.name=="indicomp_mobile_phone"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    } else if(e.target.name=="indicomp_mobile_whatsapp"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_res_reg_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else if(e.target.name=="indicomp_off_branch_pin_code"){
+
+
+      // alert('aaya')
+
+      if(validateOnlyDigits(e.target.value)){
+        setDonor({
+          ...donor,
+          [e.target.name]: e.target.value,
+        });
+      }
+        
+      
+       
+    }else{
+
     setDonor({
       ...donor,
       [e.target.name]: e.target.value,
     });
+  }
   };
 
   const onChangePanNumber = (e) => {
@@ -219,22 +310,11 @@ const Add = (props) => {
       return false;
     }
   };
-  // useEffect(() => {
-  //   axios({
-  //     url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem("login")}`,
-  //     },
-  //   }).then((res) => {
-  //     //console.log("edit",res.data)
-  //     setdonor(res.data.donor);
-  //   });
-  // }, []);
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
-
+    
     let data = {
       indicomp_full_name: donor.indicomp_full_name,
       title: donor.title,
@@ -283,8 +363,9 @@ const Add = (props) => {
     e.preventDefault();
 
     if (v) {
+      setIsButtonDisabled(true)
       axios({
-        url: "https://ftschamp.trikaradev.xyz/api/create-donor",
+        url: baseURL+"/create-donor",
         method: "POST",
         data,
         headers: {
@@ -292,7 +373,7 @@ const Add = (props) => {
         },
       }).then((res) => {
         console.log("edit1", res.data);
-        alert("success");
+        NotificationManager.success("Data Inserted Sucessfully");
         history.push("listing");
       });
     }
@@ -428,11 +509,12 @@ const Add = (props) => {
               <div className="form-group">
                 <TextField
                   fullWidth
-                  
+                  disabled
                   label="Upload Logo"
                   autoComplete="Name"
                   name="indicomp_image_logo"
                   type="file"
+                  helperText="Upload Company Logo"
                   value={donor.indicomp_image_logo}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -567,12 +649,9 @@ const Add = (props) => {
                   fullWidth
                   label="Mobile Phone"
                   inputProps={{ maxLength: 10 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
-                  type="number"
+                  
+                  type="text"
+                 
                   required
                   autoComplete="Name"
                   name="indicomp_mobile_phone"
@@ -585,14 +664,10 @@ const Add = (props) => {
               <div className="form-group">
                 <TextField
                   fullWidth
-                  label="Whatsapp"
-                  type="number"
+                  label="Whatsapp "
+                  type="text"
                   inputProps={{ maxLength: 10 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 10);
-                  }}
+                  
                   autoComplete="Name"
                   name="indicomp_mobile_whatsapp"
                   value={donor.indicomp_mobile_whatsapp}
@@ -706,13 +781,9 @@ const Add = (props) => {
                 <TextField
                   fullWidth
                   label="Pincode"
-                  type="number"
+                  type="text"
                   inputProps={{ maxLength: 6 }}
-                  onInput={(e) => {
-                    e.target.value = Math.max(0, parseInt(e.target.value))
-                      .toString()
-                      .slice(0, 6);
-                  }}
+                  
                   required
                   autoComplete="Name"
                   name="indicomp_res_reg_pin_code"
@@ -844,7 +915,8 @@ const Add = (props) => {
               type="submit"
               className="mr-10 mb-10"
               color="primary"
-              onClick={(e) => onSubmit(e)}
+              onClick={(e) => onSubmit(e) }
+              disabled={isButtonDisabled}
             >
               Submit
             </Button>

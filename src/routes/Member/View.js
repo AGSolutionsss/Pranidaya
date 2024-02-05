@@ -6,6 +6,7 @@ import RctCollapsibleCard from "Components/RctCollapsibleCard/RctCollapsibleCard
 import { Button } from "reactstrap";
 import PageTitleBar from "Components/PageTitleBar/PageTitleBar";
 import Moment from 'moment';
+import {baseURL} from '../../api';
 
 export default function View() {
   const [donor, setDonor] = useState([]);
@@ -17,10 +18,18 @@ export default function View() {
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     var url = new URL(window.location.href);
     var id = url.searchParams.get("id");
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donor-by-id/" + id,
+      url: baseURL+"/fetch-donor-by-id/" + id,
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,

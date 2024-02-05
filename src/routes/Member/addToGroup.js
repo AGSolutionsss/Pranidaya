@@ -1,7 +1,7 @@
 import React from "react";
 import MUIDataTable from "mui-datatables";
 import { Link } from "react-router-dom";
-
+import {baseURL} from '../../api';
 import { Button } from "reactstrap";
 import Tooltip from "@material-ui/core/Tooltip";
 import IconButton from "@material-ui/core/IconButton";
@@ -29,6 +29,12 @@ import IntlMessages from "Util/IntlMessages";
 
 const option = {
   filterType: "textField",
+  print: false,
+  viewColumns: false,
+  filter: false,
+  searchOpen:true,
+  download:false,
+  selectableRows: false,
   selectableRows: false,
 };
 export default class AddToGroup extends React.Component {
@@ -65,7 +71,7 @@ export default class AddToGroup extends React.Component {
     };
 
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/update-donor/" + this.props.id,
+      url: baseURL+"/update-donor/" + this.props.id,
       method: "PUT",
       data,
       headers: {
@@ -80,7 +86,7 @@ export default class AddToGroup extends React.Component {
   getData = () => {
     let result = [];
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-donors",
+      url: baseURL+"/fetch-donors",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`,
@@ -106,6 +112,15 @@ export default class AddToGroup extends React.Component {
       });
   };
   componentDidMount() {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
+    
     this.getData();
   }
 

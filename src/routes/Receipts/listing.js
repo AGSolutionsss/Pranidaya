@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import EditIcon from "@material-ui/icons/Edit";
 import Moment from 'moment';
+import {baseURL} from '../../api';
 
 import { Link } from "react-router-dom";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -42,7 +43,10 @@ export default class NewListReceipts extends React.Component {
       {
         name: "Actions",
         options: {
-          filter: true,
+          filter: false,
+          print:false,
+          download:false,
+          // display: 'excluded',
           customBodyRender: (value) => {
             return (
               <div>
@@ -53,9 +57,10 @@ export default class NewListReceipts extends React.Component {
                 <Tooltip title="View" placement="top">
                   <IconButton aria-label="View">
                     <Link
-                      to={`/${getAppLayout(
-                        location
-                      )}/ecommerce/invoice?id=${value}`}
+                    style={{
+                      display: this.state.usertype == 4 ? "none" : "",
+                    }}
+                      to={"receiptview?id=" + value}
                     >
                       <VisibilityIcon />
                     </Link>
@@ -73,12 +78,12 @@ export default class NewListReceipts extends React.Component {
                     </Link>
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="down" placement="top">
+                {/* <Tooltip title="down" placement="top">
                   <IconButton aria-label="view">
                     <a target="_blank" href={"https://legacy.testags.com/public/generate-pdf?id="+value}>D</a>
                     
                   </IconButton>
-                </Tooltip>
+                </Tooltip> */}
               </div>
             );
           },
@@ -90,7 +95,7 @@ export default class NewListReceipts extends React.Component {
   getData = () => {
     let result = [];
     axios({
-      url: "https://ftschamp.trikaradev.xyz/api/fetch-receipts",
+      url: baseURL+"/fetch-receipts",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`, //access_token=login
@@ -102,6 +107,7 @@ export default class NewListReceipts extends React.Component {
         console.log("recept2", res.data.receipts);
         let tempRows = [];
         for (let i = 0; i < response.length; i++) {
+          
           tempRows.push([
             i + 1,
             response[i]["receipt_no"],
@@ -121,6 +127,14 @@ export default class NewListReceipts extends React.Component {
   };
 
   componentDidMount() {
+    var isLoggedIn = localStorage.getItem("id");
+    if(!isLoggedIn){
+
+      window.location = "/signin";
+      
+    }else{
+
+    }
     this.setState({ usertype: localStorage.getItem("id") });
     this.getData();
   }
@@ -147,7 +161,7 @@ export default class NewListReceipts extends React.Component {
         {!loader && (
           <>
             <PageTitleBar
-              title={<IntlMessages id="sidebar.dataTable" />}
+              title="Receipts List"
               match={this.props.match}
             />
             {/* <div className="alert alert-info">
@@ -156,6 +170,7 @@ export default class NewListReceipts extends React.Component {
             On top of the ability to customize styling on most views, there are two responsive modes "stacked" and "scroll" for mobile/tablet
             devices. If you want more customize option please <a href="https://github.com/gregnb/mui-datatables" className="btn btn-danger btn-small mx-10">Click </a> here</p>
 				</div> */}
+        
             <RctCollapsibleCard fullBlock>
               {this.state.receiptData.length > 0 && (
                 <MUIDataTable
