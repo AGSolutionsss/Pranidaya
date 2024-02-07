@@ -81,7 +81,7 @@ const StockSummaryForm = (props) => {
 
   return (
     <div className="textfields-wrapper">
-      <PageTitleBar title="Stock Summary" match={props.match} />
+      <PageTitleBar title="Stock Summary ( in Kgs )" match={props.match} />
       <RctCollapsibleCard>
         
         <form id="dowRecp" autoComplete="off">
@@ -120,17 +120,7 @@ const StockSummaryForm = (props) => {
                 />
               </div>
             </div>
-            <div className="col-sm-2 col-md-2 col-xl-2">
-            <Button
-              className="mr-10 mb-10"
-              color="primary"
-              style={{height:"40px"}}
-              onClick={(e) => onSubmit(e)}
-              disabled={isButtonDisabled}
-            >
-              Download
-            </Button>
-            </div>
+            
             <div className="col-sm-2 col-md-2 col-xl-2">
             <Button
               className="mr-10 mb-10"
