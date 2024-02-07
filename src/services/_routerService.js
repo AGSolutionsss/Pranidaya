@@ -21,6 +21,11 @@ import NewListItem from "Routes/Items";
 import NewListPurchase from "Routes/Purchase";
 import NewListCons from "Routes/Cons";
 import NewListStock from "Routes/Stock";
+import ReceiptMaterialDownload from "Routes/Download/ReceiptMaterialDownload";
+import PurchaseDownload from "Routes/Download/PurchaseDownload";
+import ConsumptionDownload from "Routes/Download/ConsumptionDownload";
+import WebsiteDonationDownload from "Routes/Download/WebsiteDonationDownload";
+import StockSummary from "Routes/Reports/StockSummary";
 
 export default [
   {
@@ -116,5 +121,25 @@ export default [
   {
     path:"stock",
     component: NewListStock,
-  }
+  },
+  {
+    path:"receipt-material-download",
+    component: ReceiptMaterialDownload,
+  },
+  {
+    path:"purchase-download",
+    component: PurchaseDownload,
+  },
+  {
+    path:"consumption-download",
+    component: ConsumptionDownload,
+  },
+  {
+    path:"website-donation-download",
+    component: WebsiteDonationDownload,
+  },
+  {
+    path:"stock-summary",
+    component: StockSummary,
+  },
 ];

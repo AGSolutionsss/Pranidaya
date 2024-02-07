@@ -88,7 +88,18 @@ export default {
       path: "/app/payment",
       child_routes: null,
     },
-    
+    {
+      menu_title: "Reports",
+      menu_icon: "zmdi zmdi-file",
+      path: "/app/schools",
+      child_routes:[
+        {
+          menu_title: "Stock Summary",
+          menu_icon: "zmdi zmdi-file",
+          path: "/app/stock-summary",
+        },
+      ]
+    },
     {
       menu_title: "Download",
       menu_icon: "zmdi zmdi-download",
@@ -100,11 +111,30 @@ export default {
           path: "/app/donor-download",
         },
         {
+          menu_title: "Purchase",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/purchase-download",
+        },
+        {
           menu_title: "Cash Receipt",
           menu_icon: "zmdi zmdi-download",
           path: "/app/receipt-download",
         },
-        
+        {
+          menu_title: "Material Receipt",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/receipt-material-download",
+        },
+        {
+          menu_title: "Consumption",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/consumption-download",
+        },
+        {
+          menu_title: "Website Donation",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/website-donation-download",
+        },
       ],
 
      },
@@ -195,6 +225,18 @@ export default {
       child_routes: null,
     },
     {
+      menu_title: "Reports",
+      menu_icon: "zmdi zmdi-file",
+      path: "/app/schools",
+      child_routes:[
+        {
+          menu_title: "Stock Summary",
+          menu_icon: "zmdi zmdi-file",
+          path: "/app/stock-summary",
+        },
+      ]
+    },
+    {
       menu_title: "Download",
       menu_icon: "zmdi zmdi-download",
       path: "",
@@ -205,11 +247,30 @@ export default {
           path: "/app/donor-download",
         },
         {
+          menu_title: "Purchase",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/purchase-download",
+        },
+        {
           menu_title: "Cash Receipt",
           menu_icon: "zmdi zmdi-download",
           path: "/app/receipt-download",
         },
-        
+        {
+          menu_title: "Material Receipt",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/receipt-material-download",
+        },
+        {
+          menu_title: "Consumption",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/consumption-download",
+        },
+        {
+          menu_title: "Website Donation",
+          menu_icon: "zmdi zmdi-download",
+          path: "/app/website-donation-download",
+        },
       ],
 
      },

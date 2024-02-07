@@ -47,7 +47,7 @@ export default class NewListPayment extends React.Component {
   getData = () => {
     
     axios({
-      url: baseURL+"/fetch-payment-list",
+      url: baseURL+"/fetch-website-donation-list",
       method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("login")}`, 
@@ -55,7 +55,7 @@ export default class NewListPayment extends React.Component {
     })
       .then((res) => {
         
-        let response = res.data.payment;
+        let response = res.data.website_donation;
         
         let tempRows = [];
         for (let i = 0; i < response.length; i++) {
@@ -64,7 +64,7 @@ export default class NewListPayment extends React.Component {
             i + 1,
             response[i]["payment_user"],
             response[i]["payment_mobile"],
-            Moment(response[i]["created_at"]).format('DD-MM-YYYY'),
+            Moment(response[i]["payment_date"]).format('DD-MM-YYYY'),
             response[i]["payment_exemption_type"],
             response[i]["payment_donation_type"],
             response[i]["payment_amount"],
