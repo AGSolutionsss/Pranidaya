@@ -9,63 +9,27 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { NotificationManager,} from "react-notifications";
 import {baseURL} from '../../../api';
 
-const exemption = [
+const unit = [
    {
-     value: "80G",
-     label: "80G",
+     value: "Kg",
+     label: "Kg",
    },
    {
-     value: "Non 80G",
-     label: "Non 80G",
+     value: "Ton",
+     label: "Ton",
    },
-   {
-     value: "FCRA",
-     label: "FCRA",
-   },
- ];
+];
 
- const donation_type = [
-    {
-        value: "Gopalak",
-        label: "Gopalak",
-      },
-      {
-        value: "Wet/Dry-Grass",
-        label: "Wet/Dry-Grass",
-      },
-      {
-        value: "FIne/Rough Bran",
-        label: "FIne/Rough Bran",
-      },
-      {
-        value: "Gou-Daan",
-        label: "Gou-Daan",
-      },
-      {
-        value: "Building Fund",
-        label: "Building Fund",
-      },
-      {
-        value: "Pigeon Feeds",
-        label: "Pigeon Feeds",
-      },
-      {
-        value: "General Fund/Others",
-        label: "General Fund/Others",
-      },
- ];
-
-const ReceiptDownload = (props) => {
+const ReceiptMaterialDownload = (props) => {
   let history = useHistory();
   var today = new Date(),
 
   date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-  const [receiptsdwn, setReceiptDownload] = useState({
+  const [receiptsdwn, setReceiptMaterialDownload] = useState({
    receipt_from_date: "2023-04-01",
    receipt_to_date: date,
-   receipt_donation_type: "",
-   receipt_exemption_type: "",
-   indicomp_source: "",
+   purchase_sub_item: "",
+   purchase_sub_unit: "",
     
   });
 
@@ -85,8 +49,24 @@ const ReceiptDownload = (props) => {
       
     });
 
+    const [item, setItem] = useState([]);
+    useEffect(() => {
+        var theLoginToken = localStorage.getItem('login');       
+        const requestOptions = {
+              method: 'GET', 
+              headers: {
+                 'Authorization': 'Bearer '+theLoginToken
+              }             
+        };     
+  
+
+      fetch(baseURL+'/fetch-item', requestOptions)
+      .then(response => response.json())
+      .then(data => setItem(data.item)); 
+    }, []);
+
   const onInputChange = (e) => {
-   setReceiptDownload({
+   setReceiptMaterialDownload({
       ...receiptsdwn,
       [e.target.name]: e.target.value,
     });
@@ -98,8 +78,8 @@ const ReceiptDownload = (props) => {
     let data = {
        receipt_from_date: receiptsdwn.receipt_from_date,
        receipt_to_date: receiptsdwn.receipt_to_date,
-       receipt_donation_type: receiptsdwn.receipt_donation_type,
-       receipt_exemption_type: receiptsdwn.receipt_exemption_type,
+       purchase_sub_item: receiptsdwn.purchase_sub_item,
+       purchase_sub_unit: receiptsdwn.purchase_sub_unit,
       
     };
     var v = document.getElementById('dowRecp').checkValidity();
@@ -109,7 +89,7 @@ const ReceiptDownload = (props) => {
 if(v){
   setIsButtonDisabled(true)
     axios({
-      url: baseURL+"/download-receipt",
+      url: baseURL+"/download-material-receipt",
       method: "POST",
       data,
       headers: {
@@ -119,24 +99,61 @@ if(v){
      const url = window.URL.createObjectURL(new Blob([res.data]));
      const link = document.createElement('a');
      link.href = url;
-     link.setAttribute('download', 'receipt_list.csv'); 
+     link.setAttribute('download', 'receipt_material_list.csv'); 
      document.body.appendChild(link);
      link.click();
-      NotificationManager.success("Receipt is Downloaded Successfully");
+      NotificationManager.success("Receipt Material is Downloaded Successfully");
         setIsButtonDisabled(false)
     
     }).catch((err) =>{
-     NotificationManager.error("Receipt is Not Downloaded");
+     NotificationManager.error("Receipt Material is Not Downloaded");
      setIsButtonDisabled(false)
    });
   }
   };
 
-  
+  const onDetails = (e) => {
+    e.preventDefault();
+    let data = {
+       receipt_from_date: receiptsdwn.receipt_from_date,
+       receipt_to_date: receiptsdwn.receipt_to_date,
+       purchase_sub_item: receiptsdwn.purchase_sub_item,
+       purchase_sub_unit: receiptsdwn.purchase_sub_unit,
+      
+    };
+    var v = document.getElementById('dowRecp').checkValidity();
+    var v = document.getElementById('dowRecp').reportValidity();
+    e.preventDefault();
+
+if(v){
+  setIsButtonDisabled(true)
+    axios({
+      url: baseURL+"/download-detail-material-receipt",
+      method: "POST",
+      data,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("login")}`,
+      },
+    }).then((res) => {
+     const url = window.URL.createObjectURL(new Blob([res.data]));
+     const link = document.createElement('a');
+     link.href = url;
+     link.setAttribute('download', 'receipt_material_detail_list.csv'); 
+     document.body.appendChild(link);
+     link.click();
+      NotificationManager.success("Receipt Material Detail is Downloaded Successfully");
+        setIsButtonDisabled(false)
+    
+    }).catch((err) =>{
+     NotificationManager.error("Receipt Material Detail is Not Downloaded");
+     setIsButtonDisabled(false)
+   });
+  }
+  };
 
   return (
     <div className="textfields-wrapper">
-      <PageTitleBar title="Download Cash Receipts" match={props.match} />
+      <PageTitleBar title="Download Material Receipts" match={props.match} />
       <RctCollapsibleCard>
         
         <form id="dowRecp" autoComplete="off">
@@ -148,12 +165,12 @@ if(v){
                   fullWidth
                   type="date"
                   required
-                  label="Please select From Date"
-                  autoComplete="Name"
-                  name="receipt_from_date"
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  label="Please select From Date"
+                  autoComplete="Name"
+                  name="receipt_from_date"
                   value={receiptsdwn.receipt_from_date}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -167,10 +184,10 @@ if(v){
                   required
                   label="Please select To Date"
                   autoComplete="Name"
-                  name="receipt_to_date"
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  name="receipt_to_date"
                   value={receiptsdwn.receipt_to_date}
                   onChange={(e) => onInputChange(e)}
                 />
@@ -181,19 +198,18 @@ if(v){
               <TextField
                  id="select-donation_type"
                  select
-                 label="Purpose"
-                 name="receipt_donation_type"
-                 value={receiptsdwn.receipt_donation_type}
+                 label="Item"
+                 name="purchase_sub_item"
+                 value={receiptsdwn.purchase_sub_item}
                  onChange={(e) => onInputChange(e)}
                  SelectProps={{
                    MenuProps: {},
                  }}
-                 
                  fullWidth
                >
-                  {donation_type.map((option) => (
-                       <MenuItem key={option.value} value={option.value}>
-                         {option.label}
+                  {item.map((option) => (
+                       <MenuItem key={option.item_name} value={option.item_name}>
+                         {option.item_name}
                        </MenuItem>
                      ))}
                </TextField>
@@ -202,19 +218,18 @@ if(v){
             <div className="col-sm-6 col-md-6 col-xl-3">
               <div className="form-group">
               <TextField
-                 id="select-exemption"
+                 id="select-unit"
                  select
-                 label="Category"
-                 name="receipt_exemption_type"
-                 value={receiptsdwn.receipt_exemption_type}
+                 label="Unit"
+                 name="purchase_sub_unit"
+                 value={receiptsdwn.purchase_sub_unit}
                  onChange={(e) => onInputChange(e)}
                  SelectProps={{
                    MenuProps: {},
                  }}
-                 
                  fullWidth
                >
-                 {exemption.map((option) => (
+                 {unit.map((option) => (
                    <MenuItem key={option.value} value={option.value}>
                      {option.label}
                    </MenuItem>
@@ -237,6 +252,18 @@ if(v){
               Download
             </Button>
             </div>
+            <div className="col-sm-6 col-md-6 col-xl-3">
+            <Button
+              className="mr-10 mb-10"
+              color="primary"
+              type="submit"
+              style={{ width: "100%" }}
+              onClick={(e) => onDetails(e)}
+              disabled={isButtonDisabled}
+            >
+              Download Details
+            </Button>
+            </div>
             </div>
           
         </form>
@@ -245,4 +272,4 @@ if(v){
   );
 };
 
-export default ReceiptDownload;
+export default ReceiptMaterialDownload;

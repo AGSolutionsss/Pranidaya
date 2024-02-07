@@ -82,7 +82,7 @@ class Sidebar extends Component {
 						<div className="site-logo">
 							
 							<Link to="/app/dashboard" className="logo-mini">
-								<p style={{color:"white",fontSize:"12px",fontWeight:"700"}}>Updated On : Feb 05th, 2024</p>
+								<p style={{color:"white",fontSize:"12px",fontWeight:"700"}}>Updated On : Feb 07th, 2024</p>
 							</Link>
 						</div>
 					</div>
