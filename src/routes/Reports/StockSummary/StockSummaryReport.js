@@ -46,7 +46,7 @@ const StockSummaryReport = (props) => {
       window.location = "/signin";
     }else{
     }
-
+    
     var url = new URL(window.location.href);
    
     let data = {
@@ -83,7 +83,7 @@ const StockSummaryReport = (props) => {
       {!loader && 
       <>
       <div className="invoice-wrapper">
-        <PageTitleBar title="Stock Summary" match={props.match} />
+        <PageTitleBar title="Stock Summary ( in Kgs )" match={props.match} />
         <div className="row">
           <div className="col-sm-12 col-md-12 col-xl-12 mx-auto" style={{width:'auto'}}>
             <RctCard>
@@ -110,23 +110,52 @@ const StockSummaryReport = (props) => {
               </div>
               <div className="p-10" ref={componentRef} style={{margin: '5px'}}>
                 <div className="table-responsive mt-4">
+                  <div className="col-md-12" style={{textAlign:'center',paddingBottom:'10px'}}>
+                    <h1>Stock Summary - From : {Moment(localStorage.getItem("receipt_from_date")).format('DD-MM-YYYY')} To : {Moment(localStorage.getItem("receipt_to_date")).format('DD-MM-YYYY')} </h1>
+                  </div>
                   <TableContainer component={Paper}>
                     <Table aria-label="simple table" style={{border: '2px solid black'}}>
                       <TableHead>          
                         <TableRow>
                             <TableCell style={table_head}>Items Name</TableCell>
+                            <TableCell style={table_head}>Open Balance</TableCell>
                             <TableCell style={table_head}>Received</TableCell>
                             <TableCell style={table_head}>Consumption</TableCell>
-                            <TableCell style={table_head}>Balance</TableCell>
+                            <TableCell style={table_head}>Close Balance</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {stockSummary.map((datalist, key) => (
                               <TableRow key={key}>
-                                <TableCell style={table_row_start}>{datalist.item_name}</TableCell>
-                                <TableCell style={table_row_start}>{datalist.purch}</TableCell>
-                                <TableCell style={table_row_start}>{datalist.sale}</TableCell>
-                                <TableCell style={table_row_start}>{datalist.balance}</TableCell>
+                                <TableCell style={table_row_start}>&nbsp;&nbsp;{datalist.item_name}</TableCell>
+                                <TableCell style={table_row_center}>{<NumberFormat 
+                                thousandSeparator={true} 
+                                thousandsGroupStyle="lakh"
+                                displayType={'text'}
+                                prefix={''} 
+                                value={datalist.openpurch - datalist.closesale}
+                              />}</TableCell>
+                                <TableCell style={table_row_center}>{<NumberFormat 
+                                thousandSeparator={true} 
+                                thousandsGroupStyle="lakh"
+                                displayType={'text'}
+                                prefix={''} 
+                                value={datalist.purch}
+                              />}</TableCell>
+                                <TableCell style={table_row_center}>{<NumberFormat 
+                                thousandSeparator={true} 
+                                thousandsGroupStyle="lakh"
+                                displayType={'text'}
+                                prefix={''} 
+                                value={datalist.sale}
+                              />}</TableCell>
+                                <TableCell style={table_row_center}>{<NumberFormat 
+                                thousandSeparator={true} 
+                                thousandsGroupStyle="lakh"
+                                displayType={'text'}
+                                prefix={''} 
+                                value={(datalist.openpurch - datalist.closesale) + (datalist.purch - datalist.sale)}
+                              />}</TableCell>
                               </TableRow>
                             ))}
                       </TableBody>
